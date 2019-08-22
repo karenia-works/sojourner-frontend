@@ -1,12 +1,11 @@
 var path = require('path')
-var stylusLoader = require('stylus-loader')
-var stylus_plugin = require('stylus')
+var app_root = require('app-root-path')
 
 module.exports = {
   css: {
     loaderOptions: {
       stylus: {
-        // import: [path.resolve(process.execPath, '/src/global.styl')]
+        import: [app_root.resolve('/src/styles/global.styl')]
       }
     }
   }
