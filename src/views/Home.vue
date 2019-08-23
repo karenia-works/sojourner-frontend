@@ -1,9 +1,11 @@
 <template>
   <div class="home">
-    <div class="jumbotron">
-      <h1>Arriving Alone?</h1>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Arriving Alone?</h1>
+      </div>
+      <search-bar></search-bar>
     </div>
-    <search-bar></search-bar>
   </div>
 </template>
 
@@ -13,6 +15,7 @@
     font-size: 72px
     font-weight: normal
     text-transform: uppercase
+    text-align: left
   }
 }
 </style>
