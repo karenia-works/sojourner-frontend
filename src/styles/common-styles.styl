@@ -1,3 +1,4 @@
+@import 'breakpoints'
 
 padding-h() {
   padding-left: arguments
@@ -19,28 +20,24 @@ margin-v() {
   margin-bottom: arguments
 }
 
-breakpoints = {
-  small: 768px
-  medium: 1080px
-  large: 1440px
-}
-
-break-screen(min_w = 0px, max_w = 0px){
-  @media only screen and (min-width: {min_w}) and (max-width: {max_w})
-    {block}
-}
-
-
 .container {
-  padding-h: auto
-  +break-screen(0, breakpoints.small)
-    padding-h: 16px
-  +break-screen(breakpoints.small, breakpoints.medium)
-    width 720px
-  +break-screen(breakpoints.medium, breakpoints.large)
-    width 960px
-  +break-screen(breakpoints.large)
-    width 1280px
+  margin-h: auto
+
+  +break-screen(0, breakpoints.small) {
+    margin-h: 16px
+  }
+
+  +break-screen(breakpoints.small, breakpoints.medium) {
+    max-width: 720px
+  }
+
+  +break-screen(breakpoints.medium, breakpoints.large) {
+    max-width: 960px
+  }
+
+  +break-screen(breakpoints.large) {
+    max-width: 1280px
+  }
 }
 
 .input {
