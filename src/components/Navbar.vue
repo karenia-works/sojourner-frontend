@@ -21,7 +21,7 @@
   padding-h: 24px
   height: 48px
   font-family: fonts-title
-  font-size: font-sizes.small-title
+  font-size: font-sizes.body-larger
 
   .nav-left {
     display: flex
