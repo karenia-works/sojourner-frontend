@@ -5,3 +5,21 @@ colors = {
   text-medium: #797876,
   accent: #FFC85F
 }
+
+gradient-hover(accent-color = #ffff00, start-padding-v = 4px) {
+  accent-transparent = alpha(accent-color, 0.8)
+
+  background-image: linear-gradient(180deg, transparent 0% 50%, accent-transparent 50% 100%)
+  transition: all 120ms
+  margin-top: start-padding-v
+  margin-bottom: start-padding-v
+  background-position: 0 40%
+  background-size: 100% 200%
+
+  &:hover {
+    padding-top: start-padding-v
+    padding-bottom: start-padding-v
+    background-image: linear-gradient(180deg, transparent 0% 50%, accent-color 50% 100%)
+    background-position: 0 100%
+  }
+}
