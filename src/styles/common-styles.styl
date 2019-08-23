@@ -1,4 +1,5 @@
 @import 'breakpoints'
+@import 'sizes'
 
 padding-h() {
   padding-left: arguments
@@ -24,7 +25,7 @@ margin-v() {
   margin-h: auto
 
   +break-screen(0, breakpoints.small) {
-    margin-h: 16px
+    margin-h spaces._3
   }
 
   +break-screen(breakpoints.small, breakpoints.medium) {
@@ -47,21 +48,27 @@ margin-v() {
   accent = colors.accent
   accent-transparent = alpha(accent, 0.6)
 
-  border-bottom: solid accent-transparent 4px
+  border-top: solid transparent spaces._1
+  border-bottom: solid accent-transparent spaces._1
   font-family: fonts-title
-  font-size: 24px
-  margin-bottom: 4px
-  margin-h: 8px
-  padding-h: 4px
+  font-size: font-sizes.small-title
+  // margin-bottom: spaces._1
+  margin-h: spaces._1
+  padding-h: spaces._1
   transition: all 120ms
 
   &:focus {
-    border-bottom: solid accent 8px
-    margin-bottom: 0px
+    border-bottom: solid accent spaces._1
+    // margin-bottom: 0px
+  }
+
+  &.err,
+  &.error{
+    border-bottom-color: colors.error
   }
 
   &::placeholder {
-    color: colors.text-light
+    color: colors.text-medium
   }
 
   &.body {
@@ -71,22 +78,22 @@ margin-v() {
 
 .btn {
   font-family: fonts-title
-  font-size: 24px
+  font-size: font-sizes.small-title
   font-weight: bold
   text-transform: uppercase
   background: none
   border: none
 
-  gradient-hover(colors.accent, 4px)
+  gradient-hover(colors.accent, spaces._1)
 
-  margin-h: 8px
-  padding-h: 4px
+  margin-h: spaces._2
+  padding-h: spaces._2
 }
 
 .content a,
 .btn-span {
-  gradient-hover(colors.accent, 4px)
+  gradient-hover(colors.accent, spaces._1)
 
-  margin-h: 4px
-  padding-h: 4px
+  margin-h: spaces._1
+  padding-h: spaces._1
 }
