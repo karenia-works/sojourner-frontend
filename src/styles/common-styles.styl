@@ -1,0 +1,49 @@
+.input {
+  background: transparent
+  border: none
+
+  accent = colors.accent
+  accent-transparent = alpha(accent, 0.6)
+
+  border-bottom: solid accent-transparent 4px
+  font-family: fonts-title
+  font-size: 24px
+  margin-bottom: 4px
+  margin-h: 8px
+  transition: all 120ms
+
+  &:focus {
+    border-bottom: solid accent 8px
+    margin-bottom: 0px
+  }
+
+  &::placeholder {
+    color: colors.text-light
+  }
+
+  &.body {
+    font-family: fonts-body
+  }
+}
+
+.btn {
+  font-family: fonts-title
+  font-size: 24px
+  font-weight: bold
+  text-transform: uppercase
+  background: none
+  border: none
+
+  gradient-hover(colors.accent, 4px)
+
+  margin-h: 8px
+  padding-h: 4px
+}
+
+.content a,
+.btn-span {
+  gradient-hover(colors.accent, 4px)
+
+  margin-h: 4px
+  padding-h: 4px
+}
