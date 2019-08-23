@@ -6,7 +6,7 @@
       <div class="nav-el">Explore</div>
     </div>
     <div class="nav-right">
-      <div class="nav-el">Sign up</div>
+      <div class="nav-el" id="sign_up">Sign up</div>
     </div>
   </div>
 </template>
