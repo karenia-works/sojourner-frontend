@@ -2,23 +2,16 @@
   <div class="searchbar">
     <input type="text" class="input" id="search" placeholder="Where?" v-model.trim="searchStr" />
     <div id="date-select">
-      <span>from</span>
-      <input
-        type="text"
-        class="input"
-        id="date_start"
-        v-model.lazy="startDateStr"
-        placeholder="Start"
-        v-bind:class="{error: startDateValid}"
-      />
+      <span>,</span>
+      <date-picker></date-picker>
       <span>to</span>
       <input
         type="text"
         class="input"
         id="date_end"
-        v-model.lazy="endDateStr"
+        v-model="endDateStr"
         placeholder="End"
-        v-bind:class="{error: endDateValid}"
+        v-bind:class="{error: !endDateValid}"
       />
     </div>
     <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
@@ -29,8 +22,11 @@
 <script lang="ts">
 import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
 import moment from "moment";
+import DatePicker from "./DatePicker.vue";
 
-@Component({})
+@Component({
+  components: { DatePicker }
+})
 export default class SearchBar extends Vue {
   @Prop({ default: () => new Date(), type: Date }) initialStartDate!: Date;
   @Prop({ default: () => new Date(), type: Date }) initialEndDate!: Date;
@@ -43,12 +39,12 @@ export default class SearchBar extends Vue {
   startDateValid: boolean = true;
   endDateValid: boolean = true;
 
-  _startDateStr: string = moment(this.startDate).format("MM-DD");
+  startDateStr_: string = moment(this.startDate).format("MM-DD");
   get startDateStr(): string {
-    return this._startDateStr;
+    return this.startDateStr_;
   }
   set startDateStr(val: string) {
-    this._startDateStr = val;
+    this.startDateStr_ = val;
     let _start = moment(val);
     this.startDateValid = _start.isValid();
     if (_start.isValid()) {
@@ -56,12 +52,12 @@ export default class SearchBar extends Vue {
     }
   }
 
-  _endDateStr: string = moment(this.startDate).format("MM-DD");
+  endDateStr_: string = moment(this.startDate).format("MM-DD");
   get endDateStr(): string {
-    return this._endDateStr;
+    return this.endDateStr_;
   }
   set endDateStr(val: string) {
-    this._endDateStr = val;
+    this.endDateStr_ = val;
     let _end = moment(val);
     this.endDateValid = _end.isValid();
     if (_end.isValid()) {
