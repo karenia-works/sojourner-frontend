@@ -1,114 +1,252 @@
 <template>
   <div class="houseDetail">
-      <div class="houseBigPic">
-        <img alt="housePic" src="../../assets/house_big_pic.jpg" />
-        <img alt="coachPic" src="../../assets/coach.jpg" />
-        <img alt="tablePic" src="../../assets/table.jpg" />
-      </div>
+    <div class="houseBigPic">
+      <img alt="housePic" src="../../assets/house_big_pic.jpg" />
+      <img alt="coachPic" src="../../assets/coach.jpg" />
+      <img alt="tablePic" src="../../assets/table.jpg" />
+    </div>
     <div class="container">
-      <div class="aboutHouse">
+      <section class="aboutHouse">
         <div class="houseInfo">
           <div class="titleWords">
-            <label class="info">YOUR BEST CHOICE IN THE WORLD!</label>
+            <label class="info">{{ house_name }}</label>
           </div>
           <div class="advWords">
-            <label class="info intro">Great Location</label>
-            <label class="info">37 XueYuan Road</label>
-            <label class="info">XiCheng, BeiJing</label><br>
-            <label class="info intro">Entire House</label>
-            <label class="info">7 guests, 3 bedrooms, 7 beds, 3 baths</label><br>
-            <label class="info intro">Complete Facilities</label>
-            <label class="info">Golf course, Hot Spring, Bar My hand is a <hook-icon /></label><br>
+            <label class="info intro subtitle">Great Location</label>
+            <label class="info intro">37 XueYuan Road</label>
+            <label class="info intro">XiCheng, BeiJing</label>
+            <br />
+            <label class="info intro subtitle">Entire House</label>
+            <label class="info intro">7 guests, 3 bedrooms, 7 beds, 3 baths</label>
+            <br />
+            <label class="info intro subtitle">Complete Facilities</label>
+            <label class="info intro">Golf course, Hot Spring, Bar My hand is a</label>
+            <br />
           </div>
-          <hr align=center width=100% SIZE=1>
+          <hr align="center" width="100%" size="1" />
+          <div class="iconPart">
+            <div class="line">
+              <div class="elemt">
+                <wifi-icon class="icon" />
+                <label class="info">Wi-Fi:</label>
+                <label v-show="this.equip_judge[0]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[0]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <dish-icon class="icon" />
+                <label class="info">Breakfast:</label>
+                <label v-show="this.equip_judge[1]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[1]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <smoke-detector-icon class="icon" />
+                <label class="info">Smoke Detector:</label>
+                <label v-show="this.equip_judge[2]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[2]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <tv-icon class="icon" />
+                <label class="info">Television:</label>
+                <label v-show="this.equip_judge[3]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[3]" class="info no_judge">No</label>
+              </div>
+            </div>
+            <div class="line">
+              <div class="elemt">
+                <washing-machine-icon class="icon" />
+                <label class="info">Wash Machine:</label>
+                <label v-show="this.equip_judge[4]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[4]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <fridge-icon class="icon" />
+                <label class="info">Fridge:</label>
+                <label v-show="this.equip_judge[5]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[5]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <microwave-icon class="icon" />
+                <label class="info">Microwave:</label>
+                <label v-show="this.equip_judge[6]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[6]" class="info no_judge">No</label>
+              </div>
+              <div class="elemt">
+                <parking-icon class="icon" />
+                <label class="info">Parking Space:</label>
+                <label v-show="this.equip_judge[7]" class="info yes_judge">Yes</label>
+                <label v-show="!this.equip_judge[7]" class="info no_judge">No</label>
+              </div>
+            </div>
+          </div>
         </div>
-        
+
         <div class="bookInfo">
-          <label class="book">$450</label><br><br>
-          <label class="book">Date</label><br><br>
-          <label class="book">Room Type</label><br><br>
-          <label class="book">Time Length</label>
+          <label class="book price">$ {{ price }}</label>
+          <br />
+          <label class="book">Date</label>
+          <br />
+          <label class="book">Room Type</label>
+          <label class="book">{{ Room_type }}</label>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
 
 <style lang="stylus" scoped>
-.houseBigPic img{
-  height :33vw
+.houseBigPic img {
+  height: 33vw;
   // width :33vw
 }
-.houseBigPic{
-  display : flex
-  flex-direction: row
-  justify-content: center
-  align-items:center
-  width :100%
-  flex: 1
-  overflow-x: auto
+
+.houseBigPic {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 
-.aboutHouse{
-  display:flex
-  justify-content:center
-  flex-direction:row
-  align-items:flex-start
-  padding: 16px
+// 隐藏滚动条
+::-webkit-scrollbar {
+  width: 0 !important;
+}
 
-  .houseInfo{
-    padding: 36px
-    display: flex
-    align-items: stretch
-    flex-direction:column
-    width :67vw
-    align-items:flex-start
-    
-    .info{
-      padding: 5px
-      display: flex
-      align-items: stretch
-      flex-direction:column
-      align-items:flex-start
-      height 100px
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}
+
+.aboutHouse {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 16px;
+
+  .houseInfo {
+    padding: 36px;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    width: 67vw;
+    align-items: flex-start;
+
+    .info {
+      padding: 5px;
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .intro{
-      font-weight:bolder
+    .intro {
+      height: 50px; // 行间距
     }
 
-    .titleWords{
-      font-weight:bolder
-      font-size: 30px
-      padding: 36px 0px 36px 0px
+    .subtitle {
+      font-weight: bolder;
+    }
+
+    .titleWords {
+      font-weight: bolder;
+      font-size: 30px;
+      padding: 36px 0px 36px 0px;
+    }
+
+    .iconPart {
+      padding: 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-self: stretch;
+
+      .line {
+        display: flex;
+        flex-direction: column;
+        // justify-content : center;
+        // flex-direction: column;
+        align-items: stretch;
+        align-self: stretch;
+        width: 50%;
+
+        .elemt {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          align-self: stretch;
+          flex-wrap: nowrap;
+          padding: 15px;
+        }
+      }
     }
   }
 
-  .bookInfo{
-    padding: 36px
-    display: flex
-    position: sticky
-    top: 10px
-    align-items: stretch
-    flex-direction:column
-    width :33vw
+  .bookInfo {
+    padding: 36px;
+    display: flex;
+    position: sticky;
+    top: 10px;
+    align-items: stretch;
+    flex-direction: column;
+    width: 33vw;
+    border-style: solid;
+    border-width: 1px;
 
-    border-style: solid
-    border-width:1px
+    .price {
+      align-self: flex-start;
+      font-weight: bolder;
+      font-size: 30px;
+    }
   }
 }
 
+.yes_judge {
+  font-weight: bolder;
+  color: green;
+}
+
+.no_judge {
+  font-weight: bolder;
+  color: colors.error;
+}
 </style>
 
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HookIcon from 'mdi-vue/Hook' // works without an extension too
+import wifiIcon from "mdi-vue/Wifi"; // works without an extension too
+import dishIcon from "mdi-vue/SilverwareForkKnife";
+import smokeDetectorIcon from "mdi-vue/SmokeDetector";
+import tvIcon from "mdi-vue/TelevisionClassic";
+import washingMachineIcon from "mdi-vue/WashingMachine";
+import fridgeIcon from "mdi-vue/FridgeBottom";
+import microwaveIcon from "mdi-vue/Microwave";
+import parkingIcon from "mdi-vue/Parking";
 
 @Component({
   components: {
-    HookIcon,
+    wifiIcon,
+    dishIcon,
+    smokeDetectorIcon,
+    tvIcon,
+    washingMachineIcon,
+    fridgeIcon,
+    microwaveIcon,
+    parkingIcon
   }
 })
-export default class Home extends Vue {}
+export default class houseDetail extends Vue {
+  data(){
+    return{
+      equip_judge : [false, true, true, false, true, false, true, true],
+      price : 450,
+      Room_type:'Single, Double',
+      house_name:'YOUR BEST CHOICE IN THE WORLD!'
+    }
+  }
+}
 </script>
