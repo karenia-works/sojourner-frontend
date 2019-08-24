@@ -12,7 +12,7 @@
 <style lang="stylus" scoped>
 .jumbotron {
   h1 {
-    font-size: 72px
+    font-size: font-sizes.huge-title
     font-weight: normal
     text-transform: uppercase
     text-align: left
