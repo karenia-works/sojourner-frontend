@@ -46,6 +46,12 @@ export default new Router({
       component: () => import('./views/room/HouseDetail.vue')
     },
     {
+      path: '/paycheck',
+      name: 'paycheck',
+      component: () => import('./views/room/PayCheck.vue')
+
+    },
+    {
       path: '/r/:id',
       children: [
         {
