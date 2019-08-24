@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import NotFoundView from './views/NotFound.vue'
 
 Vue.use(Router)
 
@@ -51,6 +52,10 @@ export default new Router({
           component: () => import('./views/room/RoomSubmit.vue')
         }
       ]
+    },
+    {
+      path: '/**',
+      component: NotFoundView
     }
   ]
 })
