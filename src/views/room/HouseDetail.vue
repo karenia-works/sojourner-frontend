@@ -1,11 +1,11 @@
 <template>
   <div class="houseDetail">
-    <div class="container">
       <div class="houseBigPic">
         <img alt="housePic" src="../../assets/house_big_pic.jpg" />
         <img alt="coachPic" src="../../assets/coach.jpg" />
         <img alt="tablePic" src="../../assets/table.jpg" />
       </div>
+    <div class="container">
       <div class="aboutHouse">
         <div class="houseInfo">
           <div class="titleWords">
@@ -18,7 +18,7 @@
             <label class="info intro">Entire House</label>
             <label class="info">7 guests, 3 bedrooms, 7 beds, 3 baths</label><br>
             <label class="info intro">Complete Facilities</label>
-            <label class="info">Golf course, Hot Spring, Bar</label><br>
+            <label class="info">Golf course, Hot Spring, Bar My hand is a <hook-icon /></label><br>
           </div>
           <hr align=center width=100% SIZE=1>
         </div>
@@ -103,9 +103,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import HookIcon from 'mdi-vue/Hook' // works without an extension too
 
 @Component({
   components: {
+    HookIcon,
   }
 })
 export default class Home extends Vue {}
