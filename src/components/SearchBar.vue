@@ -3,16 +3,19 @@
     <input type="text" class="input" id="search" placeholder="Where?" v-model.trim="searchStr" />
     <div id="date-select">
       <span>,</span>
-      <date-picker></date-picker>
+      <date-picker
+        :selected-date.sync="startDate"
+        :selected-date-end="endDate"
+        :is-selecting-date-end="false"
+        :has-date-end="true"
+      ></date-picker>
       <span>to</span>
-      <input
-        type="text"
-        class="input"
-        id="date_end"
-        v-model="endDateStr"
-        placeholder="End"
-        v-bind:class="{error: !endDateValid}"
-      />
+      <date-picker
+        :selected-date="startDate"
+        :selected-date-end.sync="endDate"
+        :is-selecting-date-end="true"
+        :has-date-end="true"
+      ></date-picker>
     </div>
     <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
   </div>
@@ -21,48 +24,35 @@
 
 <script lang="ts">
 import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import DatePicker from "./DatePicker.vue";
 
 @Component({
   components: { DatePicker }
 })
 export default class SearchBar extends Vue {
-  @Prop({ default: () => new Date(), type: Date }) initialStartDate!: Date;
-  @Prop({ default: () => new Date(), type: Date }) initialEndDate!: Date;
+  @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
+  @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
   @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
 
-  startDate: Date = this.initialStartDate;
-  endDate: Date = this.initialEndDate;
+  startDate_: Moment = this.initialStartDate;
+  endDate_: Moment = this.initialEndDate;
   searchStr: string = this.initialSearchStr;
 
   startDateValid: boolean = true;
   endDateValid: boolean = true;
 
-  startDateStr_: string = moment(this.startDate).format("MM-DD");
-  get startDateStr(): string {
-    return this.startDateStr_;
+  get startDate() {
+    return this.startDate_;
   }
-  set startDateStr(val: string) {
-    this.startDateStr_ = val;
-    let _start = moment(val);
-    this.startDateValid = _start.isValid();
-    if (_start.isValid()) {
-      this.startDate = _start.toDate();
-    }
+  get endDate() {
+    return this.endDate_;
   }
-
-  endDateStr_: string = moment(this.startDate).format("MM-DD");
-  get endDateStr(): string {
-    return this.endDateStr_;
+  set startDate(val: Moment) {
+    this.startDate_ = val;
   }
-  set endDateStr(val: string) {
-    this.endDateStr_ = val;
-    let _end = moment(val);
-    this.endDateValid = _end.isValid();
-    if (_end.isValid()) {
-      this.endDate = _end.toDate();
-    }
+  set endDate(val: Moment) {
+    this.endDate_ = val;
   }
 
   formatDate(date: Date): string {
@@ -71,15 +61,20 @@ export default class SearchBar extends Vue {
 
   @Emit("search")
   emitSearch() {
-    console.log("", this.startDate, this.endDate, this.searchStr);
+    console.log(
+      "",
+      this.startDate.toString(),
+      this.endDate.toString(),
+      this.searchStr
+    );
     return new SearchEvent(this.searchStr, this.startDate, this.endDate);
   }
 }
 export class SearchEvent {
   constructor(
     public searchStr: string,
-    public startDate: Date,
-    public endDate: Date
+    public startDate: Moment,
+    public endDate: Moment
   ) {}
 }
 </script>
@@ -130,9 +125,9 @@ export class SearchEvent {
       lost-column: 2 / 4
     }
 
-    input {
+    .date-picker {
       // display: flex
-      // flex-shrink: 1
+      flex-shrink: 1
       width: auto
       min-width: 100px
     }

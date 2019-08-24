@@ -4,12 +4,19 @@
       <input type="text" class="picker-input input" readonly :value="dateStr" />
       <template slot="popover">
         <div class="picker-modal">
-          <div class="year-selector">{{focusedDate.year()}}</div>
-          <div class="month-selector">{{focusedDate.month()+1}}</div>
+          <div class="month-selector">
+            <div class="month-select-last" @click="moveMonthLast()">
+              <chevron-left-icon />
+            </div>
+            <div class="month-display">{{focusedDate.year()}} / {{focusedDate.month()+1}}</div>
+            <div class="month-select-next" @click="moveMonthNext()">
+              <chevron-right-icon />
+            </div>
+          </div>
           <div class="calendar">
             <div
               class="calendar-date"
-              v-for="day in monthDates"
+              v-for="day in monthDates()"
               :key="day.unix  "
               :class="day.getClass()"
               @click="selectDate(day.date)"
@@ -22,43 +29,58 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Model, Vue } from "vue-property-decorator";
+import {
+  Component,
+  Prop,
+  Model,
+  Vue,
+  Watch,
+  Emit
+} from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import { VPopover } from "v-tooltip";
+import ChevronLeftIcon from "mdi-vue/ChevronLeft.vue";
+import ChevronRightIcon from "mdi-vue/ChevronRight.vue";
 
 @Component({
-  components: { VPopover }
+  components: { VPopover, ChevronLeftIcon, ChevronRightIcon }
 })
 export default class DatePicker extends Vue {
-  @Prop({ default: () => new Date(), type: Date }) initialFocusedDate!: Date;
-  @Prop({ default: () => new Date(), type: Date }) initialSelectedDate!: Date;
-  @Prop({ default: () => new Date(), type: Date })
-  initialSelectedDateEnd!: Date;
-  @Prop({ default: () => "YYYY-MM-DD", type: String }) format!: string;
+  // @Prop({ default: () => moment(), type: moment }) FocusedDate!: Moment;
+  // @Prop({ default: () => moment(), type: moment }) SelectedDate!: Moment;
+  // @Prop({ default: () => moment(), type: moment })
+  // SelectedDateEnd!: Date;
+  @Prop({ default: () => "YYYY-MM-DD", type: String }) dateFormat!: string;
   @Prop({ default: false, type: Boolean }) isSelectingDateEnd!: boolean;
   @Prop({ default: false, type: Boolean }) hasDateEnd!: boolean;
 
-  focusedDate: Moment = moment(this.initialFocusedDate);
-  selectedDate: Moment = moment(this.initialSelectedDate);
-  selectedDateEnd: Moment = moment(this.initialSelectedDate);
+  @Prop({ default: () => moment(), type: moment }) focusedDate!: Moment;
+  @Prop({ default: () => moment(), type: moment }) selectedDate!: Moment;
+  @Prop({ default: () => moment(), type: moment }) selectedDateEnd!: Moment;
   active: boolean = false;
 
   get dateStr(): string {
-    return this.selectedDate.format(this.format);
+    let selectedDay = this.isSelectingDateEnd
+      ? this.selectedDateEnd
+      : this.selectedDate;
+    return selectedDay.format(this.dateFormat);
   }
 
-  get monthDates(): Array<DateDirective> {
+  monthDates(): Array<DateDirective> {
     let list = [];
     let currentDay = this.focusedDate
       .clone()
       .startOf("month")
       .startOf("week");
+    let selectedDay = this.isSelectingDateEnd
+      ? this.selectedDateEnd
+      : this.selectedDate;
     for (let i = 0; i < 42; i++) {
       list.push(
         new DateDirective(
           currentDay.clone(),
           currentDay.isSame(this.focusedDate, "month"),
-          currentDay.isSame(this.selectedDate, "day"),
+          currentDay.isSame(selectedDay, "day"),
           currentDay.isSameOrAfter(this.selectedDate, "day") &&
             currentDay.isSameOrBefore(this.selectedDateEnd, "day")
         )
@@ -74,8 +96,29 @@ export default class DatePicker extends Vue {
     else {
       this.selectedDate = this.selectedDateEnd = date;
     }
+    this.emitSelectedDate();
+    this.emitSelectedDateEnd();
     this.focusedDate = date.clone();
-    console.log(date);
+  }
+
+  moveMonthLast() {
+    this.moveMonth(-1);
+  }
+  moveMonthNext() {
+    this.moveMonth(1);
+  }
+  moveMonth(delta: number) {
+    this.focusedDate = this.focusedDate.add(delta, "month");
+    this.$forceUpdate();
+  }
+
+  @Emit("update:selected-date")
+  emitSelectedDate(): Moment {
+    return this.selectedDate;
+  }
+  @Emit("update:selected-date-end")
+  emitSelectedDateEnd(): Moment {
+    return this.selectedDateEnd;
   }
 }
 
@@ -105,7 +148,7 @@ class DateDirective {
 <style lang="stylus" scoped>
 .picker-input {
   font-size: inherit
-  width: auto
+  width: calc(100% - 16px)
 }
 
 .picker-modal {
@@ -117,24 +160,33 @@ class DateDirective {
   text-align: center
   font-size: font-sizes.body-larger
 
+  .month-selector {
+    display: flex
+    flex-direction: row
+
+    .month-display {
+      flex-grow: 1
+    }
+  }
+
   .calendar {
     width: 300px
     lost-flex-container: row
 
     .calendar-date {
-      lost-column: 1 / 7 0px 0px
-      margin: spaces._1
+      lost-waffle: 1 / 7 flex 4px
 
       &.not-current-month {
         color: #797876
       }
 
-      &.selected {
+      &.selected,
+      &.selected.selected-background {
         background: colors.accent
       }
 
       &.selected-background {
-        background: opacity(colors.accent, 0.6)
+        background: alpha(colors.accent, 0.2)
       }
     }
   }
