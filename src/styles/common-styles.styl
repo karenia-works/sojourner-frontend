@@ -1,0 +1,99 @@
+@import 'breakpoints'
+@import 'sizes'
+
+padding-h() {
+  padding-left: arguments
+  padding-right: arguments
+}
+
+padding-v() {
+  padding-top: arguments
+  padding-bottom: arguments
+}
+
+margin-h() {
+  margin-left: arguments
+  margin-right: arguments
+}
+
+margin-v() {
+  margin-top: arguments
+  margin-bottom: arguments
+}
+
+.container {
+  margin-h: auto
+
+  +break-screen(0, breakpoints.small) {
+    margin-h spaces._3
+  }
+
+  +break-screen(breakpoints.small, breakpoints.medium) {
+    max-width: 720px
+  }
+
+  +break-screen(breakpoints.medium, breakpoints.large) {
+    max-width: 960px
+  }
+
+  +break-screen(breakpoints.large) {
+    max-width: 1280px
+  }
+}
+
+.input {
+  background: transparent
+  border: none
+
+  accent = colors.accent
+  accent-transparent = alpha(accent, 0.6)
+
+  border-top: solid transparent spaces._1
+  border-bottom: solid accent-transparent spaces._1
+  font-family: fonts-title
+  font-size: font-sizes.small-title
+  // margin-bottom: spaces._1
+  margin-h: spaces._1
+  padding-h: spaces._1
+  transition: all 120ms
+
+  &:focus {
+    border-bottom: solid accent spaces._1
+    // margin-bottom: 0px
+  }
+
+  &.err,
+  &.error{
+    border-bottom-color: colors.error
+  }
+
+  &::placeholder {
+    color: colors.text-medium
+  }
+
+  &.body {
+    font-family: fonts-body
+  }
+}
+
+.btn {
+  font-family: fonts-title
+  font-size: font-sizes.small-title
+  font-weight: bold
+  text-transform: uppercase
+  background: none
+  border: none
+
+  gradient-hover(colors.accent, spaces._1)
+
+  margin-h: spaces._2
+  padding-h: spaces._2
+}
+
+.content a,
+.btn-span {
+  gradient-hover(colors.accent, spaces._1)
+
+  margin-h: spaces._1
+  padding-h: spaces._1
+}

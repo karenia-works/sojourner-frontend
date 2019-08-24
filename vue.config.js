@@ -5,8 +5,9 @@ module.exports = {
   css: {
     loaderOptions: {
       stylus: {
-        import: [app_root.resolve('/src/styles/global.styl')]
-      }
-    }
-  }
+        import: [app_root.resolve('/src/styles/global.styl')],
+      },
+      postcss: {},
+    },
+  },
 }

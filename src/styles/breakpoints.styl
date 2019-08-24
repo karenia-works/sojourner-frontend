@@ -1,0 +1,17 @@
+breakpoints = {
+  small: 768px,
+  medium: 1080px,
+  large: 1440px
+}
+
+break-screen(min_w = 0, max_w = 0) {
+  if (max_w == 0) {
+    @media all and (min-width: min_w) {
+      {block}
+    }
+  } else {
+    @media all and (min-width: min_w) and (max-width: max_w) {
+      {block}
+    }
+  }
+}
