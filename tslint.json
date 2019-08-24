@@ -1,6 +1,6 @@
 {
-  "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "defaultSeverity": "info",
+  "extends": [],
   "linterOptions": {
     "exclude": ["node_modules/**"]
   },
@@ -9,6 +9,7 @@
     "interface-name": false,
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "trailing-comma": false
   }
 }
