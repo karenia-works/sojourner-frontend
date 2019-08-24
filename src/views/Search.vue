@@ -1,31 +1,37 @@
 <template>
   <div class="search">
     <div class="container">
-      <h1>search result</h1>
-      <room-info :room-info="room1" />
-      <!-- <room-info 
-        v-for="item in rooms" 
-        :room="item"
-        :key="item.id" 
-      ></room-info>-->
+      <SearchBar class="SearchBar"></SearchBar>
+      <div class="results">
+
+      <roomInfo v-for="item in rooms" :item="item" :key="item.id"></roomInfo>
+      </div>
     </div>
   </div>
 </template>
 
+<style lang="stylus" scoped>
+.SearchBar {
+  margin: 20px 10px 30px
+}
+</style>
+
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import RoomInfo from "@/components/RoomInfo.vue"; // @ is an alias to /src
+import SearchBar from "@/components/SearchBar.vue";
 
 @Component({
   components: {
-    RoomInfo
+    RoomInfo, 
+    SearchBar
   }
 })
 export default class Search extends Vue {
-  get room1() {
-    return {
-      id: 123,
-      title: "Amazing view - Moderne apartment - Moderne apartment",
+  rooms = [
+    {
+      id: "122",
+      title: "Amazing view - Moderne apartment",
       type: "quad",
       price: 156,
       img:
@@ -33,12 +39,20 @@ export default class Search extends Vue {
       address: {
         city: "akureyri"
       }
-    };
-  }
-
-  rooms = [
+    },
     {
-      id: 123,
+      id: "123",
+      title: "Amazing view - Moderne apartment - Moderne apartment",
+      type: "double",
+      price: 156,
+      img:
+        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+      address: {
+        city: "akureyri"
+      }
+    },
+    {
+      id: "124",
       title: "Amazing view - Moderne apartment - Moderne apartment",
       type: "quad",
       price: 156,
@@ -49,9 +63,9 @@ export default class Search extends Vue {
       }
     },
     {
-      id: 124,
+      id: "125",
       title: "Amazing view - Moderne apartment - Moderne apartment",
-      type: "single",
+      type: "quad",
       price: 156,
       img:
         "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
