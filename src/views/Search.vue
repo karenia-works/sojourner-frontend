@@ -2,10 +2,7 @@
   <div class="search">
     <div class="container">
       <SearchBar class="SearchBar"></SearchBar>
-      <div class="results">
-
-      <roomInfo v-for="item in rooms" :item="item" :key="item.id"></roomInfo>
-      </div>
+      <RoomsInGrid :roomlist="rooms"></RoomsInGrid>
     </div>
   </div>
 </template>
@@ -18,12 +15,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import RoomInfo from "@/components/RoomInfo.vue"; // @ is an alias to /src
+import RoomsInGrid from "@/components/RoomsInGrid.vue"; // @ is an alias to /src
 import SearchBar from "@/components/SearchBar.vue";
 
 @Component({
   components: {
-    RoomInfo, 
+    RoomsInGrid, 
     SearchBar
   }
 })

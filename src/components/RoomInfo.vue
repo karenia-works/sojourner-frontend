@@ -14,9 +14,6 @@
   width: 300px;
   // border: 1px red solid
   border-radius: 3px;
-  margin-bottom: 50px;
-  margin-h: 10px;
-  float: left
 }
 
 .roominfo:hover {
@@ -63,6 +60,8 @@ span {
 </style>
 
 <script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
 interface Room {
     id: string;
     title: string;
@@ -71,8 +70,6 @@ interface Room {
     img: string;
     address: object;
 }
-
-import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class RoomInfo extends Vue {
