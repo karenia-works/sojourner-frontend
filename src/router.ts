@@ -42,13 +42,16 @@ export default new Router({
     },
     {
       path: '/r/:id',
+      name: "room",
       children: [
         {
           path: '',
+          name: "room_detail", 
           component: () => import('./views/room/RoomId.vue')
         },
         {
           path: 'submit',
+          name: "room_submit", 
           component: () => import('./views/room/RoomSubmit.vue')
         }
       ]

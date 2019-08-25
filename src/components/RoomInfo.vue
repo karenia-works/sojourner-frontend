@@ -17,7 +17,7 @@
 }
 
 .roominfo:hover {
-  cursor pointer
+  cursor: pointer;
 }
 
 img {
@@ -63,12 +63,12 @@ span {
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 interface Room {
-    id: string;
-    title: string;
-    type: string;
-    price: number;
-    img: string;
-    address: object;
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  img: string;
+  address: object;
 }
 
 @Component
@@ -85,8 +85,7 @@ export default class RoomInfo extends Vue {
   }
 
   toDetail() {
-    var src = 'http://localhost:8080/r/' + this.room.id;
-    window.open(src);
+    this.$router.push({ name: "room_detail", params: { id: this.item.id } });
   }
 }
 </script>
