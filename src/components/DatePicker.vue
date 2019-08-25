@@ -32,6 +32,7 @@
 import {
   Component,
   Prop,
+  PropSync,
   Model,
   Vue,
   Watch,
@@ -54,35 +55,39 @@ export default class DatePicker extends Vue {
   @Prop({ default: false, type: Boolean }) isSelectingDateEnd!: boolean;
   @Prop({ default: false, type: Boolean }) hasDateEnd!: boolean;
 
-  @Prop({ default: () => moment(), type: moment }) focusedDate!: Moment;
-  @Prop({ default: () => moment(), type: moment }) selectedDate!: Moment;
-  @Prop({ default: () => moment(), type: moment }) selectedDateEnd!: Moment;
+  @PropSync("focusedDate", { default: () => moment(), type: moment })
+  syncFocusedDate!: Moment;
+  @PropSync("selectedDate", { default: () => moment(), type: moment })
+  syncSelectedDate!: Moment;
+  @PropSync("selectedDateEnd", { default: () => moment(), type: moment })
+  syncSelectedDateEnd!: Moment;
+
   active: boolean = false;
 
   get dateStr(): string {
     let selectedDay = this.isSelectingDateEnd
-      ? this.selectedDateEnd
-      : this.selectedDate;
+      ? this.syncSelectedDateEnd
+      : this.syncSelectedDate;
     return selectedDay.format(this.dateFormat);
   }
 
   monthDates(): Array<DateDirective> {
     let list = [];
-    let currentDay = this.focusedDate
+    let currentDay = this.syncFocusedDate
       .clone()
       .startOf("month")
       .startOf("week");
     let selectedDay = this.isSelectingDateEnd
-      ? this.selectedDateEnd
-      : this.selectedDate;
+      ? this.syncSelectedDateEnd
+      : this.syncSelectedDate;
     for (let i = 0; i < 42; i++) {
       list.push(
         new DateDirective(
           currentDay.clone(),
-          currentDay.isSame(this.focusedDate, "month"),
+          currentDay.isSame(this.syncFocusedDate, "month"),
           currentDay.isSame(selectedDay, "day"),
-          currentDay.isSameOrAfter(this.selectedDate, "day") &&
-            currentDay.isSameOrBefore(this.selectedDateEnd, "day")
+          currentDay.isSameOrAfter(this.syncSelectedDate, "day") &&
+            currentDay.isSameOrBefore(this.syncSelectedDateEnd, "day")
         )
       );
       currentDay.add(1, "day");
@@ -91,14 +96,13 @@ export default class DatePicker extends Vue {
   }
 
   selectDate(date: Moment) {
-    if (this.isSelectingDateEnd && this.hasDateEnd) this.selectedDateEnd = date;
-    else if (this.hasDateEnd) this.selectedDate = date;
+    if (this.isSelectingDateEnd && this.hasDateEnd)
+      this.syncSelectedDateEnd = date;
+    else if (this.hasDateEnd) this.syncSelectedDate = date;
     else {
-      this.selectedDate = this.selectedDateEnd = date;
+      this.syncSelectedDate = this.syncSelectedDateEnd = date;
     }
-    this.emitSelectedDate();
-    this.emitSelectedDateEnd();
-    this.focusedDate = date.clone();
+    this.syncFocusedDate = date.clone();
   }
 
   moveMonthLast() {
@@ -108,17 +112,8 @@ export default class DatePicker extends Vue {
     this.moveMonth(1);
   }
   moveMonth(delta: number) {
-    this.focusedDate = this.focusedDate.add(delta, "month");
+    this.syncFocusedDate = this.syncFocusedDate.add(delta, "month");
     this.$forceUpdate();
-  }
-
-  @Emit("update:selected-date")
-  emitSelectedDate(): Moment {
-    return this.selectedDate;
-  }
-  @Emit("update:selected-date-end")
-  emitSelectedDateEnd(): Moment {
-    return this.selectedDateEnd;
   }
 }
 

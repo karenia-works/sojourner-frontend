@@ -1,12 +1,19 @@
 <template>
   <div class="navbar">
     <div class="nav-left">
-      <div class="nav-el logo">SOJOURNER</div>
-      <div class="nav-el">Rent</div>
-      <div class="nav-el">Explore</div>
+      <router-link to="/">
+        <div class="nav-el logo">SOJOURNER</div>
+      </router-link>
+      <router-link to="/s">
+        <div class="nav-el">Search</div>
+      </router-link>
+      <router-link to="/">
+        <div class="nav-el">Explore</div>
+      </router-link>
     </div>
     <div class="nav-right">
-      <div class="nav-el" id="sign_up">Sign up</div>
+      <div class="nav-el" id="sign_up" @click="switchLogin()">Sign up</div>
+      <login :show.sync="showLogin" />
     </div>
   </div>
 </template>
@@ -50,7 +57,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Login from "@/views/Login.vue";
 
-@Component({})
-export default class Navbar extends Vue {}
+@Component({ components: { Login } })
+export default class Navbar extends Vue {
+  showLogin: boolean = false;
+
+  switchLogin() {
+    this.showLogin = !this.showLogin;
+  }
+}
 </script>

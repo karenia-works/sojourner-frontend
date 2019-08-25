@@ -42,6 +42,18 @@ h3 {
 h4 {
   font-size: 24px
 }
+
+div a {
+  color: inherit
+  font: inherit
+  display: inherit
+
+  p a {
+    display: inline
+  }
+
+  text-decoration: inherit
+}
 </style>
 
 <script lang="ts">
