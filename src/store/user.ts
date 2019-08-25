@@ -68,6 +68,17 @@ export var actions: ActionTree<UserState, RootState> = {
     )
 
     ctx.commit('loggedInUser', userData)
+  },
+  registerUser(
+    ctx,
+    payload: {
+      username: string
+      password: string
+      fullName: string
+      phoneNumber: string
+    }
+  ) {
+    // TODO
   }
 }
 
