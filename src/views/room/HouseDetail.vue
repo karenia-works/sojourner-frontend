@@ -73,12 +73,35 @@
         </div>
 
         <div class="bookInfo">
-          <label class="book price">$ {{ price }}</label>
+          <label class="price">$ {{ price }} / Day</label>
           <br />
-          <label class="book">Date</label>
-          <br />
-          <label class="book">Room Type</label>
+          <label class="book room_type">Date</label>
+          <div id="date-select" class="date_pick">
+            <date-picker
+              :selected-date.sync="startDate"
+              :selected-date-end="endDate"
+              :is-selecting-date-end="false"
+              :has-date-end="true"
+            ></date-picker>
+            <span>to</span>
+            <date-picker
+              :selected-date="startDate"
+              :selected-date-end.sync="endDate"
+              :is-selecting-date-end="true"
+              :has-date-end="true"
+            ></date-picker>
+            <br />
+          </div>
+          <label class="book room_type">Room Type</label>
           <label class="book">{{ room_type }}</label>
+          <div class="rent_button">
+            <div class="long_rent">
+              <button id="rent-btn" class="btn rent-btn" >Long Term Rent</button>
+            </div>
+            <div class="short_rent">
+              <button id="rent-btn" class="btn rent-btn" >Short Term Rent</button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -193,9 +216,34 @@
     .price {
       align-self: flex-start;
       font-weight: bolder;
-      font-size: 30px;
+      font-size: font-sizes.medium-title;
+    }
+
+    .date_pick {
+      line-height: 30px;
+      font-size: font-sizes.body_larger;
+      flex-direction: column;
+    }
+    
+    .rent_button {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-top: 30px;
+
+      .rent-btn {
+        font-size: font-sizes.body-larger;
+      }
     }
   }
+}
+
+.book {
+  font-size: font-sizes.body-larger;
+}
+
+.room_type {
+  font-weight: bold;
 }
 
 .yes_judge {
@@ -211,7 +259,7 @@
 
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
 import wifiIcon from "mdi-vue/Wifi"; // works without an extension too
 import dishIcon from "mdi-vue/SilverwareForkKnife";
 import smokeDetectorIcon from "mdi-vue/SmokeDetector";
@@ -220,6 +268,8 @@ import washingMachineIcon from "mdi-vue/WashingMachine";
 import fridgeIcon from "mdi-vue/FridgeBottom";
 import microwaveIcon from "mdi-vue/Microwave";
 import parkingIcon from "mdi-vue/Parking";
+import DatePicker from "@/components/DatePicker.vue";
+import moment, { Moment } from "moment";
 
 @Component({
   components: {
@@ -230,10 +280,15 @@ import parkingIcon from "mdi-vue/Parking";
     washingMachineIcon,
     fridgeIcon,
     microwaveIcon,
-    parkingIcon
+    parkingIcon,
+    DatePicker
   }
 })
 export default class houseDetail extends Vue {
+  @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
+  @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
+  @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
+
   equip_judge = [false, true, true, false, true, false, true, true];
   price = 450;
   room_type = "Single";
@@ -266,5 +321,47 @@ export default class houseDetail extends Vue {
       intro_text: "Golf course, Hot Spring, Bar"
     }
   ];
+
+  startDate_: Moment = this.initialStartDate;
+  endDate_: Moment = this.initialEndDate;
+  searchStr: string = this.initialSearchStr;
+
+  startDateValid: boolean = true;
+  endDateValid: boolean = true;
+
+  get startDate() {
+    return this.startDate_;
+  }
+  get endDate() {
+    return this.endDate_;
+  }
+  set startDate(val: Moment) {
+    this.startDate_ = val;
+  }
+  set endDate(val: Moment) {
+    this.endDate_ = val;
+  }
+
+  formatDate(date: Date): string {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  }
+
+  @Emit("search")
+  emitSearch() {
+    console.log(
+      "",
+      this.startDate.toString(),
+      this.endDate.toString(),
+      this.searchStr
+    );
+    return new SearchEvent(this.searchStr, this.startDate, this.endDate);
+  }
+}
+export class SearchEvent {
+  constructor(
+    public searchStr: string,
+    public startDate: Moment,
+    public endDate: Moment
+  ) {}
 }
 </script>
