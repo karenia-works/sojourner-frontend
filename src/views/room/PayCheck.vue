@@ -6,10 +6,56 @@
         <div class="staytime">
           <h2>{{ stayLength }} Night At {{ stayPlace }}</h2>
           <div class="startAndEnd">
-            <label class="startTime info">Tuesday Check-in</label>
-            <label class="startTime info">3PM - 5PM</label>
-            <label class="endTime info">Tuesday Check-in</label>
-            <label class="endTime info">3PM - 5PM</label>
+            <div class="time_container">
+              <div class="date_container">
+                <label class="startTime info">AUG</label>
+                <label class="startTime info">27</label>
+              </div>
+              <div class="checkinout_container">
+                <label class="checkin info">Check-in</label>
+                <label class="checkin info">3PM - 5PM</label>
+              </div>
+            </div>
+            <div class="time_container">
+              <div class="date_container">
+                <label class="startTime info">AUG</label>
+                <label class="startTime info">29</label>
+              </div>
+              <div class="checkinout_container">
+                <label class="checkin info">Check-out</label>
+                <label class="checkin info">11PM</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr align="left" width="90%" size="1" />
+        <div class="keep_in_mind">
+          <h2>Things To Keep In Mind</h2>
+          <div class="rules">
+            <div class="rule">
+              <div class="rule_icon">
+                <no-smoking-icon />
+              </div>
+              <div class="rule_description">
+                <label class="rule_des">No Smoking</label>
+              </div>
+            </div>
+            <div class="rule">
+              <div class="rule_icon">
+                <no-pets-icon />
+              </div>
+              <div class="rule_description">
+                <label class="rule_des">No Pets</label>
+              </div>
+            </div>
+            <div class="rule">
+              <div class="rule_icon">
+                <no-noise-icon />
+              </div>
+              <div class="rule_description">
+                <label class="rule_des">DO NOT MAKE NOISE</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -33,7 +79,7 @@
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="total">
-            <label class="total_cost">Total: $9102</label>
+          <label class="total_cost">Total: $9102</label>
         </div>
       </div>
     </div>
@@ -43,16 +89,12 @@
 <style lang="stylus" scoped>
 .container {
   display: flex;
-  justify-content: center;
   flex-direction: row;
-  align-items: flex-start;
 
   .LeftSide {
     display: flex;
-    align-items: stretch;
     flex-direction: column;
     width: 67vw;
-    align-items: flex-start;
 
     h1 {
       font-size: font-sizes.large-title;
@@ -68,8 +110,69 @@
         text-transform: uppercase;
         text-align: left;
       }
+    }
 
-      .startAndEnd {
+    .startAndEnd {
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .time_container {
+        display: flex;
+        flex-direction: row;
+        width: 50%;
+
+        .date_container {
+          display: flex;
+          flex-direction: column;
+          border-style: solid;
+          border-width: 1px;
+          padding: 10px;
+          margin-right: 20px;
+        }
+
+        .checkinout_container {
+          display: flex;
+          flex-direction: column;
+          margin: 10px;
+          align-items: flex-start;
+        }
+      }
+    }
+
+    .keep_in_mind {
+      h2 {
+        font-size: font-sizes.small-title;
+        font-weight: normal;
+        text-transform: uppercase;
+        text-align: left;
+      }
+
+      .rules {
+        display: flex;
+        flex-direction: column;
+
+        .rule {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .rule_icon {
+            border-style: solid;
+            border-width: 1px;
+            padding: 10px;
+            margin: 10px;
+            margin-right: 20px;
+          }
+
+          .rule_description {
+            font-size: font-sizes.body-larger;
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: left;
+          }
+        }
       }
     }
   }
@@ -127,12 +230,12 @@
       }
     }
 
-    .total{
+    .total {
       display: flex;
       align-self: flex-end;
       justify-content: flex-end;
 
-      .total_cost{
+      .total_cost {
         font-size: font-sizes.small-title;
         font-weight: bolder;
         text-align: left;
@@ -147,11 +250,17 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import guestIcon from "mdi-vue/AccountMultiple";
 import dateIcon from "mdi-vue/CalendarRange";
+import noSmokingIcon from "mdi-vue/SmokingOff";
+import noPetsIcon from "mdi-vue/PawOff";
+import noNoiseIcon from "mdi-vue/VolumeOff";
 
 @Component({
   components: {
     guestIcon,
-    dateIcon
+    dateIcon,
+    noSmokingIcon,
+    noPetsIcon,
+    noNoiseIcon
   }
 })
 export default class PayCheck extends Vue {
