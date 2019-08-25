@@ -8,8 +8,8 @@
           <div class="startAndEnd">
             <div class="time_container">
               <div class="date_container">
-                <label class="startTime info">AUG</label>
-                <label class="startTime info">27</label>
+                <label class="startTime info">{{ startMonth }}</label>
+                <label class="startTime info">{{ startDay }}</label>
               </div>
               <div class="checkinout_container">
                 <label class="checkin info">Check-in</label>
@@ -18,8 +18,8 @@
             </div>
             <div class="time_container">
               <div class="date_container">
-                <label class="startTime info">AUG</label>
-                <label class="startTime info">29</label>
+                <label class="startTime info">{{ endMonth }}</label>
+                <label class="startTime info">{{ endDay }}</label>
               </div>
               <div class="checkinout_container">
                 <label class="checkin info">Check-out</label>
@@ -53,10 +53,13 @@
                 <no-noise-icon />
               </div>
               <div class="rule_description">
-                <label class="rule_des">DO NOT MAKE NOISE</label>
+                <label class="rule_des">Don't make loud noise</label>
               </div>
             </div>
           </div>
+        </div>
+        <div class="agree_button">
+          <button id="search-btn" class="btn search-btn">AGREE</button>
         </div>
       </div>
       <div class="RightSide">
@@ -74,12 +77,14 @@
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />
-            <label class="date_info">Aug 7 -> Aug 29</label>
+            <label
+              class="date_info"
+            >{{ startMonth }} {{ startDay }} &rarr; {{ endMonth}} {{ endDay }}</label>
           </div>
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="total">
-          <label class="total_cost">Total: $9102</label>
+          <label class="total_cost">Total: ${{ totalCost }}</label>
         </div>
       </div>
     </div>
@@ -89,7 +94,9 @@
 <style lang="stylus" scoped>
 .container {
   display: flex;
+  justify-content: center;
   flex-direction: row;
+  align-items: flex-start;
 
   .LeftSide {
     display: flex;
@@ -169,11 +176,15 @@
           .rule_description {
             font-size: font-sizes.body-larger;
             font-weight: normal;
-            text-transform: uppercase;
             text-align: left;
           }
         }
       }
+    }
+
+    #search-btn {
+      margin: 50px;
+      font-size: font-sizes.medium-title;
     }
   }
 
@@ -208,7 +219,9 @@
       display: flex;
       flex-direction: column;
       align-self: flex-start;
-      padding: 15px 5px 10px 5px;
+      padding: 30px 5px 20px 5px;
+      font-size: font-sizes.body-larger;
+      font-weight: bolder;
     }
 
     .book_info {
@@ -267,7 +280,13 @@ export default class PayCheck extends Vue {
   data() {
     return {
       stayLength: 3,
-      stayPlace: "PuJi Island"
+      stayPlace: "PuJi Island",
+      startMonth: "Aug",
+      startDay: "27",
+      endMonth: "Sep",
+      endDay: "12",
+      guestNum: "2",
+      totalCost: "9102"
     };
   }
 }
