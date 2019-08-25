@@ -41,6 +41,11 @@ export default new Router({
       ]
     },
     {
+      path: '/ord',
+      name: 'orders',
+      component: () => import('./views/user/Orders.vue')
+    },
+    {
       path: '/detail',
       name: 'detail',
       component: () => import('./views/room/HouseDetail.vue')
