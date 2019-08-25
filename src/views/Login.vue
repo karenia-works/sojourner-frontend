@@ -12,7 +12,7 @@
         </div>
         <p class="signup">
             Don't have an account? 
-            <a href="#" class="signupLink">Sign up</a> now
+            <a href="/register" class="signupLink">Sign up</a> now
         </p>
       </div>
     </template>
@@ -21,31 +21,32 @@
 
 <style lang="stylus" scoped>
 .cover {
-    height 100%
-    width 100%
-    position absolute
-    top 0
-    left 0
-    background-color rgba(0, 0, 0, 0.5)
-    z-index 8
-    }
+  height 100%
+  width 100%
+  position absolute
+  top 0
+  left 0
+  background-color rgba(0, 0, 0, 0.5)
+  z-index 8
+}
 
 .login {
-    height 300px
-    width 400px
-    background-color colors.bg-light
-    border-radius 5px   
+  // height 300px
+  width 400px
+  background-color colors.bg-light
+  border-radius 5px   
 
-    position absolute 
-    top 25%
-    left 50%
-    margin-left -200px
-    z-index 9
+  position absolute 
+  top 25%
+  left 50%
+  margin-left -200px
+  z-index 9
 
-    display flex
-    flex-direction column
-    justify-content center
-    align-items center
+  display flex
+  flex-direction column
+  // justify-content center
+  align-items center
+  padding spaces._6
 }
 
 .btnDiv {
@@ -55,13 +56,17 @@
 }
 
 .signup {
-  position absolute
-  bottom 20px
+  color colors.text-medium
 }
 
 .signupLink {
   text-decoration none 
   color: colors.accent
+}
+
+#email, #password{
+  width: 100%
+  margin-v: spaces._3
 }
 
 </style>
@@ -71,11 +76,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import RoomInfo from "@/components/RoomInfo.vue"; // @ is an alias to /src
 import SearchBar from "@/components/SearchBar.vue";
 
-import CloseIcon from 'mdi-vue/Close'
+// import CloseIcon from 'mdi-vue/Close'
 
 @Component({
   components: {
-    CloseIcon
+    // CloseIcon
   }
 })
 export default class Search extends Vue {
