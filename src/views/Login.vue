@@ -6,7 +6,7 @@
         <input type="email" class="input" id="email" placeholder="email address" v-model.trim="email" :class="{textErr: !inputCheck.email}" autofocus />
         <input type="password" class="input" id="password" placeholder="password" v-model="password" />
         <div class="btnDiv">
-          <button id="login-btn" class="btn ">Login</button>
+          <button id="login-btn" class="btn" @click="submitLogin">Login</button>
         </div>
         <p class="signupLink">
             Don't have an account?&nbsp;
@@ -20,7 +20,7 @@
         <input type="text" class="input" id="name" placeholder="full name" v-model.trim="name" />
         <input type="tel" class="input" id="phone" placeholder="phone number" v-model.trim="phone" :class="{textErr: !inputCheck.phone}" />
         <div class="btnDiv">
-          <button id="login-btn" class="btn ">Signup</button>
+          <button id="login-btn" class="btn" @click="submitSignup">Signup</button>
         </div>
         <p class="signupLink">
             Already have an account?&nbsp;
@@ -115,13 +115,9 @@ closeLogin() {
 }
 toLogin() {
   this.signup = false;
-  this.inputCheck.name = true;
-  this.inputCheck.phone = true;
 }
 toSignup() {
   this.signup = true;
-  if (this.phone)
-    this.inputCheck.phone = this.patterns.phone.test(this.phone);
 }
 
 inputCheck = {
@@ -135,12 +131,16 @@ inputCheck = {
 onEmailChanged(val: string, oldVal: string) {
   if (val)
     this.inputCheck.email = this.patterns.email.test(val);
+  else 
+    this.inputCheck.email = true;
 }
 
 @Watch('phone')
 onPhoneChanged(val: string, oldVal: string) {
   if (val)
     this.inputCheck.phone = this.patterns.phone.test(val);
+  else 
+    this.inputCheck.phone = true;
 }
 
 patterns = {
@@ -152,6 +152,26 @@ email = '';
 password = '';
 name = '';
 phone = '';
+
+submitLogin() {
+  var check = this.inputCheck;
+  if (!check.email) {
+    alert("Please check your email address");
+  } else {
+    alert("loading")
+  }
+}
+
+submitSignup() {
+  var check = this.inputCheck;
+  if (!check.email) {
+    alert("Please check your email address");
+  } else if (!check.phone) {
+    alert("Please check your phone number");
+  } else {
+    alert("loading")
+  }
+}
 
 }
 </script>
