@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="nav-left">
       <div class="nav-el logo">SOJOURNER</div>
-      <div class="nav-el">Rent</div>
+      <div class="nav-el">Search</div>
       <div class="nav-el">Explore</div>
     </div>
     <div class="nav-right">
