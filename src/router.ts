@@ -47,16 +47,15 @@ export default new Router({
     },
     {
       path: '/r/:id',
-      name: "room",
       children: [
         {
           path: '',
-          name: "room_detail", 
+          name: 'room_detail',
           component: () => import('./views/room/RoomId.vue')
         },
         {
           path: 'submit',
-          name: "room_submit", 
+          name: 'room_submit',
           component: () => import('./views/room/RoomSubmit.vue')
         }
       ]
@@ -65,5 +64,13 @@ export default new Router({
       path: '/**',
       component: NotFoundView
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      if (to.hash) return { selector: to.hash }
+      else return { x: 0, y: 0 }
+    }
+  }
 })

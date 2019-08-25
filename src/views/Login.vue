@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <button @click="openLogin">login</button>
-    <template v-if="showLogin">
+    <div v-if="showLogin">
       <div class="cover"  @click="closeLogin"></div>
       <div class="login">
         <!-- <close-icon class="close" @click="closeLogin"/> -->
@@ -15,8 +13,7 @@
             <a href="/register" class="signupLink">Sign up</a> now
         </p>
       </div>
-    </template>
-  </div>
+    </div>
 </template>
 
 <style lang="stylus" scoped>
@@ -72,19 +69,18 @@
 </style>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop,PropSync, Vue } from "vue-property-decorator";
 import RoomInfo from "@/components/RoomInfo.vue"; // @ is an alias to /src
-import SearchBar from "@/components/SearchBar.vue";
-
-// import CloseIcon from 'mdi-vue/Close'
 
 @Component({
   components: {
     // CloseIcon
   }
 })
-export default class Search extends Vue {
-  showLogin = true;
+export default class Login extends Vue {
+  @PropSync('show', {default: false, type: Boolean})
+  showLogin!:boolean;
+
   openLogin() {
     this.showLogin = true;
   }
