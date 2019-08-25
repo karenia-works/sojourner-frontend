@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@mdi/js": "^4.1.95",
     "@types/moment": "^2.13.0",
     "@types/stylus": "^0.48.31",
     "app-root-path": "^2.2.1",
