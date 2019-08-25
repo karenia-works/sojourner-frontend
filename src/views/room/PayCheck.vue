@@ -64,7 +64,7 @@
       </div>
       <div class="RightSide">
         <div class="overview">
-          <img class="pic" alt="housePic" src="../../assets/house_big_pic.jpg" />
+          <img class="pic" alt="housePic" :src="img_url" />
         </div>
         <div class="title">
           <label class="pic_title">YOUR BEST CHIOCE IN THE WORLD</label>
@@ -73,7 +73,7 @@
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">1 guest</label>
+            <label class="guest_info">{{guestNum}} guest</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />
@@ -249,6 +249,7 @@
       justify-content: flex-end;
 
       .total_cost {
+        padding-top: 30px;
         font-size: font-sizes.small-title;
         font-weight: bolder;
         text-align: left;
@@ -277,17 +278,15 @@ import noNoiseIcon from "mdi-vue/VolumeOff";
   }
 })
 export default class PayCheck extends Vue {
-  data() {
-    return {
-      stayLength: 3,
-      stayPlace: "PuJi Island",
-      startMonth: "Aug",
-      startDay: "27",
-      endMonth: "Sep",
-      endDay: "12",
-      guestNum: "2",
-      totalCost: "9102"
-    };
-  }
+  stayLength = 3;
+  stayPlace = "PuJi Island";
+  startMonth = "Aug";
+  startDay = "27";
+  endMonth = "Sep";
+  endDay = "12";
+  guestNum = "2";
+  totalCost = "9102";
+  img_url =
+    "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large";
 }
 </script>

@@ -1,9 +1,7 @@
 <template>
   <div class="houseDetail">
     <div class="houseBigPic">
-      <img alt="housePic" src="../../assets/house_big_pic.jpg" />
-      <img alt="coachPic" src="../../assets/coach.jpg" />
-      <img alt="tablePic" src="../../assets/table.jpg" />
+      <img alt="housePic" v-for="pic in img1" :src="pic.url" />
     </div>
     <div class="container">
       <section class="aboutHouse">
@@ -12,16 +10,10 @@
             <label class="info">{{ house_name }}</label>
           </div>
           <div class="advWords">
-            <label class="info intro subtitle">Great Location</label>
-            <label class="info intro">37 XueYuan Road</label>
-            <label class="info intro">XiCheng, BeiJing</label>
-            <br />
-            <label class="info intro subtitle">Entire House</label>
-            <label class="info intro">7 guests, 3 bedrooms, 7 beds, 3 baths</label>
-            <br />
-            <label class="info intro subtitle">Complete Facilities</label>
-            <label class="info intro">Golf course, Hot Spring, Bar My hand is a</label>
-            <br />
+            <label v-for="item in intro_items" class="info intro subtitle">
+              {{ item.subtitle }}
+              <label class="info intro">{{ item.intro_text}}</label>
+            </label>
           </div>
           <hr align="center" width="100%" size="1" />
           <div class="iconPart">
@@ -86,7 +78,7 @@
           <label class="book">Date</label>
           <br />
           <label class="book">Room Type</label>
-          <label class="book">{{ Room_type }}</label>
+          <label class="book">{{ room_type }}</label>
         </div>
       </section>
     </div>
@@ -110,7 +102,7 @@
   white-space: nowrap;
 }
 
-// Òþ²Ø¹ö¶¯Ìõ
+// roll scroll
 ::-webkit-scrollbar {
   width: 0 !important;
 }
@@ -144,11 +136,13 @@
     }
 
     .intro {
-      height: 50px; // ÐÐ¼ä¾à
+      height: 50px;
+      font-weight: normal;
     }
 
     .subtitle {
       font-weight: bolder;
+      padding-top: 30px;
     }
 
     .titleWords {
@@ -240,14 +234,37 @@ import parkingIcon from "mdi-vue/Parking";
   }
 })
 export default class houseDetail extends Vue {
-  data(){
-    return{
-      equip_judge : [false, true, true, false, true, false, true, true],
-      price : 450,
-      Room_type:'Single, Double',
-      house_name:'YOUR BEST CHOICE IN THE WORLD!'
+  equip_judge = [false, true, true, false, true, false, true, true];
+  price = 450;
+  room_type = "Single";
+  house_name = "YOUR BEST CHOICE IN THE WORLD!";
+  img1 = [
+    {
+      url:
+        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
+    },
+    {
+      url:
+        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
+    },
+    {
+      url:
+        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
     }
-  }
+  ];
+  intro_items = [
+    {
+      subtitle: "Great Location",
+      intro_text: "37 XueYuan Road, XiCheng, BeiJing"
+    },
+    {
+      subtitle: "Entire House",
+      intro_text: "7 guests, 3 bedrooms, 7 beds, 3 baths"
+    },
+    {
+      subtitle: "Complete Facilities",
+      intro_text: "Golf course, Hot Spring, Bar"
+    }
+  ];
 }
-
 </script>

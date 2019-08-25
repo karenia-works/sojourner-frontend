@@ -18,16 +18,16 @@
       </div>
       <div class="RightSide">
         <div class="overview">
-          <img class="pic" alt="housePic" src="../../assets/house_big_pic.jpg" />
+          <img class="pic" alt="housePic" :src="img_url" />
         </div>
         <div class="title">
-          <label class="pic_title">YOUR BEST CHIOCE IN THE WORLD</label>
+          <label class="pic_title">{{ house_name }}</label>
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">1 guest</label>
+            <label class="guest_info">{{ guestNum }} guest</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />
@@ -167,20 +167,24 @@ import dateIcon from "mdi-vue/CalendarRange";
   }
 })
 export default class PayCheck extends Vue {
-      stayLength= 3;
-      startMonth= "Aug";
-      startDay= "27";
-      endMonth= "Sep";
-      endDay= "12";
-      guestNum= "2";
-      totalCost= "9102";
-      wechatPay= true;
+  stayLength = 3;
+  startMonth = "Aug";
+  startDay = "27";
+  endMonth = "Sep";
+  endDay = "12";
+  guestNum = "2";
+  totalCost = "9102";
+  wechatPay = true;
+  img_url =
+    "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large";
+  room_type = "Single";
+  house_name = "YOUR BEST CHOICE IN THE WORLD!";
 
   WechatPay() {
-    this.wechatPay= true;
+    this.wechatPay = true;
   }
   AliPay() {
-    this.wechatPay= false;
+    this.wechatPay = false;
   }
 }
 </script>
