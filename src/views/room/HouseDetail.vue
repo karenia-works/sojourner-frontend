@@ -110,7 +110,7 @@
   white-space: nowrap;
 }
 
-// Òş²Ø¹ö¶¯Ìõ
+// Ã’Ã¾Â²Ã˜Â¹Ã¶Â¶Â¯ÃŒÃµ
 ::-webkit-scrollbar {
   width: 0 !important;
 }
@@ -144,7 +144,7 @@
     }
 
     .intro {
-      height: 50px; // ĞĞ¼ä¾à
+      height: 50px; // ÃÃÂ¼Ã¤Â¾Ã 
     }
 
     .subtitle {
@@ -249,4 +249,5 @@ export default class houseDetail extends Vue {
     }
   }
 }
+
 </script>

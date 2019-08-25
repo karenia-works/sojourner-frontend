@@ -5876,8 +5876,8 @@ md5.js@^1.3.4:
 
 mdi-vue@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/mdi-vue/-/mdi-vue-1.0.1.tgz#f83eff095e000b48f98477dbb6946c27036e93ae"
-  integrity sha512-TDuIjul/HSiO1fDH3F8RcMQO4REhvlKIEQWHJpotRo37aYr/+J07kBZ6UqxF7Qvn40qva6G+JShxjd/B1ZK0ew==
+  resolved "https://registry.npm.taobao.org/mdi-vue/download/mdi-vue-1.0.1.tgz#f83eff095e000b48f98477dbb6946c27036e93ae"
+  integrity sha1-+D7/CV4AC0j5hHfbtpRsJwNuk64=
   dependencies:
     vue "^2.6.10"
 
@@ -9819,6 +9819,11 @@ yargs@^13.0.0:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^13.1.1"
+
+yarn@^1.17.3:
+  version "1.17.3"
+  resolved "https://registry.npm.taobao.org/yarn/download/yarn-1.17.3.tgz#60e0b77d079eb78e753bb616f7592b51b6a9adce"
+  integrity sha1-YOC3fQeet451O7YW91krUbaprc4=
 
 yorkie@^2.0.0:
   version "2.0.0"

@@ -26,7 +26,8 @@
     "vue-material-design-icons": "^3.4.0",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "yarn": "^1.17.3"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
