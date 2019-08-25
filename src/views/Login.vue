@@ -172,7 +172,10 @@ export default class Login extends Vue {
     if (!check.email) {
       alert("Please check your email address");
     } else {
-      alert("loading");
+      this.$store.dispatch("loginUser", {
+        email: this.email,
+        password: this.password
+      });
     }
   }
 
@@ -183,7 +186,12 @@ export default class Login extends Vue {
     } else if (!check.phone) {
       alert("Please check your phone number");
     } else {
-      alert("loading");
+      this.$store.dispatch("registerUser", {
+        email: this.email,
+        password: this.password,
+        name: this.name,
+        phone: this.phone
+      });
     }
   }
 }

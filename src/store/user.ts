@@ -74,8 +74,8 @@ export var actions: ActionTree<UserState, RootState> = {
     payload: {
       username: string
       password: string
-      fullName: string
-      phoneNumber: string
+      name: string
+      phone: string
     }
   ) {
     // TODO
