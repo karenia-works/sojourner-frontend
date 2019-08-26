@@ -169,8 +169,9 @@
     }
 
     .titleWords {
-      font-weight: bolder;
-      font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase
+      font-size: font-sizes.medium-title;
       padding: 36px 0px 36px 0px;
     }
 
