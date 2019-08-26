@@ -96,10 +96,14 @@
           <label class="book">{{ roomType }}</label>
           <div class="rent_button">
             <div class="long_rent">
-              <button id="rent-btn" class="btn rent-btn" >Long Term Rent</button>
+              <router-link  tag="a"  target="_blank" to="longpay">
+                <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
+              </router-link>
             </div>
             <div class="short_rent">
-              <button id="rent-btn" class="btn rent-btn" >Short Term Rent</button>
+              <router-link to="submit">
+                <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -169,8 +173,8 @@
     }
 
     .titleWords {
-    font-weight: bold;
-    text-transform: uppercase
+      font-weight: bold;
+      text-transform: uppercase;
       font-size: font-sizes.medium-title;
       padding: 36px 0px 36px 0px;
     }
@@ -225,7 +229,7 @@
       font-size: font-sizes.body_larger;
       flex-direction: column;
     }
-    
+
     .rent_button {
       display: flex;
       flex-direction: row;
@@ -320,7 +324,7 @@ export default class HouseDetail extends Vue {
     {
       subtitle: "Complete Facilities",
       intro_text: "Golf course, Hot Spring, Bar"
-    },
+    }
   ];
 
   startDate: Moment = this.initialStartDate;
