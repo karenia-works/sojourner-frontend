@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import NotFoundView from './views/NotFound.vue'
 import Login from './views/Login.vue'
-
+import Room from './views/Room.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -58,16 +58,27 @@ export default new Router({
     },
     {
       path: '/r/:id',
+      component: Room,
       children: [
         {
-          path: '',
+          path: 'detail',
           name: 'room_detail',
-          component: () => import('./views/room/RoomId.vue'),
+          component: () => import('./views/room/HouseDetail.vue'),
         },
         {
           path: 'submit',
           name: 'room_submit',
-          component: () => import('./views/room/RoomSubmit.vue'),
+          component: () => import('./views/room/PayCheck.vue'),
+        },
+        {
+          path: 'shortpay',
+          name: 'short_term_pay',
+          component: () => import('./views/room/ShortTermPay.vue'),
+        },
+        {
+          path: 'longpay',
+          name: 'long_term_pay',
+          component: () => import('./views/room/LongTermPay.vue'),
         },
       ],
     },

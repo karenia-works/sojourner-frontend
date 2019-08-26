@@ -75,7 +75,9 @@
           </div>
         </div>
         <div class="agree_button">
-          <button id="search-btn" class="btn search-btn">AGREE</button>
+          <router-link to="shortpay">
+            <button id="search-btn" class="btn search-btn">AGREE</button>
+          </router-link>
         </div>
       </div>
       <div class="RightSide">
