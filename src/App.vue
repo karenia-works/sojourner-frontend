@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <navbar></navbar>
     <router-view />
   </div>
 </template>
@@ -11,11 +10,9 @@
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   text-align: center
-  color: colors.text-dark
 }
 
 body {
-  background: colors.bg-light
   padding: 0px
   margin: 0px
 }
@@ -57,12 +54,9 @@ div a {
 </style>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import Navbar from "@/components/Navbar.vue";
+import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { Navbar }
 })
 export default class App extends Vue {}
 </script>
