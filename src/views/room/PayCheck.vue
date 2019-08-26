@@ -32,7 +32,7 @@
         <div class="keep_in_mind">
           <h2>Things To Keep In Mind</h2>
           <div class="rules">
-            <div class="rule">
+            <div class="rule" v-show="noticeJudge[0]">
               <div class="rule_icon">
                 <no-smoking-icon />
               </div>
@@ -40,7 +40,7 @@
                 <label class="rule_des">No Smoking</label>
               </div>
             </div>
-            <div class="rule">
+            <div class="rule" v-show="noticeJudge[1]">
               <div class="rule_icon">
                 <no-pets-icon />
               </div>
@@ -48,12 +48,28 @@
                 <label class="rule_des">No Pets</label>
               </div>
             </div>
-            <div class="rule">
+            <div class="rule" v-show="noticeJudge[2]">
               <div class="rule_icon">
                 <no-noise-icon />
               </div>
               <div class="rule_description">
-                <label class="rule_des">Don't make loud noise</label>
+                <label class="rule_des">Don't Make Loud Noise</label>
+              </div>
+            </div>
+            <div class="rule" v-show="noticeJudge[3]">
+              <div class="rule_icon">
+                <no-shot-icon />
+              </div>
+              <div class="rule_description">
+                <label class="rule_des">Don't Take Pictures</label>
+              </div>
+            </div>
+            <div class="rule" v-show="noticeJudge[4]">
+              <div class="rule_icon">
+                <no-play-icon />
+              </div>
+              <div class="rule_description">
+                <label class="rule_des">Not Suitable For Playing Games</label>
               </div>
             </div>
           </div>
@@ -64,16 +80,16 @@
       </div>
       <div class="RightSide">
         <div class="overview">
-          <img class="pic" alt="housePic" src="../../assets/house_big_pic.jpg" />
+          <img class="pic" alt="housePic" :src="imgUrl" />
         </div>
         <div class="title">
-          <label class="pic_title">YOUR BEST CHIOCE IN THE WORLD</label>
+          <label class="pic_title">{{ houseName }}</label>
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">1 guest</label>
+            <label class="guest_info">{{guestNum}} guest</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />
@@ -249,6 +265,7 @@
       justify-content: flex-end;
 
       .total_cost {
+        padding-top: 30px;
         font-size: font-sizes.small-title;
         font-weight: bolder;
         text-align: left;
@@ -266,6 +283,8 @@ import dateIcon from "mdi-vue/CalendarRange";
 import noSmokingIcon from "mdi-vue/SmokingOff";
 import noPetsIcon from "mdi-vue/PawOff";
 import noNoiseIcon from "mdi-vue/VolumeOff";
+import noShotIcon from "mdi-vue/CameraOff";
+import noPlayIcon from "mdi-vue/XboxControllerOff";
 
 @Component({
   components: {
@@ -273,21 +292,23 @@ import noNoiseIcon from "mdi-vue/VolumeOff";
     dateIcon,
     noSmokingIcon,
     noPetsIcon,
-    noNoiseIcon
+    noNoiseIcon,
+    noShotIcon,
+    noPlayIcon
   }
 })
 export default class PayCheck extends Vue {
-  data() {
-    return {
-      stayLength: 3,
-      stayPlace: "PuJi Island",
-      startMonth: "Aug",
-      startDay: "27",
-      endMonth: "Sep",
-      endDay: "12",
-      guestNum: "2",
-      totalCost: "9102"
-    };
-  }
+  stayLength = 3;
+  stayPlace = "PuJi Island";
+  startMonth = "Aug";
+  startDay = "27";
+  endMonth = "Sep";
+  endDay = "12";
+  guestNum = "2";
+  totalCost = "9102";
+  houseName = "YOUR BEST CHOICE IN THE WORLD!";
+  noticeJudge = [false, true, true, false, true];
+  imgUrl =
+    "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large";
 }
 </script>
