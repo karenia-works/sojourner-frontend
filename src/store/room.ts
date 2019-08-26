@@ -26,6 +26,10 @@ export var actions: ActionTree<RoomBufferState, RootState> = {
     if (roomData.status >= 200 && roomData.status < 300) {
       let room = roomData.data
       state.commit('setRoom', { id, room })
+    } else {
+      throw new Error(
+        `Cannot add room! status: ${roomData.status}; ${roomData.statusText}`
+      )
     }
   },
 
@@ -42,7 +46,7 @@ export var mutations: MutationTree<RoomBufferState> = {
     state.buffer.set(payload.id, payload.room)
     state.lru.set(payload.id, Date.now())
   },
-  setLru(state, id: string) {
+  setRoomLru(state, id: string) {
     state.lru.set(id, Date.now())
   }
 }
