@@ -1,86 +1,71 @@
 <template>
   <div class="searchbar">
-    <input type="text" class="input" id="search" placeholder="Where?" v-model.trim="searchStr" />
-    <div id="date-select">
-      <span>,</span>
-      <date-picker
-        :selected-date.sync="startDate"
-        :selected-date-end="endDate"
-        :is-selecting-date-end="false"
-        :has-date-end="true"
-      ></date-picker>
-      <span>to</span>
-      <date-picker
-        :selected-date="startDate"
-        :selected-date-end.sync="endDate"
-        :is-selecting-date-end="true"
-        :has-date-end="true"
-      ></date-picker>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        id="search"
+        placeholder="Where?"
+        v-model.trim="status.keyword"
+      />
+      <div id="date-select">
+        <span>,</span>
+        <date-picker
+          :selected-date.sync="status.startTime"
+          :selected-date-end="status.endTime"
+          :is-selecting-date-end="false"
+          :has-date-end="true"
+        ></date-picker>
+        <span>to</span>
+        <date-picker
+          :selected-date="status.startTime"
+          :selected-date-end.sync="status.endTime"
+          :is-selecting-date-end="true"
+          :has-date-end="true"
+        ></date-picker>
+      </div>
+      <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
     </div>
-    <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
+    <div class="search-filters"></div>
   </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
+import {
+  Component,
+  Emit,
+  Vue,
+  Prop,
+  Model,
+  PropSync
+} from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import DatePicker from "./DatePicker.vue";
+import { SearchStatus } from "@/store/search.ts";
 
 @Component({
   components: { DatePicker }
 })
 export default class SearchBar extends Vue {
-  @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
-  @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
-  @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
+  @PropSync("searchStatus", {
+    type: SearchStatus,
+    default: () => new SearchStatus()
+  })
+  status!: SearchStatus;
 
-  startDate_: Moment = this.initialStartDate;
-  endDate_: Moment = this.initialEndDate;
-  searchStr: string = this.initialSearchStr;
-
-  startDateValid: boolean = true;
-  endDateValid: boolean = true;
-
-  get startDate() {
-    return this.startDate_;
-  }
-  get endDate() {
-    return this.endDate_;
-  }
-  set startDate(val: Moment) {
-    this.startDate_ = val;
-  }
-  set endDate(val: Moment) {
-    this.endDate_ = val;
-  }
-
-  formatDate(date: Date): string {
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  }
+  @Prop({ type: Boolean, default: false })
+  showFiters!: boolean;
 
   @Emit("search")
   emitSearch() {
-    console.log(
-      "",
-      this.startDate.toString(),
-      this.endDate.toString(),
-      this.searchStr
-    );
-    return new SearchEvent(this.searchStr, this.startDate, this.endDate);
+    return this.status;
   }
-}
-export class SearchEvent {
-  constructor(
-    public searchStr: string,
-    public startDate: Moment,
-    public endDate: Moment
-  ) {}
 }
 </script>
 
 <style lang="stylus">
-.searchbar {
+.search-line {
   display: flex
   flex-direction: row
   justify-content: flex-start

@@ -20,6 +20,9 @@ export default new Router({
       children: adminRoutes,
     },
     {
+      path: '/r/:id',
+      component: Room,
+      children: [
       path: '/',
       component: Userland,
       children: [
@@ -55,16 +58,10 @@ export default new Router({
           },
         },
         {
-          path: '/u',
-          name: 'user',
-          children: [
-            {
-              path: '/me',
-              name: 'user_me',
-              component: () =>
-                import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
-            },
-          ],
+          path: '/u/me',
+          name: 'user_me',
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
         },
         {
           path: '/ord',
