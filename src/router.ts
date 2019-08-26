@@ -5,6 +5,7 @@ import NotFoundView from './views/NotFound.vue'
 import Login from './views/Login.vue'
 import Room from './views/Room.vue'
 import Userland from './views/Userland.vue'
+import { adminRoutes } from '@/views/admin/admin-router'
 
 Vue.use(Router)
 
@@ -16,13 +17,7 @@ export default new Router({
       path: '/admin',
       // name: 'adminWorld',
       component: () => import('./views/admin/App.vue'),
-      children: [
-        {
-          path: '',
-          name: 'adminHomepage',
-          component: () => import('./views/admin/Home.vue'),
-        },
-      ],
+      children: adminRoutes,
     },
     {
       path: '/',
@@ -36,7 +31,8 @@ export default new Router({
         {
           path: '/s',
           name: 'search',
-          component: () => import('./views/Search.vue'),
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/Search.vue'),
         },
         {
           path: '/login',
@@ -65,19 +61,22 @@ export default new Router({
             {
               path: '/me',
               name: 'user_me',
-              component: () => import('./views/user/Me.vue'),
+              component: () =>
+                import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
             },
           ],
         },
         {
           path: '/ord',
           name: 'orders',
-          component: () => import('./views/user/Orders.vue'),
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/user/Orders.vue'),
         },
         {
           path: '/detail',
           name: 'detail',
-          component: () => import('./views/room/HouseDetail.vue'),
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'),
         },
         {
           path: '/r/:id',
@@ -86,22 +85,26 @@ export default new Router({
             {
               path: 'detail',
               name: 'room_detail',
-              component: () => import('./views/room/HouseDetail.vue'),
+              component: () =>
+                import(/* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'),
             },
             {
               path: 'submit',
               name: 'room_submit',
-              component: () => import('./views/room/PayCheck.vue'),
+              component: () =>
+                import(/* webpackChunkName: "userland" */ './views/room/PayCheck.vue'),
             },
             {
               path: 'shortpay',
               name: 'short_term_pay',
-              component: () => import('./views/room/ShortTermPay.vue'),
+              component: () =>
+                import(/* webpackChunkName: "userland" */ './views/room/ShortTermPay.vue'),
             },
             {
               path: 'longpay',
               name: 'long_term_pay',
-              component: () => import('./views/room/LongTermPay.vue'),
+              component: () =>
+                import(/* webpackChunkName: "userland" */ './views/room/LongTermPay.vue'),
             },
           ],
         },
