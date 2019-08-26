@@ -91,7 +91,7 @@
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">{{guestNum}} guest</label>
+            <label class="guest_info">{{guestNum}} guests</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />

@@ -96,7 +96,7 @@
           <label class="book">{{ roomType }}</label>
           <div class="rent_button">
             <div class="long_rent">
-              <router-link to="longpay">
+              <router-link  tag="a"  target="_blank" to="longpay">
                 <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
               </router-link>
             </div>
