@@ -1,11 +1,30 @@
 <template>
   <div class="search">
     <div class="container">
-      <SearchBar class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></SearchBar>
-      <RoomsInGrid :roomlist="rooms" v-if="shouldSearch && !searching && !searchError"></RoomsInGrid>
+      <SearchBar
+        class="SearchBar"
+        :searchStatus.sync="searchStatus"
+        @search="onSearch"
+        :showFilters="true"
+      ></SearchBar>
+      <RoomsInGrid
+        :roomlist="rooms"
+        v-if="shouldSearch && !searching && !searchError && rooms.length>0"
+      ></RoomsInGrid>
+      <div class="search-error" v-else-if="shouldSearch && !searching && !searchError">
+        <div class="jumbotron">
+          <h2>No room was found matching your target.</h2>
+          <h3>Use different keywords and try again!</h3>
+        </div>
+      </div>
       <div class="search-error" v-else-if="shouldSearch && searchError">{{searchErrorText}}</div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
-      <div class="search-indicator" v-else>Enter your search items</div>
+      <div class="search-indicator" v-else>
+        <div class="jumbotron">
+          <h2>Hmm... Seems you haven't entered anything yet.</h2>
+          <h3>Try fill the search bar!</h3>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,6 +32,10 @@
 <style lang="stylus" scoped>
 .SearchBar {
   margin: 20px 10px 30px
+}
+
+.jumbotron {
+  padding-v: spaces._6
 }
 </style>
 
@@ -52,6 +75,8 @@ export default class Search extends Vue {
       this.searchStatus = SearchStatus.fromDictionary(this.$route
         .query as Dictionary<string>);
       this.searchAccordingToCriteria();
+    } else {
+      this.shouldSearch = false;
     }
   }
 
