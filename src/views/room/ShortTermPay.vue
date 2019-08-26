@@ -16,7 +16,7 @@
           <img class="img" v-show="!this.wechatPay" src="../../assets/alipay.jpg" />
         </div>
         <div class="confirm_btn">
-          <router-link to="/me">
+          <router-link to="/ord">
           <button id="search-btn" class="btn search-btn" >I have completed the payment</button>
           </router-link>
         </div>
