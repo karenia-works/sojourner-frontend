@@ -6,12 +6,12 @@
       <p class="room_city">@{{order.room.address.city}}</p>
       <p class="time"><span>from </span>{{order.startDate|dateStr}}<span> to </span>{{order.endDate|dateStr}}</p>
       <template v-if="order.isLongRent">
-        <p class="room_price">${{order.room.price}} per month</p>
+        <p class="room_price">${{order.room.longPrice}} per month</p>
       </template>
       <template v-else>
-        <p class="room_price">${{order.room.price}} per night</p>
+        <p class="room_price">${{order.room.shortPrice}} per night</p>
       </template>
-      <span class="tag" v-if="order.finished">finished</span>
+      <span class="tag" v-if="order.isFinished">finished</span>
     </div>
   </div>
 </template>

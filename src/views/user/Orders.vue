@@ -28,8 +28,9 @@ button {
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-// import RoomsInGrid from "@/components/RoomsInGrid.vue"; // @ is an alias to /src
-import OrderInfo from "@/components/OrderInfo.vue";
+
+import OrderInfo from "@/components/OrderInfo.vue"; // @ is an alias to /src
+import {Order} from '@/models/Room.ts'
 
 
 @Component({
@@ -38,11 +39,11 @@ import OrderInfo from "@/components/OrderInfo.vue";
   }
 })
 export default class Orders extends Vue {
-  @Prop() orderlist!: Object[];
+  @Prop() orderlist!: Order[];
   orders = this.orderlist;
   
-  activeOrders = [];
-  finishedOrders = [];
+  activeOrders: Order[] = [];
+  finishedOrders: Order[] = [];
 
   showFinished = false;
   btnValue = "Show";
@@ -56,56 +57,15 @@ export default class Orders extends Vue {
     }
   }
 
-  // orders = [
-  //   {
-  //     id: "789",
-  //     finished: false,
-  //     startDate: new Date("2019-8-20"),
-  //     endDate: new Date("2019-10-20"),
-  //     isLongRent: true,
-  //     room: {
-  //       id: "122",
-  //       name: "Amazing view - Moderne apartment",
-  //       type: "quad",
-  //       price: 3000,
-  //       img:
-  //         "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
-  //       address: {
-  //         city: "akureyri"
-  //       }
-  //     }
-  //   },
-  //   {
-  //     id: "788",
-  //     finished: true,
-  //     startDate: new Date("2019-8-15"),
-  //     endDate: new Date("2019-8-19"),
-  //     isLongRent: false,
-  //     room: {
-  //       id: "122",
-  //       name: "Amazing view - Moderne apartment",
-  //       type: "quad",
-  //       price: 156,
-  //       img:
-  //         "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
-  //       address: {
-  //         city: "akureyri"
-  //       }
-  //     }
-  //   }
-  // ]
-
-  
   mounted() {
     for (let i=0; i<this.orders.length; i++) {
       var order = this.orders[i];
-      if (order.finished) {
+      if (order.isFinished) {
         this.finishedOrders.push(order);
       } else {
         this.activeOrders.push(order);
       }
     }
   }
-  
 }
 </script>

@@ -41,15 +41,9 @@ export default new Router({
       },
     },
     {
-      path: '/u',
-      name: 'user',
-      children: [
-        {
-          path: '/me',
-          name: 'user_me',
-          component: () => import('./views/user/Me.vue'),
-        },
-      ],
+      path: '/u/me',
+      name: 'user_me',
+      component: () => import('./views/user/Me.vue'),
     },
     {
       path: '/ord',

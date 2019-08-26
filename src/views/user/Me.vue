@@ -1,6 +1,7 @@
 <template>
   <div class="me">
     <div class="container">
+      <h1>me</h1>
       <Orders :orderlist="orders"></Orders>
     </div>
   </div>
@@ -35,15 +36,18 @@ export default class Me extends Vue {
   orders = [
     {
       id: "789",
-      finished: false,
       startDate: new Date("2019-8-20"),
       endDate: new Date("2019-10-20"),
+      isFinished: false,
       isLongRent: true,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
         type: "quad",
-        price: 3000,
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
         img:
           "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
         address: {
@@ -53,15 +57,18 @@ export default class Me extends Vue {
     },
     {
       id: "788",
-      finished: true,
       startDate: new Date("2019-8-15"),
       endDate: new Date("2019-8-19"),
+      isFinished: true,
       isLongRent: false,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
         type: "quad",
-        price: 156,
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
         img:
           "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
         address: {
