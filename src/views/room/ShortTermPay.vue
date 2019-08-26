@@ -18,10 +18,10 @@
       </div>
       <div class="RightSide">
         <div class="overview">
-          <img class="pic" alt="housePic" :src="img_url" />
+          <img class="pic" alt="housePic" :src="imgUrl" />
         </div>
         <div class="title">
-          <label class="pic_title">{{ house_name }}</label>
+          <label class="pic_title">{{ houseName }}</label>
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="book_info">
@@ -166,7 +166,7 @@ import dateIcon from "mdi-vue/CalendarRange";
     dateIcon
   }
 })
-export default class PayCheck extends Vue {
+export default class ShortTermPay extends Vue {
   stayLength = 3;
   startMonth = "Aug";
   startDay = "27";
@@ -175,10 +175,10 @@ export default class PayCheck extends Vue {
   guestNum = "2";
   totalCost = "9102";
   wechatPay = true;
-  img_url =
+  imgUrl =
     "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large";
-  room_type = "Single";
-  house_name = "YOUR BEST CHOICE IN THE WORLD!";
+  roomType = "Single";
+  houseName = "YOUR BEST CHOICE IN THE WORLD!";
 
   WechatPay() {
     this.wechatPay = true;

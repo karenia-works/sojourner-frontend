@@ -1,16 +1,16 @@
 <template>
   <div class="houseDetail">
     <div class="houseBigPic">
-      <img alt="housePic" v-for="pic in img1" :src="pic.url" />
+      <img alt="housePic" v-for="pic in img" :src="pic.url" />
     </div>
     <div class="container">
       <section class="aboutHouse">
         <div class="houseInfo">
           <div class="titleWords">
-            <label class="info">{{ house_name }}</label>
+            <label class="info">{{ houseName }}</label>
           </div>
           <div class="advWords">
-            <label v-for="item in intro_items" class="info intro subtitle">
+            <label v-for="item in introItems" class="info intro subtitle">
               {{ item.subtitle }}
               <label class="info intro">{{ item.intro_text}}</label>
             </label>
@@ -21,52 +21,52 @@
               <div class="elemt">
                 <wifi-icon class="icon" />
                 <label class="info">Wi-Fi:</label>
-                <label v-show="this.equip_judge[0]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[0]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[0]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[0]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <dish-icon class="icon" />
                 <label class="info">Breakfast:</label>
-                <label v-show="this.equip_judge[1]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[1]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[1]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[1]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <smoke-detector-icon class="icon" />
                 <label class="info">Smoke Detector:</label>
-                <label v-show="this.equip_judge[2]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[2]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[2]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[2]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <tv-icon class="icon" />
                 <label class="info">Television:</label>
-                <label v-show="this.equip_judge[3]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[3]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[3]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[3]" class="info no_judge">No</label>
               </div>
             </div>
             <div class="line">
               <div class="elemt">
                 <washing-machine-icon class="icon" />
                 <label class="info">Wash Machine:</label>
-                <label v-show="this.equip_judge[4]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[4]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[4]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[4]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <fridge-icon class="icon" />
                 <label class="info">Fridge:</label>
-                <label v-show="this.equip_judge[5]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[5]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[5]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[5]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <microwave-icon class="icon" />
                 <label class="info">Microwave:</label>
-                <label v-show="this.equip_judge[6]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[6]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[6]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[6]" class="info no_judge">No</label>
               </div>
               <div class="elemt">
                 <parking-icon class="icon" />
                 <label class="info">Parking Space:</label>
-                <label v-show="this.equip_judge[7]" class="info yes_judge">Yes</label>
-                <label v-show="!this.equip_judge[7]" class="info no_judge">No</label>
+                <label v-show="this.EquipJudge[7]" class="info yes_judge">Yes</label>
+                <label v-show="!this.EquipJudge[7]" class="info no_judge">No</label>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
         <div class="bookInfo">
           <label class="price">$ {{ price }} / Day</label>
           <br />
-          <label class="book room_type">Date</label>
+          <label class="book roomType">Date</label>
           <div id="date-select" class="date_pick">
             <date-picker
               :selected-date.sync="startDate"
@@ -92,8 +92,8 @@
             ></date-picker>
             <br />
           </div>
-          <label class="book room_type">Room Type</label>
-          <label class="book">{{ room_type }}</label>
+          <label class="book roomType">Room Type</label>
+          <label class="book">{{ roomType }}</label>
           <div class="rent_button">
             <div class="long_rent">
               <button id="rent-btn" class="btn rent-btn" >Long Term Rent</button>
@@ -242,7 +242,7 @@
   font-size: font-sizes.body-larger;
 }
 
-.room_type {
+.roomType {
   font-weight: bold;
 }
 
@@ -284,16 +284,16 @@ import moment, { Moment } from "moment";
     DatePicker
   }
 })
-export default class houseDetail extends Vue {
+export default class HouseDetail extends Vue {
   @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
   @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
   @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
 
-  equip_judge = [false, true, true, false, true, false, true, true];
+  EquipJudge = [false, true, true, false, true, false, true, true];
   price = 450;
-  room_type = "Single";
-  house_name = "YOUR BEST CHOICE IN THE WORLD!";
-  img1 = [
+  roomType = "Single";
+  houseName = "YOUR BEST CHOICE IN THE WORLD!";
+  img = [
     {
       url:
         "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
@@ -307,7 +307,7 @@ export default class houseDetail extends Vue {
         "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
     }
   ];
-  intro_items = [
+  introItems = [
     {
       subtitle: "Great Location",
       intro_text: "37 XueYuan Road, XiCheng, BeiJing"
@@ -319,28 +319,17 @@ export default class houseDetail extends Vue {
     {
       subtitle: "Complete Facilities",
       intro_text: "Golf course, Hot Spring, Bar"
-    }
+    },
   ];
 
-  startDate_: Moment = this.initialStartDate;
-  endDate_: Moment = this.initialEndDate;
+  startDate: Moment = this.initialStartDate;
+  endDate: Moment = this.initialEndDate;
   searchStr: string = this.initialSearchStr;
 
   startDateValid: boolean = true;
   endDateValid: boolean = true;
 
-  get startDate() {
-    return this.startDate_;
-  }
-  get endDate() {
-    return this.endDate_;
-  }
-  set startDate(val: Moment) {
-    this.startDate_ = val;
-  }
-  set endDate(val: Moment) {
-    this.endDate_ = val;
-  }
+  // date = moment(this.startDate).format("YYYY-MM-DD");
 
   formatDate(date: Date): string {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;

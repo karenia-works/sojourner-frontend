@@ -135,7 +135,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({
   components: {}
 })
-export default class Payment extends Vue {
+export default class LongTermPay extends Vue {
       stayPlace= "PuJi Island";
       startMonth= "Aug";
       startDay= "27";

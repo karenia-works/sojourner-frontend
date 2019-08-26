@@ -32,7 +32,7 @@
         <div class="keep_in_mind">
           <h2>Things To Keep In Mind</h2>
           <div class="rules">
-            <div class="rule" v-show="notice_judge[0]">
+            <div class="rule" v-show="noticeJudge[0]">
               <div class="rule_icon">
                 <no-smoking-icon />
               </div>
@@ -40,7 +40,7 @@
                 <label class="rule_des">No Smoking</label>
               </div>
             </div>
-            <div class="rule" v-show="notice_judge[1]">
+            <div class="rule" v-show="noticeJudge[1]">
               <div class="rule_icon">
                 <no-pets-icon />
               </div>
@@ -48,7 +48,7 @@
                 <label class="rule_des">No Pets</label>
               </div>
             </div>
-            <div class="rule" v-show="notice_judge[2]">
+            <div class="rule" v-show="noticeJudge[2]">
               <div class="rule_icon">
                 <no-noise-icon />
               </div>
@@ -56,7 +56,7 @@
                 <label class="rule_des">Don't Make Loud Noise</label>
               </div>
             </div>
-            <div class="rule" v-show="notice_judge[3]">
+            <div class="rule" v-show="noticeJudge[3]">
               <div class="rule_icon">
                 <no-shot-icon />
               </div>
@@ -64,7 +64,7 @@
                 <label class="rule_des">Don't Take Pictures</label>
               </div>
             </div>
-            <div class="rule" v-show="notice_judge[4]">
+            <div class="rule" v-show="noticeJudge[4]">
               <div class="rule_icon">
                 <no-play-icon />
               </div>
@@ -80,10 +80,10 @@
       </div>
       <div class="RightSide">
         <div class="overview">
-          <img class="pic" alt="housePic" :src="img_url" />
+          <img class="pic" alt="housePic" :src="imgUrl" />
         </div>
         <div class="title">
-          <label class="pic_title">{{ house_name }}</label>
+          <label class="pic_title">{{ houseName }}</label>
         </div>
         <hr align="center" width="100%" size="1" />
         <div class="book_info">
@@ -306,9 +306,9 @@ export default class PayCheck extends Vue {
   endDay = "12";
   guestNum = "2";
   totalCost = "9102";
-  house_name = "YOUR BEST CHOICE IN THE WORLD!";
-  notice_judge = [false, true, true, false, true];
-  img_url =
+  houseName = "YOUR BEST CHOICE IN THE WORLD!";
+  noticeJudge = [false, true, true, false, true];
+  imgUrl =
     "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large";
 }
 </script>
