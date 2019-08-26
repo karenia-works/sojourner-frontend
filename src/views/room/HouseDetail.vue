@@ -96,7 +96,7 @@
           <label class="book">{{ roomType }}</label>
           <div class="rent_button">
             <div class="long_rent">
-              <router-link  tag="a"  target="_blank" to="longpay">
+              <router-link tag="a" target="_blank" to="longpay">
                 <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
               </router-link>
             </div>
@@ -114,151 +114,151 @@
 
 <style lang="stylus" scoped>
 .houseBigPic img {
-  height: 33vw;
+  height: 33vw
   // width :33vw
 }
 
 .houseBigPic {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  flex: 1;
-  overflow-x: scroll;
-  white-space: nowrap;
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  width: 100%
+  flex: 1
+  overflow-x: scroll
+  white-space: nowrap
 }
 
 // roll scroll
 ::-webkit-scrollbar {
-  width: 0 !important;
+  width: 0 !important
 }
 
 ::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0;
+  width: 0 !important
+  height: 0
 }
 
 .aboutHouse {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 16px;
+  display: flex
+  justify-content: center
+  flex-direction: row
+  align-items: flex-start
+  padding: 16px
 
   .houseInfo {
-    padding: 36px;
-    display: flex;
-    align-items: stretch;
-    flex-direction: column;
-    width: 67vw;
-    align-items: flex-start;
+    padding: 36px
+    display: flex
+    align-items: stretch
+    flex-direction: column
+    width: 67vw
+    align-items: flex-start
 
     .info {
-      padding: 5px;
-      display: flex;
-      align-items: stretch;
-      flex-direction: column;
-      align-items: flex-start;
+      padding: 5px
+      display: flex
+      align-items: stretch
+      flex-direction: column
+      align-items: flex-start
     }
 
     .intro {
-      height: 50px;
-      font-weight: normal;
+      height: 50px
+      font-weight: normal
     }
 
     .subtitle {
-      font-weight: bolder;
-      padding-top: 30px;
+      font-weight: bolder
+      padding-top: 30px
     }
 
     .titleWords {
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: font-sizes.medium-title;
-      padding: 36px 0px 36px 0px;
+      font-weight: bold
+      text-transform: uppercase
+      font-size: font-sizes.medium-title
+      padding: 36px 0px 36px 0px
     }
 
     .iconPart {
-      padding: 5px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      align-self: stretch;
+      padding: 5px
+      display: flex
+      flex-direction: row
+      align-items: center
+      align-self: stretch
 
       .line {
-        display: flex;
-        flex-direction: column;
+        display: flex
+        flex-direction: column
         // justify-content : center;
         // flex-direction: column;
-        align-items: stretch;
-        align-self: stretch;
-        width: 50%;
+        align-items: stretch
+        align-self: stretch
+        width: 50%
 
         .elemt {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          align-self: stretch;
-          flex-wrap: nowrap;
-          padding: 15px;
+          display: flex
+          flex-direction: column
+          align-items: center
+          align-self: stretch
+          flex-wrap: nowrap
+          padding: 15px
         }
       }
     }
   }
 
   .bookInfo {
-    padding: 36px;
-    display: flex;
-    position: sticky;
-    top: 10px;
-    align-items: stretch;
-    flex-direction: column;
-    width: 33vw;
-    border-style: solid;
-    border-width: 1px;
+    padding: 36px
+    display: flex
+    position: sticky
+    top: 10px
+    align-items: stretch
+    flex-direction: column
+    width: 33vw
+    border-style: solid
+    border-width: 1px
 
     .price {
-      align-self: flex-start;
-      font-weight: bolder;
-      font-size: font-sizes.medium-title;
+      align-self: flex-start
+      font-weight: bolder
+      font-size: font-sizes.medium-title
     }
 
     .date_pick {
-      line-height: 30px;
-      font-size: font-sizes.body_larger;
-      flex-direction: column;
+      line-height: 30px
+      font-size: font-sizes.body_larger
+      flex-direction: column
     }
 
     .rent_button {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      padding-top: 30px;
+      display: flex
+      flex-direction: row
+      justify-content: center
+      padding-top: 30px
 
       .rent-btn {
-        font-size: font-sizes.body-larger;
+        font-size: font-sizes.body-larger
       }
     }
   }
 }
 
 .book {
-  font-size: font-sizes.body-larger;
+  font-size: font-sizes.body-larger
 }
 
 .roomType {
-  font-weight: bold;
+  font-weight: bold
 }
 
 .yes_judge {
-  font-weight: bolder;
-  color: green;
+  font-weight: bolder
+  color: green
 }
 
 .no_judge {
-  font-weight: bolder;
-  color: colors.error;
+  font-weight: bolder
+  color: colors.error
 }
 </style>
 
@@ -275,6 +275,7 @@ import microwaveIcon from "mdi-vue/Microwave";
 import parkingIcon from "mdi-vue/Parking";
 import DatePicker from "@/components/DatePicker.vue";
 import moment, { Moment } from "moment";
+import { Room } from "@/models/Room.ts";
 
 @Component({
   components: {
@@ -295,37 +296,8 @@ export default class HouseDetail extends Vue {
   @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
 
   EquipJudge = [false, true, true, false, true, false, true, true];
-  price = 450;
-  roomType = "Single";
-  houseName = "YOUR BEST CHOICE IN THE WORLD!";
-  img = [
-    {
-      url:
-        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
-    },
-    {
-      url:
-        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
-    },
-    {
-      url:
-        "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"
-    }
-  ];
-  introItems = [
-    {
-      subtitle: "Great Location",
-      intro_text: "37 XueYuan Road, XiCheng, BeiJing"
-    },
-    {
-      subtitle: "Entire House",
-      intro_text: "7 guests, 3 bedrooms, 7 beds, 3 baths"
-    },
-    {
-      subtitle: "Complete Facilities",
-      intro_text: "Golf course, Hot Spring, Bar"
-    }
-  ];
+
+  room: Room | undefined;
 
   startDate: Moment = this.initialStartDate;
   endDate: Moment = this.initialEndDate;

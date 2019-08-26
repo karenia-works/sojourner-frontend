@@ -4,7 +4,7 @@
       <div class="jumbotron">
         <h1>Arriving Alone?</h1>
       </div>
-      <search-bar></search-bar>
+      <search-bar :status.sync="searchStatus" @search="onSearch"></search-bar>
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 import SearchBar from "@/components/SearchBar.vue";
+import { SearchStatus } from "../store/search";
 
 @Component({
   components: {
@@ -31,5 +32,18 @@ import SearchBar from "@/components/SearchBar.vue";
     SearchBar
   }
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  get searchStatus(): SearchStatus {
+    return this.$store.state.searchStore.status;
+  }
+  set searchStatus(value: SearchStatus) {
+    this.$store.commit("replaceSearch", value);
+  }
+
+  onSearch(value: SearchStatus) {
+    this.$store.commit("replaceSearch", value);
+    console.log("search!", SearchStatus);
+    this.$router.push({ name: "search", query: value.toDictionary() });
+  }
+}
 </script>

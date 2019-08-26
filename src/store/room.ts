@@ -5,7 +5,7 @@ import config from '@/config'
 import qs from 'qs'
 import { Room } from '@/models/Room'
 
-class RoomBufferState {
+export class RoomBufferState {
   buffer: Map<string, Room> = new Map()
   lru: Map<string, number> = new Map()
 }
