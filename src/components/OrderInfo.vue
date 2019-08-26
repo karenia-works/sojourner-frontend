@@ -1,5 +1,5 @@
 <template>
-  <div class="orderInfo" :class="{finished: order.finished}" >
+  <div class="orderInfo">
     <img :src="order.room.img" class="room_img" />
     <div class="info">
       <p class="room_title">{{order.room.name}}</p>
@@ -11,6 +11,7 @@
       <template v-else>
         <p class="room_price">${{order.room.price}} per night</p>
       </template>
+      <span class="tag" v-if="order.finished">finished</span>
     </div>
   </div>
 </template>
@@ -31,15 +32,23 @@
 
 img {
   width: 240px;
-  height: 160px;
   object-fit: cover;
   border-radius: 3px;
   margin-right: 20px;
 }
 
+.info {
+  height: 160px;
+  position relative
+}
+
 p {
   margin: 0;
   text-align: left;
+}
+
+.finished {
+  color colors.text-medium
 }
 
 .room_title {
@@ -62,19 +71,22 @@ p {
 
 .room_price {
 }
+
+.tag {
+  padding 1px 5px
+  color colors.bg-light
+  background-color colors.accent
+  text-transform: uppercase
+  border-width 3px colors.accent solid
+  border-radius 3px
+  position absolute
+  bottom 0
+  left 0
+}
 </style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-
-// interface order {
-//   id: string;
-//   title: string;
-//   type: string;
-//   price: number;
-//   img: string;
-//   address: object;
-// }
 
 @Component({
   components: {
@@ -91,19 +103,5 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class OrderInfo extends Vue {
   @Prop() item!: Object;
   order = this.item;
-
-  // get finished(): boolean {
-  //   var today = new Date();
-  //   var ddl = this.order.endDate;
-  //   ddl.setHours(23);
-  //   ddl.setMinutes(59);
-  //   ddl.setSeconds(59);
-  //   if (today > ddl) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
 }
 </script>

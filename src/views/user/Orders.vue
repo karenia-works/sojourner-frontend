@@ -1,8 +1,15 @@
 <template>
   <div class="orders">
     <div class="container">
-        <OrderInfo :item="order1"></OrderInfo>
-        <OrderInfo :item="order2"></OrderInfo>
+      <div class="showBtn">
+        <button class="btn" @click="toggleFinished">{{btnValue}} finished orders</button>
+      </div>
+      <template class="activeOrders">
+        <OrderInfo v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfo>
+      </template>
+      <template  v-if="showFinished">
+        <OrderInfo v-for="item in finishedOrders" :item="item" :key="item.id" class="finished"></OrderInfo>
+      </template>
     </div>
   </div>
 </template>
@@ -10,6 +17,14 @@
 <style lang="stylus" scoped>
 .orderInfo {
   margin-v spaces._6
+}
+
+.showBtn {
+  height 40px
+}
+
+button {
+  float right
 }
 </style>
 
@@ -25,6 +40,21 @@ import OrderInfo from "@/components/OrderInfo.vue";
   }
 })
 export default class Orders extends Vue {
+  activeOrders = [];
+  finishedOrders = [];
+
+  showFinished = false;
+  btnValue = "Show";
+
+  toggleFinished() {
+    this.showFinished = !this.showFinished;
+    if (this.showFinished) {
+      this.btnValue = "Hide";
+    } else {
+      this.btnValue = "Show";
+    }
+  }
+
   orders = [
     {
       id: "789",
@@ -46,7 +76,7 @@ export default class Orders extends Vue {
     },
     {
       id: "788",
-      finished: false,
+      finished: true,
       startDate: new Date("2019-8-15"),
       endDate: new Date("2019-8-19"),
       isLongRent: false,
@@ -64,8 +94,6 @@ export default class Orders extends Vue {
     }
   ]
 
-  activeOrders = [];
-  finishedOrders = [];
   
   mounted() {
     for (let i=0; i<this.orders.length; i++) {
@@ -73,7 +101,7 @@ export default class Orders extends Vue {
       if (order.finished) {
         this.finishedOrders.push(order);
       } else {
-        this.finishedOrders.push(order);
+        this.activeOrders.push(order);
       }
     }
   }
