@@ -9,7 +9,6 @@ export interface Room {
   shortPrice?: number
   address: string
   img: Array<string>
-  
 }
 
 export interface Order {

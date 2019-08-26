@@ -8,11 +8,13 @@ export class SearchState {
 export type RoomType = 'single' | 'double' | 'quad'
 
 export class SearchStatus {
-  keyword: string = ''
-  startTime: Moment = moment()
-  endTime: Moment = moment()
-  roomType: RoomType[] = []
-  useLongRent: boolean | null = null
+  constructor(
+    public keyword: string = '',
+    public startTime: Moment = moment(),
+    public endTime: Moment = moment(),
+    public roomType: RoomType[] = [],
+    public useLongRent: boolean | null = null
+  ) {}
 
   toDictionary(): Dictionary<string> {
     return {
@@ -25,18 +27,31 @@ export class SearchStatus {
     }
   }
 
-  static fromDictionary(value: Dictionary<string>) {
-    let status = new SearchStatus()
-    status.keyword = value['kw']
-    status.endTime = moment(parseInt(value['endTime']))
-    status.startTime = moment(parseInt(value['startTime']))
-    status.roomType = value['roomType'].split('+') as RoomType[]
-    status.useLongRent =
+  static fromDictionary(value: Dictionary<string | null>) {
+    let keyword = value['kw'] || undefined
+    let endTime = value['endTime']
+      ? moment.unix(parseInt(value['endTime'] as string))
+      : undefined
+    let startTime = value['startTime']
+      ? moment.unix(parseInt(value['startTime'] as string))
+      : undefined
+    let roomType = (value['roomType'] || '').split('+') as RoomType[]
+    let useLongRent =
       value['useLongRent'] == 'null'
-        ? null
+        ? undefined
         : value['useLongRent'] == 'false'
         ? false
         : true
+
+    let status = new SearchStatus(
+      keyword,
+      endTime,
+      startTime,
+      roomType,
+      useLongRent
+    )
+
+    return status
   }
 }
 
