@@ -25,35 +25,58 @@ import OrderInfo from "@/components/OrderInfo.vue";
   }
 })
 export default class Orders extends Vue {
-
-  order1 = {
-    id: "122",
-    title: "Amazing view - Moderne apartment",
-    type: "quad",
-    price: 3000,
-    startDate: new Date("2019-8-20"),
-    endDate: new Date("2019-10-20"),
-    isLongRent: true,
-    img:
-      "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
-    address: {
-      city: "akureyri"
+  orders = [
+    {
+      id: "789",
+      finished: false,
+      startDate: new Date("2019-8-20"),
+      endDate: new Date("2019-10-20"),
+      isLongRent: true,
+      room: {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        type: "quad",
+        price: 3000,
+        img:
+          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+        address: {
+          city: "akureyri"
+        }
+      }
+    },
+    {
+      id: "788",
+      finished: false,
+      startDate: new Date("2019-8-15"),
+      endDate: new Date("2019-8-19"),
+      isLongRent: false,
+      room: {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        type: "quad",
+        price: 156,
+        img:
+          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+        address: {
+          city: "akureyri"
+        }
+      }
     }
-  };
+  ]
 
-  order2 = {
-    id: "123",
-    title: "Amazing view - Moderne apartment",
-    type: "quad",
-    price: 156,
-    startDate: new Date("2019-8-20"),
-    endDate: new Date("2019-8-24"),
-    isLongRent: false,
-    img:
-      "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
-    address: {
-      city: "akureyri"
+  activeOrders = [];
+  finishedOrders = [];
+  
+  mounted() {
+    for (let i=0; i<this.orders.length; i++) {
+      var order = this.orders[i];
+      if (order.finished) {
+        this.finishedOrders.push(order);
+      } else {
+        this.finishedOrders.push(order);
+      }
     }
-  };
+  }
+  
 }
 </script>

@@ -1,14 +1,15 @@
 <template>
-  <div class="orderInfo" :class="{finished: finished}" >
-    <img :src="order.img" class="room_img" />
+  <div class="orderInfo" :class="{finished: order.finished}" >
+    <img :src="order.room.img" class="room_img" />
     <div class="info">
-      <p class="room_title">{{order.title}}</p>
-      <p class="room_city">{{order.address.city}}</p>
+      <p class="room_title">{{order.room.name}}</p>
+      <p class="room_city">@{{order.room.address.city}}</p>
+      <p class="time"><span>from </span>{{order.startDate|dateStr}}<span> to </span>{{order.endDate|dateStr}}</p>
       <template v-if="order.isLongRent">
-        <p class="room_price">${{order.price}} per month</p>
+        <p class="room_price">${{order.room.price}} per month</p>
       </template>
       <template v-else>
-        <p class="room_price">${{order.price}} per night</p>
+        <p class="room_price">${{order.room.price}} per night</p>
       </template>
     </div>
   </div>
@@ -20,15 +21,12 @@
   // border: 1px red solid
   border-radius: 3px;
   display flex
+  align-items: flex-start
 }
 
 .orderInfo:hover {
   cursor: pointer;
   background-color rgba(255, 255, 255, 0.5)
-  position relative
-  left 2px
-  bottom 2px
-
 }
 
 img {
@@ -36,30 +34,12 @@ img {
   height: 160px;
   object-fit: cover;
   border-radius: 3px;
-  margin-right : 10px;
-}
-
-.info {
-  // float left
+  margin-right: 20px;
 }
 
 p {
   margin: 0;
-  padding: 0;
   text-align: left;
-}
-
-span {
-  margin-h: 5px;
-  margin-v: 0;
-  padding: 0;
-}
-
-.room_type, .room_city, span {
-  text-transform: uppercase;
-  color: colors.text-medium;
-  display: inline-block;
-  float: left;
 }
 
 .room_title {
@@ -67,8 +47,18 @@ span {
   font-family: fonts-title;
   font-size: font-sizes.small-title;
   clear: right 
-  margin-v: 10px;
+  margin-bottom: 5px;
 }
+
+.room_city {
+  text-transform: uppercase;
+  color: colors.text-medium;
+}
+
+.time span {
+  color colors.text-medium
+}
+
 
 .room_price {
 }
@@ -102,18 +92,18 @@ export default class OrderInfo extends Vue {
   @Prop() item!: Object;
   order = this.item;
 
-  get finished(): boolean {
-    var today = new Date();
-    var ddl = this.order.endDate;
-    ddl.setHours(23);
-    ddl.setMinutes(59);
-    ddl.setSeconds(59);
-    if (today > ddl) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // get finished(): boolean {
+  //   var today = new Date();
+  //   var ddl = this.order.endDate;
+  //   ddl.setHours(23);
+  //   ddl.setMinutes(59);
+  //   ddl.setSeconds(59);
+  //   if (today > ddl) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
 }
 </script>
