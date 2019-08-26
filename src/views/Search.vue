@@ -3,7 +3,7 @@
     <div class="container">
       <SearchBar class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></SearchBar>
       <RoomsInGrid :roomlist="rooms" v-if="shouldSearch && !searching && !searchError"></RoomsInGrid>
-      <div class="search-error" v-if="shouldSearch && searchError">{{searchErrorText}}</div>
+      <div class="search-error" v-else-if="shouldSearch && searchError">{{searchErrorText}}</div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
       <div class="search-indicator" v-else>Enter your search items</div>
     </div>
