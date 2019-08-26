@@ -20,9 +20,6 @@ export default new Router({
       children: adminRoutes,
     },
     {
-      path: '/r/:id',
-      component: Room,
-      children: [
       path: '/',
       component: Userland,
       children: [
