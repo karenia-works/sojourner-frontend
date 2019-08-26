@@ -12,9 +12,9 @@ class RoomBufferState {
 
 export var getters: GetterTree<RoomBufferState, RootState> = {
   getRoomById(state, rootState) {
-    return (id: string) => {
-      state.buffer.get(id)
+    return (id: string): Room | undefined => {
       state.lru.set(id, Date.now())
+      return state.buffer.get(id)
     }
   }
 }
