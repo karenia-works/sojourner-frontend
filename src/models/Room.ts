@@ -1,9 +1,20 @@
-export class Room {
-  constructor(
-    public id: string,
-    public title: string,
-    public type: 'single' | 'dual' | 'quad',
-    public price: number,
-    public address: string
-  ) {}
+export interface Room {
+  id: string
+  name: string
+  description: string
+  type: 'single' | 'dual' | 'quad'
+  longAvailable: boolean
+  shortAvailable: boolean
+  longPrice?: number
+  shortPrice?: number
+  address: string
+}
+
+export interface Order {
+  id: string
+  roomId: string
+  startDate: Date
+  endDate: Date
+  isFinished: boolean
+  isLongRent: boolean
 }

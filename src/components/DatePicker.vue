@@ -72,7 +72,7 @@ export default class DatePicker extends Vue {
   }
 
   monthDates(): Array<DateDirective> {
-    let list = [];
+    let list: Array<DateDirective> = [];
     let currentDay = this.syncFocusedDate
       .clone()
       .startOf("month")

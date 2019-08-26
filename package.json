@@ -11,11 +11,14 @@
   "dependencies": {
     "@mdi/js": "^4.1.95",
     "@types/moment": "^2.13.0",
+    "@types/qs": "^6.5.3",
     "@types/stylus": "^0.48.31",
     "app-root-path": "^2.2.1",
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "mdi-vue": "^1.0.1",
     "moment": "^2.24.0",
+    "qs": "^6.8.0",
     "register-service-worker": "^1.6.2",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
@@ -23,7 +26,8 @@
     "vue-material-design-icons": "^3.4.0",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "yarn": "^1.17.3"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import NotFoundView from './views/NotFound.vue'
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
@@ -12,22 +13,32 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/s',
       name: 'search',
-      component: () => import('./views/Search.vue')
+      component: () => import('./views/Search.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('./views/Login.vue')
+      component: Login,
+      props: {
+        isSinglePage: true,
+        show: true,
+        isSignUp: false,
+      },
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('./views/Register.vue')
+      component: Login,
+      props: {
+        isSinglePage: true,
+        show: true,
+        isSignUp: true,
+      },
     },
     {
       path: '/u',
@@ -36,9 +47,9 @@ export default new Router({
         {
           path: '/me',
           name: 'user_me',
-          component: () => import('./views/user/Me.vue')
-        }
-      ]
+          component: () => import('./views/user/Me.vue'),
+        },
+      ],
     },
     {
       path: '/ord',
@@ -48,7 +59,7 @@ export default new Router({
     {
       path: '/detail',
       name: 'detail',
-      component: () => import('./views/room/HouseDetail.vue')
+      component: () => import('./views/room/HouseDetail.vue'),
     },
     {
       path: '/r/:id',
@@ -56,19 +67,19 @@ export default new Router({
         {
           path: '',
           name: 'room_detail',
-          component: () => import('./views/room/RoomId.vue')
+          component: () => import('./views/room/RoomId.vue'),
         },
         {
           path: 'submit',
           name: 'room_submit',
-          component: () => import('./views/room/RoomSubmit.vue')
-        }
-      ]
+          component: () => import('./views/room/RoomSubmit.vue'),
+        },
+      ],
     },
     {
       path: '/**',
-      component: NotFoundView
-    }
+      component: NotFoundView,
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -77,5 +88,5 @@ export default new Router({
       if (to.hash) return { selector: to.hash }
       else return { x: 0, y: 0 }
     }
-  }
+  },
 })
