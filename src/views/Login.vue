@@ -123,7 +123,11 @@ import RoomInfo from "@/components/RoomInfo.vue"; // @ is an alias to /src
 export default class Login extends Vue {
   @PropSync("show", { default: false, type: Boolean })
   showLogin!: boolean;
-  signup = false;
+
+  @PropSync("isSignUp", { default: false, type: Boolean })
+  signup!: boolean;
+
+  @Prop({ default: false }) isSinglePage!: boolean;
 
   openLogin() {
     this.showLogin = true;
