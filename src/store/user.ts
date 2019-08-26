@@ -37,7 +37,14 @@ const formHeaders = {
 }
 
 export var actions: ActionTree<UserState, RootState> = {
-  async loginUser(ctx, payload: { username: string; password: string }) {
+  async loginUser(
+    ctx,
+    payload: {
+      username: string
+      password: string
+      callback?: (finished: boolean) => void
+    }
+  ) {
     let { username, password } = payload
     let tokenCtx: TokenContext = {
       client_id: config.auth.client_id,
@@ -48,7 +55,7 @@ export var actions: ActionTree<UserState, RootState> = {
     }
 
     console.log(tokenCtx)
-    return
+    // return
 
     let loginData = await axios.post(
       config.backend.address + config.backend.tokenEndpoint,
@@ -58,6 +65,8 @@ export var actions: ActionTree<UserState, RootState> = {
       }
     )
 
+    let isLoginSuccessful = loginData.status >= 200 && loginData.status < 400
+
     let userData = await axios.get<UserData>(
       config.backend.address + config.backend.userEndpoint,
       {
@@ -66,6 +75,10 @@ export var actions: ActionTree<UserState, RootState> = {
         }
       }
     )
+
+    if (payload.callback) {
+      payload.callback(isLoginSuccessful)
+    }
 
     ctx.commit('loggedInUser', userData)
   },
