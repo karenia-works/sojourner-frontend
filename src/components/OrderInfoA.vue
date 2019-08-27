@@ -17,6 +17,7 @@
     </div>
     <template v-if="isStarted">
       <template v-if="order.isLongRent">
+        <!-- longRent order -->
         <div class="days">
           <p>
             {{timePassed}}&nbsp;
@@ -34,9 +35,15 @@
           <button class="btn">file an issue</button>
           <button class="btn">renew the lease</button>
         </div>
+        <!-- longRent order ends -->
       </template>
       <template v-else>
+        <!-- shortRent orders -->
         <div class="days">
+          <p class="medium">
+            {{order.startDate|dateStr}} - 
+            {{order.endDate|dateStr}}
+          </p>
           <p>
             {{timePassed}}&nbsp;
             day<span v-if="timePassed>1">s</span>
@@ -48,14 +55,17 @@
         <div class="buttons">
           <button class="btn">file an issue</button>
         </div>
+        <!-- shortRent order ends -->
       </template>
     </template>
     <template v-else>
+      <!-- future Order -->
       <p class="days">
-        <span class="medium">from </span>{{order.startDate|dateStr}}
-        <span class="medium"> to </span>{{order.endDate|dateStr}}
+        {{order.startDate|dateStr}} - 
+        {{order.endDate|dateStr}}
       </p>
       <p class="days">starts {{toStartDay}} days later</p>
+      <!-- future Order ends -->
     </template>
   </div>
 </div>
@@ -69,7 +79,7 @@ import {Order} from '@/models/Room.ts'
 @Component({
   filters: {
     dateStr: function(date: Date) {
-      return moment(date).format('L');
+      return moment(date).format('MMM Do');
     } 
   }
 })
@@ -149,7 +159,7 @@ p {
 
 .days {
   font-family fonts-title
-  font-size font-sizes.body-larger
+  font-size 18px
   font-weight 450
 }
 
