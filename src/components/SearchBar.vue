@@ -9,7 +9,7 @@
         v-model.trim="status.keyword"
       />
       <div id="date-select">
-        <span>,</span>
+        <!-- <span>,</span> -->
         <date-picker
           :selected-date.sync="status.startTime"
           :selected-date-end="status.endTime"
@@ -26,7 +26,19 @@
       </div>
       <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
     </div>
-    <div class="search-filters"></div>
+    <div class="search-filters" v-if="showFilters">
+      <div class="filter-title filter-item">Filters</div>
+      <div class="filter-frame filter-item">
+        <div class="filter-frame-title">Room for</div>
+        <input type="checkbox" name="roomFor" id="roomFor_one" />
+        <label for="roomFor_one">One</label>
+        <input type="checkbox" name="roomFor" id="roomFor_two" />
+        <label for="roomFor_two">Two</label>
+        <input type="checkbox" name="roomFor" id="roomFor_four" />
+        <label for="roomFor_four">Four</label>
+      </div>
+      <div class="filter-frame"></div>
+    </div>
   </div>
 </template>
 
@@ -55,7 +67,7 @@ export default class SearchBar extends Vue {
   status!: SearchStatus;
 
   @Prop({ type: Boolean, default: false })
-  showFiters!: boolean;
+  showFilters!: boolean;
 
   @Emit("search")
   emitSearch() {
@@ -126,6 +138,35 @@ export default class SearchBar extends Vue {
     +break-screen(0, breakpoints.medium) {
       lost-column: 1 / 4
     }
+  }
+}
+
+.search-filters {
+  display: flex
+  flex-direction: row
+  margin-h: -(spaces._5)
+
+  .filter-frame {
+    margin-h: spaces._5
+    display: flex
+    flex-direction: row
+
+    .filter-frame-title {
+      color: colors.text-medium
+      font-weight: bold
+    }
+
+    .filter-item {
+      label:active {
+        font-weight: 500
+      }
+    }
+  }
+
+  .filter-title {
+    margin-h: spaces._5
+    color: colors.text-dark
+    font-weight: bold
   }
 }
 </style>

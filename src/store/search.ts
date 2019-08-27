@@ -17,25 +17,21 @@ export class SearchStatus {
   ) {}
 
   toDictionary(): Dictionary<string> {
-    return {
-      kw: this.keyword,
-      startTime: this.startTime.unix().toString(),
-      endTime: this.endTime.unix().toString(),
-      roomType: this.roomType.join('+'),
-      useLongRent:
-        this.useLongRent == null ? 'null' : this.useLongRent.toString()
-    }
+    let dict: Dictionary<string> = {}
+    if (this.keyword) dict['kw'] = this.keyword
+    dict['startTime'] = this.startTime.format('YYYY-MM-DD')
+    dict['endTime'] = this.endTime.format('YYYY-MM-DD')
+    dict['roomType'] = this.roomType.join(' ')
+    dict['useLongRent'] =
+      this.useLongRent == null ? 'null' : this.useLongRent.toString()
+    return dict
   }
 
-  static fromDictionary(value: Dictionary<string | null>) {
+  static fromDictionary(value: Dictionary<string>) {
     let keyword = value['kw'] || undefined
-    let endTime = value['endTime']
-      ? moment.unix(parseInt(value['endTime'] as string))
-      : undefined
-    let startTime = value['startTime']
-      ? moment.unix(parseInt(value['startTime'] as string))
-      : undefined
-    let roomType = (value['roomType'] || '').split('+') as RoomType[]
+    let endTime = moment(value['endTime'] as string | undefined)
+    let startTime = moment(value['startTime'] as string | undefined)
+    let roomType = (value['roomType'] || '').split(' ') as RoomType[]
     let useLongRent =
       value['useLongRent'] == 'null'
         ? undefined
@@ -60,7 +56,7 @@ const actions: ActionTree<SearchState, RootState> = {}
 const mutations: MutationTree<SearchState> = {
   replaceSearch(state, newState: SearchStatus) {
     state.status = newState
-  }
+  },
 }
 
 const getters: GetterTree<SearchState, RootState> = {}
@@ -69,5 +65,5 @@ export const searchStore: Module<SearchState, RootState> = {
   state: () => new SearchState(),
   actions,
   mutations,
-  getters
+  getters,
 }

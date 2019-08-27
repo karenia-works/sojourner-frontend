@@ -1,6 +1,6 @@
 <template>
   <div class="results gridView">
-    <roomInfo class v-for="item in rooms" :item="item" :key="item.id"></roomInfo>
+    <roomInfo class v-for="item in rooms" :room="item" :key="item.id"></roomInfo>
   </div>
 </template>
 
