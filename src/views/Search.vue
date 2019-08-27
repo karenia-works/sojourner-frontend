@@ -13,11 +13,16 @@
       ></RoomsInGrid>
       <div class="search-error" v-else-if="shouldSearch && !searching && !searchError">
         <div class="jumbotron">
+          <img src="../assets/sojourner-no-result.svg" alt class="search-tip-pic" />
           <h2>No room was found matching your target.</h2>
-          <h3>Use different keywords and try again!</h3>
+          <h3>Maybe try something different?</h3>
         </div>
       </div>
-      <div class="search-error" v-else-if="shouldSearch && searchError">{{searchErrorText}}</div>
+      <div class="search-error" v-else-if="shouldSearch && searchError">
+        <img src="../assets/sojourner-no-data.svg" alt class="search-tip-pic" />
+        <h2>Something's wrong with data connection</h2>
+        {{searchErrorText}}
+      </div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
       <div class="search-indicator" v-else>
         <explore-section></explore-section>
@@ -31,8 +36,17 @@
   margin: 20px 10px 30px
 }
 
+.search-error {
+  lost-column: 1 / 1
+}
+
 .jumbotron {
   padding-v: spaces._6
+  lost-column: 1 / 1
+}
+
+.search-tip-pic {
+  max-height: 40vh
 }
 </style>
 

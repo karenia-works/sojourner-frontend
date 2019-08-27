@@ -70,6 +70,7 @@ export default class ListSelection extends Vue {
 .list-selection {
   display: flex
   flex-direction: row
+  user-select: none
 
   .selection-item {
     margin-h: spaces._2
