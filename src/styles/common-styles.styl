@@ -1,6 +1,50 @@
 @import 'breakpoints'
 @import 'sizes'
 
+body {
+  padding: 0px
+  margin: 0px
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: fonts-title
+  text-align: left
+}
+
+h1 {
+  font-size: 48px
+  font-weight: 500
+  text-transform: uppercase
+}
+
+h2 {
+  font-size: 32px
+  font-weight: 500
+  text-transform: uppercase
+}
+
+h3 {
+  font-size: 28px
+}
+
+h4 {
+  font-size: 24px
+}
+
+div a {
+  color: inherit
+  font: inherit
+  display: inherit
+  text-decoration: inherit
+
+  p a {
+    display: inline
+  }
+}
+
 padding-h() {
   padding-left: arguments
   padding-right: arguments
@@ -23,9 +67,10 @@ margin-v() {
 
 .container {
   margin-h: auto
+  padding-v: spaces._5
 
   +break-screen(0, breakpoints.small) {
-    margin-h spaces._3
+    margin-h: spaces._3
   }
 
   +break-screen(breakpoints.small, breakpoints.medium) {
@@ -41,12 +86,18 @@ margin-v() {
   }
 }
 
+.background {
+  &.color-darker {
+    background-color: var(--color-bg-medium)
+  }
+}
+
 .input {
   background: transparent
   border: none
 
-  accent = colors.accent
-  accent-transparent = alpha(accent, 0.6)
+  accent = var(--color-accent)
+  accent-transparent = var(--color-accent-transparent)
 
   border-top: solid transparent spaces._1
   border-bottom: solid accent-transparent spaces._1
@@ -63,12 +114,12 @@ margin-v() {
   }
 
   &.err,
-  &.error{
+  &.error {
     border-bottom-color: colors.error
   }
 
   &::placeholder {
-    color: colors.text-medium
+    color: var(--color-text-medium)
   }
 
   &.body {
@@ -84,7 +135,7 @@ margin-v() {
   background: none
   border: none
 
-  gradient-hover(colors.accent, spaces._1)
+  gradient-hover(var(--color-accent), var(--color-accent-transparent), spaces._1)
 
   margin-h: spaces._2
   padding-h: spaces._2
@@ -92,8 +143,20 @@ margin-v() {
 
 .content a,
 .btn-span {
-  gradient-hover(colors.accent, spaces._1)
+  gradient-hover(var(--color-accent), spaces._1)
 
   margin-h: spaces._1
   padding-h: spaces._1
+}
+
+.jumbotron {
+  h1 {
+    font-size: font-sizes.huge-title
+    font-weight: normal
+  }
+
+  h2 {
+    font-size: font-sizes.large-title
+    font-weight: normal
+  }
 }

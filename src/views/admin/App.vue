@@ -1,6 +1,6 @@
 <template>
   <!-- Root page for admin pages -->
-  <div class="admin-world">
+  <div class="admin-world admin-cyan">
     <!-- <navbar></navbar> -->
     <router-view />
   </div>
@@ -9,7 +9,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {  }
+  components: {}
 })
 export default class AdminWorld extends Vue {}
 </script>

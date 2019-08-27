@@ -1,6 +1,6 @@
 <template>
   <!-- Root object for user pages -->
-  <div id="userland">
+  <div id="userland normal-colors">
     <navbar></navbar>
     <router-view />
   </div>
@@ -18,10 +18,10 @@ export default class Userland extends Vue {}
 
 <style lang="stylus">
 #userland {
-  color: colors.text-dark
+  color: var(--color-text-dark)
 }
 
 body {
-  background: colors.bg-light
+  background: var(--color-bg-light)
 }
 </style>

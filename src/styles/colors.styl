@@ -4,7 +4,7 @@ colors = {
   text-dark: #000000,
   text-medium: #797876,
   accent: #FFC85F,
-  error: #ff0000
+  error: #FD8676
 }
 colors-admin = {
   bg-light: #F1FCFB,
@@ -15,9 +15,28 @@ colors-admin = {
   error: #E496A9
 }
 
-gradient-hover(accent-color = #ffff00, start-padding-v = 4px) {
-  accent-transparent = alpha(accent-color, 0.6)
+.normal-colors,
+:root {
+  --color-bg-light: #FFFDEC
+  --color-bg-medium: #E5E3CE
+  --color-text-dark: #000000
+  --color-text-medium: #797876
+  --color-accent: #FFC85F
+  --color-accent-transparent: #FFC85F99
+  --color-error: #FD8676
+}
 
+.admin-cyan {
+  --color-bg-light: #F1FCFB
+  --color-bg-medium: #CEE5E4
+  --color-text-dark: #000000
+  --color-text-medium: #B5AEBC
+  --color-accent: #96E4AC
+  --color-accent-transparent: #96E4AC99
+  --color-error: #E496A9
+}
+
+gradient-hover(accent-color = #ffff00, accent-transparent = #ffff00cc, start-padding-v = 4px) {
   background-image: linear-gradient(180deg, transparent 0% 50%, accent-transparent 50% 100%)
   transition: all 120ms
   margin-top: start-padding-v

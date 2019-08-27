@@ -3,19 +3,42 @@
     <div class="container">
       <div class="jumbotron">
         <h1>Arriving Alone?</h1>
+        <p>Here's a worry-free flat renting service, designed for people just like you.</p>
       </div>
       <search-bar :status.sync="searchStatus" @search="onSearch"></search-bar>
+    </div>
+    <div class="background color-darker">
+      <div class="container">
+        <h1>Short stay or long rent, we've got you covered!</h1>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="stylus" scoped>
 .jumbotron {
+  margin-top: spaces._10
+  margin-bottom: spaces._8
+  text-align: left
+
+  p {
+    font-weight: 500
+  }
+
   h1 {
-    font-size: font-sizes.huge-title
-    font-weight: normal
-    text-transform: uppercase
-    text-align: left
+    margin-v: spaces._3
+  }
+}
+
+.index-img {
+  +break-screen(breakpoints.medium, 0) {
+    position: absolute
+    right: 0px
+    width: 640px
+  }
+
+  +break-screen(0, breakpoints.medium) {
+    margin-right: -(spaces._3)
   }
 }
 </style>
