@@ -5,8 +5,9 @@
         type="text"
         class="input"
         id="search"
-        placeholder="Where?"
+        placeholder="Take me anywhere"
         v-model.trim="status.keyword"
+        @keypress.enter="emitSearch"
       />
       <div id="date-select">
         <!-- <span>,</span> -->
@@ -34,7 +35,12 @@
       </div>
       <div class="filter-frame filter-item">
         <div class="filter-frame-title">Bill by</div>
-        <list-selection :options="rentOptions" :selection.sync="rentType" :multiselect="true"></list-selection>
+        <list-selection
+          :options="rentOptions"
+          :selection.sync="rentType"
+          :multiselect="false"
+          :allow-empty="true"
+        ></list-selection>
       </div>
     </div>
   </div>

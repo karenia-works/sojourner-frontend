@@ -20,10 +20,7 @@
       <div class="search-error" v-else-if="shouldSearch && searchError">{{searchErrorText}}</div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
       <div class="search-indicator" v-else>
-        <div class="jumbotron">
-          <h2>Hmm... Seems you haven't entered anything yet.</h2>
-          <h3>Try fill the search bar!</h3>
-        </div>
+        <explore-section></explore-section>
       </div>
     </div>
   </div>
@@ -48,11 +45,13 @@ import { SearchStatus } from "../store/search";
 import { Dictionary } from "vue-router/types/router";
 import axios from "axios";
 import config from "../config";
+import ExploreSection from "@/components/search/Explore.vue";
 
 @Component({
   components: {
     RoomsInGrid,
-    SearchBar
+    SearchBar,
+    ExploreSection
   }
 })
 export default class Search extends Vue {

@@ -1,11 +1,9 @@
 <template>
   <div class="roominfo" @click="toDetail">
     <img :src="placeholder_room_img_src" class="room_img" />
-    <p class="room_type">{{room_type}}</p>
-    <span>-</span>
-    <!-- <p class="room_city">{{room.address}}</p> -->
     <p class="room_title">{{room.name}}</p>
     <p class="room_price">${{room.price}} per night</p>
+    <p class="room_type">{{room_type}}</p>
   </div>
 </template>
 

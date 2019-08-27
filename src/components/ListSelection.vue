@@ -27,6 +27,9 @@ export default class ListSelection extends Vue {
   @Prop({ default: false, type: Boolean })
   showColumns!: boolean;
 
+  @Prop({ default: false, type: Boolean })
+  allowEmpty!: boolean;
+
   select(id: number) {
     if (this.multiselect) {
       this.flip(id);
@@ -47,8 +50,12 @@ export default class ListSelection extends Vue {
   }
 
   reselect(id: number) {
-    this.selectionSync.clear();
-    this.selectionSync.add(id);
+    if (this.allowEmpty && this.selectionSync.has(id)) {
+      this.selectionSync.delete(id);
+    } else {
+      this.selectionSync.clear();
+      this.selectionSync.add(id);
+    }
   }
 
   @Emit("update:selection")
