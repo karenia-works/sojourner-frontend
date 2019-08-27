@@ -3,17 +3,19 @@
     <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
+        <td>UID</td>
         <td>Avatar</td>
-        <td>User Name</td>
+        <td>User user_name</td>
         <td>E-mail</td>
         <td>is Renting</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="user in users">
+        <td>{{ user.uid }}</td>
         <td>
           <img :src="user.ava_url" class="ava_img" />
         </td>
-        <td>{{ user.name }}</td>
+        <td>{{ user.user_name }}</td>
         <td>{{ user.email }}</td>
         <td>
           <label v-show="user.is_renting" class="yes_judge">Yes</label>
@@ -126,28 +128,32 @@ import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 export default class ManageUser extends Vue {
   users = [
     {
-      name: "Clarissa Findlay",
+      uid:10,
+      user_name: "Clarissa Findlay",
       ava_url:
         "https://pic2.zhimg.com/v2-8df0e1ada7af09d3c62f2ba5ec4e4266_r.jpg",
       email: "KatarinaThatcher@example.com",
       is_renting: true
     },
     {
-      name: "Elissa Dejesus",
+      uid:13,
+      user_name: "Elissa Dejesus",
       ava_url:
         "https://pic1.zhimg.com/v2-b3972560b6f5b7ecfac44b3ceb78d134_r.jpg",
       email: "KatarinaThatcher@example.com",
       is_renting: true
     },
     {
-      name: "Cassidy Ayala",
+      uid:84,
+      user_name: "Cassidy Ayala",
       ava_url:
         "https://pic4.zhimg.com/v2-5b59a66778496948e13b429f17666be8_r.jpg",
       email: "KatarinaThatcher@example.com",
       is_renting: false
     },
     {
-      name: "Tanner Espinosa",
+      uid:71,
+      user_name: "Tanner Espinosa",
       ava_url:
         "https://pic2.zhimg.com/v2-f5a7d3fff4272ea3fc29122045f4b317_r.jpg",
       email: "KatarinaThatcher@example.com",

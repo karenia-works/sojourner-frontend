@@ -5,7 +5,7 @@
         type="text"
         class="input"
         id="search"
-        placeholder="Type in the name of user you would like to find"
+        placeholder="Type in the keyword you would like to find"
         v-model.trim="status.keyword"
       />
       <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
