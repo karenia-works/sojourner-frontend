@@ -15,6 +15,8 @@ export interface Order {
   roomId: string
   startDate: Date
   endDate: Date
+  ddlDate: Date
   isFinished: boolean
   isLongRent: boolean
+  totalPrice: number
 }

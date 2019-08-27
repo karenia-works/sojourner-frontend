@@ -1,13 +1,13 @@
 <template>
   <div class="orders">
+    <template class="activeOrders">
+      <OrderInfoA v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfoA>
+    </template>
     <div class="showBtn">
       <button class="btn" @click="toggleFinished">{{btnValue}} finished orders</button>
     </div>
-    <template class="activeOrders">
-      <OrderInfo v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfo>
-    </template>
     <template  v-if="showFinished">
-      <OrderInfo v-for="item in finishedOrders" :item="item" :key="item.id" class="finished"></OrderInfo>
+      <OrderInfoF v-for="item in finishedOrders" :item="item" :key="item.id" class="finished"></OrderInfoF>
     </template>
   </div>
 </template>
@@ -29,14 +29,16 @@ button {
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import OrderInfo from "@/components/OrderInfo.vue"; // @ is an alias to /src
+import OrderInfoA from "@/components/OrderInfoA.vue"; // @ is an alias to /src
+import OrderInfoF from "@/components/OrderInfoF.vue";
 import {Order} from '@/models/Room.ts'
 
 
 @Component({
   components: {
-    OrderInfo
-  }
+    OrderInfoA,
+    OrderInfoF
+    }
 })
 export default class Orders extends Vue {
   @Prop() orderlist!: Order[];

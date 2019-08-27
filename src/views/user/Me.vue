@@ -38,6 +38,7 @@ export default class Me extends Vue {
       id: "789",
       startDate: new Date("2019-8-20"),
       endDate: new Date("2019-10-20"),
+      ddlDate: new Date("2019-9-20"),
       isFinished: false,
       isLongRent: true,
       room: {
@@ -51,14 +52,81 @@ export default class Me extends Vue {
         img:
           "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
         address: {
-          city: "akureyri"
+          city: "Akureyri",
+          district: "Villa Lola"
         }
       }
     },
     {
       id: "788",
-      startDate: new Date("2019-8-15"),
-      endDate: new Date("2019-8-19"),
+      startDate: new Date("2019-8-25"),
+      endDate: new Date("2019-9-3"),
+      isFinished: false,
+      isLongRent: false,
+      room: {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        type: "quad",
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
+        img:
+          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+        address: {
+          city: "Akureyri",
+          district: "Villa Lola"
+        }
+      }
+    },
+    {
+      id: "787",
+      startDate: new Date("2019-9-20"),
+      endDate: new Date("2019-10-20"),
+      isFinished: false,
+      isLongRent: true,
+      room: {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        type: "quad",
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
+        img:
+          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+        address: {
+          city: "Akureyri",
+          district: "Villa Lola"
+        }
+      }
+    },
+    {
+      id: "786",
+      startDate: new Date("2019-8-20"),
+      endDate: new Date("2019-10-20"),
+      isFinished: true,
+      isLongRent: true,
+      room: {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        type: "quad",
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
+        img:
+          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+        address: {
+          city: "Akureyri",
+          district: "Villa Lola"
+        }
+      }
+    },
+    {
+      id: "785",
+      startDate: new Date("2019-8-25"),
+      endDate: new Date("2019-9-3"),
       isFinished: true,
       isLongRent: false,
       room: {
@@ -72,7 +140,8 @@ export default class Me extends Vue {
         img:
           "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
         address: {
-          city: "akureyri"
+          city: "Akureyri",
+          district: "Villa Lola"
         }
       }
     }

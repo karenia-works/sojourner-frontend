@@ -87,6 +87,7 @@ p {
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import moment, { Moment } from "moment";
 
 @Component({
   components: {
@@ -94,10 +95,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
   },
   filters: {
     dateStr: function(date: Date) {
-      return "" + 
-        (date.getFullYear() % 100) + "/"  + (date.getMonth() + 1) + "/"  + 
-        (date.getDate() + 1);
-    }
+      return moment(date).format('L');
+    } 
   }
 })
 export default class OrderInfo extends Vue {

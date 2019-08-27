@@ -109,6 +109,10 @@ input.textErr {
   text-decoration: none
   color: colors.accent
 }
+
+.jumpLink:hover {
+  cursor pointer
+}
 </style>
 
 <script lang="ts">
