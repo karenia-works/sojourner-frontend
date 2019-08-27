@@ -8,7 +8,7 @@
       <search-bar :status.sync="searchStatus" @search="onSearch"></search-bar>
     </div>
     <div class="background color-darker">
-      <div class="container">
+      <div class="container" id="explore">
         <div class="row">
           <h1>Explore</h1>
         </div>

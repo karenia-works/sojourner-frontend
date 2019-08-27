@@ -12,7 +12,7 @@ export class SearchStatus {
     public keyword: string = '',
     public startTime: Moment = moment(),
     public endTime: Moment = moment(),
-    public roomType: Set<RoomType> = new Set(),
+    public roomType: Set<RoomType> = new Set(['single', 'double', 'quad']),
     public useLongRent: boolean | null = null
   ) {}
 
