@@ -9,7 +9,9 @@
     </div>
     <div class="background color-darker">
       <div class="container">
-        <h1>Short stay or long rent, we've got you covered!</h1>
+        <div class="row">
+          <h1>Explore</h1>
+        </div>
       </div>
     </div>
   </div>

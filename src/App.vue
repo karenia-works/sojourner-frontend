@@ -5,6 +5,8 @@
 </template>
 
 <style lang="stylus">
+@import 'styles/common-styles.styl'
+
 #app {
   font-family: fonts-body
   -webkit-font-smoothing: antialiased
