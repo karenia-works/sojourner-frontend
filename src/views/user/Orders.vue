@@ -4,10 +4,10 @@
       <OrderInfoA v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfoA>
     </template>
     <div class="showBtn">
-      <button class="btn" @click="toggleFinished">{{btnValue}} finished orders</button>
+      <button class="btn" @click="toggleFinished">{{btnValue}} rent history</button>
     </div>
     <template  v-if="showFinished">
-      <OrderInfoF v-for="item in finishedOrders" :item="item" :key="item.id" class="finished"></OrderInfoF>
+      <OrderInfoF v-for="item in finishedOrders" :item="item" :key="item.id"></OrderInfoF>
     </template>
   </div>
 </template>
@@ -47,16 +47,18 @@ export default class Orders extends Vue {
   activeOrders: Order[] = [];
   finishedOrders: Order[] = [];
 
-  showFinished = false;
-  btnValue = "Show";
+  showFinished = true;
+
+  get btnValue(): String {
+    if (this.showFinished) {
+      return "Hide";
+    } else {
+      return "Show";
+    }
+  }
 
   toggleFinished() {
     this.showFinished = !this.showFinished;
-    if (this.showFinished) {
-      this.btnValue = "Hide";
-    } else {
-      this.btnValue = "Show";
-    }
   }
 
   mounted() {

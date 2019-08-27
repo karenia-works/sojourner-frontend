@@ -41,6 +41,7 @@ export default class Me extends Vue {
       ddlDate: new Date("2019-9-20"),
       isFinished: false,
       isLongRent: true,
+      totalPrice: 6000,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
@@ -63,6 +64,7 @@ export default class Me extends Vue {
       endDate: new Date("2019-9-3"),
       isFinished: false,
       isLongRent: false,
+      totalPrice: 1560,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
@@ -85,6 +87,7 @@ export default class Me extends Vue {
       endDate: new Date("2019-10-20"),
       isFinished: false,
       isLongRent: true,
+      totalPrice: 3000,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
@@ -107,6 +110,7 @@ export default class Me extends Vue {
       endDate: new Date("2019-10-20"),
       isFinished: true,
       isLongRent: true,
+      totalPrice: 6000,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
@@ -129,6 +133,7 @@ export default class Me extends Vue {
       endDate: new Date("2019-9-3"),
       isFinished: true,
       isLongRent: false,
+      totalPrice: 1560,
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
