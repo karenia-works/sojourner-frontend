@@ -136,7 +136,7 @@ export default class Manageorder extends Vue {
   orders = [
     {
       oid: 1,
-      name: "Clarissa Findlay",
+      user_name: "Clarissa Findlay",
       ava_url:
         "https://z1.muscache.cn/im/pictures/6061582/a643208f_original.jpg?aki_policy=xx_large",
       room_name: "Coastal Maine Cottage",
@@ -146,7 +146,7 @@ export default class Manageorder extends Vue {
     },
     {
       oid: 32,
-      name: "Elissa Dejesus",
+      user_name: "Elissa Dejesus",
       ava_url:
         "https://z1.muscache.cn/im/pictures/14086670/8f77374b_original.jpg?aki_policy=xx_large",
       room_name: "A beautiful villa in North Iceland",
@@ -156,7 +156,7 @@ export default class Manageorder extends Vue {
     },
     {
       oid: 21,
-      name: "Cassidy Ayala",
+      user_name: "Cassidy Ayala",
       ava_url:
         "https://z1.muscache.cn/im/pictures/cd17b75f-9aee-4f68-b80d-dde84996fb4b.jpg?aki_policy=xx_large",
       room_name: "Kealakekua Bay Bali Cottage -steps from Bay",
@@ -166,7 +166,7 @@ export default class Manageorder extends Vue {
     },
     {
       oid: 341,
-      name: "Tanner Espinosa",
+      user_name: "Tanner Espinosa",
       ava_url:
         "https://z1.muscache.cn/im/pictures/6717551/528a76f1_original.jpg?aki_policy=large",
       room_name: "The house among olive trees",
