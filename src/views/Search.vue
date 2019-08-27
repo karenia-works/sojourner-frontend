@@ -19,9 +19,11 @@
         </div>
       </div>
       <div class="search-error" v-else-if="shouldSearch && searchError">
-        <img src="../assets/sojourner-no-data.svg" alt class="search-tip-pic" />
-        <h2>Something's wrong with data connection</h2>
-        {{searchErrorText}}
+        <div class="jumbotron">
+          <img src="../assets/sojourner-no-data.svg" alt class="search-tip-pic" />
+          <h2>Something's wrong with data connection</h2>
+          {{searchErrorText}}
+        </div>
       </div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
       <div class="search-indicator" v-else>
@@ -43,6 +45,10 @@
 .jumbotron {
   padding-v: spaces._6
   lost-column: 1 / 1
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
 }
 
 .search-tip-pic {

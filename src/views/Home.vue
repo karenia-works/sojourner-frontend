@@ -4,6 +4,7 @@
       <div class="jumbotron">
         <h1>Arriving Alone?</h1>
         <p>Here's a worry-free flat renting service, designed for people just like you.</p>
+        <img src="../assets/sojourner-trails.svg" alt id="index-trail-pic" />
       </div>
       <search-bar :status.sync="searchStatus" @search="onSearch"></search-bar>
     </div>
@@ -22,6 +23,7 @@
   margin-top: spaces._10
   margin-bottom: spaces._8
   text-align: left
+  lost-column: 1 / 1
 
   p {
     font-weight: 500
@@ -29,6 +31,7 @@
 
   h1 {
     margin-v: spaces._3
+    max-width: 50%
   }
 }
 
@@ -42,6 +45,13 @@
   +break-screen(0, breakpoints.medium) {
     margin-right: -(spaces._3)
   }
+}
+
+#index-trail-pic {
+  position: absolute
+  top: 80px
+  height: 384px
+  right: 64px
 }
 </style>
 
