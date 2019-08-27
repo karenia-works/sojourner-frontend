@@ -20,7 +20,7 @@
 
 <style lang="stylus" scoped>
 .navbar {
-  background: colors.bg-medium
+  background: var(--color-bg-medium)
   display: flex
   flex-direction: row
   justify-content: space-between

@@ -44,7 +44,7 @@ span {
 .room_city,
 span {
   text-transform: uppercase
-  color: colors.text-medium
+  color: var(--color-text-medium)
   display: inline-block
   float: left
 }

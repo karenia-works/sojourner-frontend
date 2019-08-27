@@ -88,7 +88,7 @@ margin-v() {
 
 .background {
   &.color-darker {
-    background-color: colors.bg-medium
+    background-color: var(--color-bg-medium)
   }
 }
 
@@ -96,8 +96,8 @@ margin-v() {
   background: transparent
   border: none
 
-  accent = colors.accent
-  accent-transparent = alpha(accent, 0.6)
+  accent = var(--color-accent)
+  accent-transparent = var(--color-accent-transparent)
 
   border-top: solid transparent spaces._1
   border-bottom: solid accent-transparent spaces._1
@@ -119,7 +119,7 @@ margin-v() {
   }
 
   &::placeholder {
-    color: colors.text-medium
+    color: var(--color-text-medium)
   }
 
   &.body {
@@ -135,7 +135,7 @@ margin-v() {
   background: none
   border: none
 
-  gradient-hover(colors.accent, spaces._1)
+  gradient-hover(var(--color-accent), var(--color-accent-transparent), spaces._1)
 
   margin-h: spaces._2
   padding-h: spaces._2
@@ -143,7 +143,7 @@ margin-v() {
 
 .content a,
 .btn-span {
-  gradient-hover(colors.accent, spaces._1)
+  gradient-hover(var(--color-accent), spaces._1)
 
   margin-h: spaces._1
   padding-h: spaces._1

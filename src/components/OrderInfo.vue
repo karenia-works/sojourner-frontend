@@ -4,7 +4,12 @@
     <div class="info">
       <p class="room_title">{{order.room.name}}</p>
       <p class="room_city">@{{order.room.address.city}}</p>
-      <p class="time"><span>from </span>{{order.startDate|dateStr}}<span> to </span>{{order.endDate|dateStr}}</p>
+      <p class="time">
+        <span>from</span>
+        {{order.startDate|dateStr}}
+        <span>to</span>
+        {{order.endDate|dateStr}}
+      </p>
       <template v-if="order.isLongRent">
         <p class="room_price">${{order.room.longPrice}} per month</p>
       </template>
@@ -18,70 +23,69 @@
 
 <style lang="stylus" scoped>
 .orderInfo {
-  width 100%
+  width: 100%
   // border: 1px red solid
-  border-radius: 3px;
-  display flex
+  border-radius: 3px
+  display: flex
   align-items: flex-start
 }
 
 .orderInfo:hover {
-  cursor: pointer;
-  background-color rgba(255, 255, 255, 0.5)
+  cursor: pointer
+  background-color: rgba(255, 255, 255, 0.5)
 }
 
 img {
-  width: 240px;
-  object-fit: cover;
-  border-radius: 3px;
-  margin-right: 20px;
+  width: 240px
+  object-fit: cover
+  border-radius: 3px
+  margin-right: 20px
 }
 
 .info {
-  height: 160px;
-  position relative
+  height: 160px
+  position: relative
 }
 
 p {
-  margin: 0;
-  text-align: left;
+  margin: 0
+  text-align: left
 }
 
 .finished {
-  color colors.text-medium
+  color: var(--color-text-medium)
 }
 
 .room_title {
-  font-weight: 500;
-  font-family: fonts-title;
-  font-size: font-sizes.small-title;
-  clear: right 
-  margin-bottom: 5px;
+  font-weight: 500
+  font-family: fonts-title
+  font-size: font-sizes.small-title
+  clear: right
+  margin-bottom: 5px
 }
 
 .room_city {
-  text-transform: uppercase;
-  color: colors.text-medium;
+  text-transform: uppercase
+  color: var(--color-text-medium)
 }
 
 .time span {
-  color colors.text-medium
+  color: var(--color-text-medium)
 }
-
 
 .room_price {
 }
 
 .tag {
-  padding 1px 5px
-  color colors.bg-light
-  background-color colors.accent
+  padding: 1px 5px
+  color: var(--color-bg-light)
+  background-color: var(--color-accent)
   text-transform: uppercase
-  border-width 3px colors.accent solid
-  border-radius 3px
-  position absolute
-  bottom 0
-  left 0
+  border-width: 3px var(--color-accent) solid
+  border-radius: 3px
+  position: absolute
+  bottom: 0
+  left: 0
 }
 </style>
 
@@ -94,9 +98,14 @@ import { Component, Prop, Vue } from "vue-property-decorator";
   },
   filters: {
     dateStr: function(date: Date) {
-      return "" + 
-        (date.getFullYear() % 100) + "/"  + (date.getMonth() + 1) + "/"  + 
-        (date.getDate() + 1);
+      return (
+        "" +
+        (date.getFullYear() % 100) +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        (date.getDate() + 1)
+      );
     }
   }
 })

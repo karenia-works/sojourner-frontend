@@ -10,7 +10,7 @@
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   text-align: center
-  --accent-color: colors.accent
+  --accent-color: var(--color-accent)
 }
 </style>
 
