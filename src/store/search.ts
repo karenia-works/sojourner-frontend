@@ -12,7 +12,7 @@ export class SearchStatus {
     public keyword: string = '',
     public startTime: Moment = moment(),
     public endTime: Moment = moment(),
-    public roomType: RoomType[] = [],
+    public roomType: Set<RoomType> = new Set(),
     public useLongRent: boolean | null = null
   ) {}
 
@@ -21,7 +21,7 @@ export class SearchStatus {
     if (this.keyword) dict['kw'] = this.keyword
     dict['startTime'] = this.startTime.format('YYYY-MM-DD')
     dict['endTime'] = this.endTime.format('YYYY-MM-DD')
-    dict['roomType'] = this.roomType.join(' ')
+    dict['roomType'] = Array.from(this.roomType.values()).join(' ')
     dict['useLongRent'] =
       this.useLongRent == null ? 'null' : this.useLongRent.toString()
     return dict
@@ -31,7 +31,9 @@ export class SearchStatus {
     let keyword = value['kw'] || undefined
     let endTime = moment(value['endTime'] as string | undefined)
     let startTime = moment(value['startTime'] as string | undefined)
-    let roomType = (value['roomType'] || '').split(' ') as RoomType[]
+    let roomType = new Set((value['roomType'] || '').split(' ')) as Set<
+      RoomType
+    >
     let useLongRent =
       value['useLongRent'] == 'null'
         ? undefined

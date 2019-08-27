@@ -30,14 +30,12 @@
       <div class="filter-title filter-item">Filters</div>
       <div class="filter-frame filter-item">
         <div class="filter-frame-title">Room for</div>
-        <input type="checkbox" name="roomFor" id="roomFor_one" />
-        <label for="roomFor_one">One</label>
-        <input type="checkbox" name="roomFor" id="roomFor_two" />
-        <label for="roomFor_two">Two</label>
-        <input type="checkbox" name="roomFor" id="roomFor_four" />
-        <label for="roomFor_four">Four</label>
+        <list-selection :options="options" :selection.sync="roomType" :multiselect="true"></list-selection>
       </div>
-      <div class="filter-frame"></div>
+      <div class="filter-frame filter-item">
+        <div class="filter-frame-title">Bill by</div>
+        <list-selection :options="rentOptions" :selection.sync="rentType" :multiselect="true"></list-selection>
+      </div>
     </div>
   </div>
 </template>
@@ -50,14 +48,16 @@ import {
   Vue,
   Prop,
   Model,
-  PropSync
+  PropSync,
+  Watch
 } from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import DatePicker from "./DatePicker.vue";
-import { SearchStatus } from "@/store/search.ts";
+import { SearchStatus, RoomType } from "@/store/search.ts";
+import ListSelection from "./ListSelection.vue";
 
 @Component({
-  components: { DatePicker }
+  components: { DatePicker, ListSelection }
 })
 export default class SearchBar extends Vue {
   @PropSync("searchStatus", {
@@ -68,6 +68,45 @@ export default class SearchBar extends Vue {
 
   @Prop({ type: Boolean, default: false })
   showFilters!: boolean;
+
+  options = ["One", "Two", "Four"];
+  static roomTypes: Array<RoomType> = ["single", "double", "quad"];
+  rentOptions = ["Day", "Month"];
+
+  get roomType(): Set<number> {
+    let roomType = new Set<number>();
+    this.status.roomType.forEach(val =>
+      roomType.add(SearchBar.roomTypes.findIndex(item => item == val))
+    );
+    return roomType;
+  }
+
+  set roomType(value: Set<number>) {
+    this.status.roomType.clear();
+
+    Array.from(value.values())
+      .map(value => SearchBar.roomTypes[value])
+      .forEach(val => this.status.roomType.add(val));
+  }
+
+  get rentType(): Set<number> {
+    if (this.status.useLongRent === true) {
+      return new Set([1]);
+    } else if (this.status.useLongRent === false) {
+      return new Set([0]);
+    } else {
+      return new Set([0, 1]);
+    }
+  }
+
+  set rentType(value: Set<number>) {
+    let long = value.has(1);
+    let short = value.has(0);
+
+    if (long && !short) this.status.useLongRent = true;
+    else if (!long && short) this.status.useLongRent = false;
+    else this.status.useLongRent = null;
+  }
 
   @Emit("search")
   emitSearch() {
@@ -144,6 +183,7 @@ export default class SearchBar extends Vue {
 .search-filters {
   display: flex
   flex-direction: row
+  flex-wrap: wrap
   margin-h: -(spaces._5)
 
   .filter-frame {
@@ -152,14 +192,9 @@ export default class SearchBar extends Vue {
     flex-direction: row
 
     .filter-frame-title {
+      margin-right: spaces._4
       color: colors.text-medium
       font-weight: bold
-    }
-
-    .filter-item {
-      label:active {
-        font-weight: 500
-      }
     }
   }
 

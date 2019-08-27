@@ -32,7 +32,6 @@
 <style lang="stylus" scoped>
 .SearchBar {
   margin: 20px 10px 30px
-  background: var(--accent-color)
 }
 
 .jumbotron {
