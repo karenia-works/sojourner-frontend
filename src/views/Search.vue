@@ -32,6 +32,7 @@
 <style lang="stylus" scoped>
 .SearchBar {
   margin: 20px 10px 30px
+  background: var(--accent-color)
 }
 
 .jumbotron {
@@ -82,21 +83,27 @@ export default class Search extends Vue {
 
   async searchAccordingToCriteria() {
     this.searching = true;
-    let searchData = await axios.get<Room[]>(
-      config.backend.address + config.backend.searchEndpoint,
-      {
-        params: this.searchStatus.toDictionary()
-      }
-    );
+    try {
+      let searchData = await axios.get<Room[]>(
+        config.backend.address + config.backend.searchEndpoint,
+        {
+          params: this.searchStatus.toDictionary()
+        }
+      );
 
-    this.searching = false;
-    if (searchData.status >= 400) {
-      this.searchError = true;
-      this.searchErrorText = searchData.statusText;
-    } else {
-      this.searchError = false;
       this.searching = false;
-      this.rooms = searchData.data;
+      if (searchData.status >= 400) {
+        this.searchError = true;
+        this.searchErrorText = searchData.statusText;
+      } else {
+        this.searchError = false;
+        this.searching = false;
+        this.rooms = searchData.data;
+      }
+    } catch (e) {
+      this.searching = false;
+      this.searchError = true;
+      this.searchErrorText = "Network error. Try again!";
     }
   }
 
