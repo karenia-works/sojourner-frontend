@@ -17,13 +17,15 @@
   margin-v spaces._6
 }
 
-.showBtn {
-  height 40px
+.orderInfo.finished {
+  margin-v spaces._5
 }
 
-button {
-  float right
+.showBtn {
+  height 40px
+  display flex
 }
+
 </style>
 
 <script lang="ts">
@@ -47,14 +49,11 @@ export default class Orders extends Vue {
   activeOrders: Order[] = [];
   finishedOrders: Order[] = [];
 
-  showFinished = true;
+  showFinished = false;
 
   get btnValue(): String {
-    if (this.showFinished) {
-      return "Hide";
-    } else {
-      return "Show";
-    }
+    return this.showFinished ? 
+      "Hide" : "Show";
   }
 
   toggleFinished() {

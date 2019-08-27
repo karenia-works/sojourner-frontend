@@ -2,32 +2,28 @@
 <div class="orderInfo">
   <img :src="order.room.img" class="room_img" />
   <div class="info">
-    <div class="details">
-      <p class="room_title">{{order.room.name}}</p>
-      <p class="room_city medium">
-        {{order.room.address.district}} | {{order.room.address.city}}
-      </p>
-      <!-- <p class="time">
-        <span class="tag">{{rentTime}} rent</span> 
-        <span class="medium-text">from </span>
-        {{order.startDate|dateStr}}
-        <span class="medium-text"> to </span>
-        {{order.endDate|dateStr}}
-      </p> -->
-    </div>
+    <p class="room_title">{{order.room.name}}</p>
+    <p class="room_city medium">
+      <span>{{order.room.address.district}} | </span>
+      <span>{{order.room.address.city}}</span>
+    </p>
+    <!-- <p class="time">
+      <span class="tag">{{rentType}} rent</span> 
+      <span class="medium-text">from </span>
+      {{order.startDate|dateStr}}
+      <span class="medium-text"> to </span>
+      {{order.endDate|dateStr}}
+    </p> -->
     <template v-if="isStarted">
       <template v-if="order.isLongRent">
         <!-- longRent order -->
-        <div class="days">
+        <div class="details">
           <p>
-            {{timePassed}}&nbsp;
-            month<span v-if="timePassed>1">s</span>
-            <span class="medium">
-              &nbsp;/&nbsp;{{timeTotal}} total
-            </span>
+            <span>{{timePassed | months}}</span>
+            <span class="medium"> / {{timeTotal}} total</span>
           </p>
           <p>
-            {{toDdl}} day<span v-if="toDdl>1">s</span>
+            <span>{{toDdl | days}}</span>
             <span class="medium"> left in this billing cycle</span>
           </p>
         </div>
@@ -39,17 +35,14 @@
       </template>
       <template v-else>
         <!-- shortRent orders -->
-        <div class="days">
+        <div class="details">
           <p class="medium">
-            {{order.startDate|dateStr}} - 
-            {{order.endDate|dateStr}}
+            <span>{{order.startDate | dateStr}} - </span>
+            <span>{{order.endDate | dateStr}}</span>
           </p>
           <p>
-            {{timePassed}}&nbsp;
-            day<span v-if="timePassed>1">s</span>
-            <span class="medium">
-              &nbsp;/&nbsp;{{timeTotal}} total
-            </span>
+            <span>{{timePassed | days}}</span>
+            <span class="medium"> / {{timeTotal}} total</span>
           </p>
         </div>
         <div class="buttons">
@@ -60,11 +53,13 @@
     </template>
     <template v-else>
       <!-- future Order -->
-      <p class="days">
-        {{order.startDate|dateStr}} - 
-        {{order.endDate|dateStr}}
-      </p>
-      <p class="days">starts {{toStartDay}} days later</p>
+      <div class="details">
+        <p class="medium">
+          <span>{{order.startDate|dateStr}} - </span>
+          <span>{{order.endDate|dateStr}}</span>
+        </p>
+        <p>starts {{toStartDay}} days later</p>
+      </div>
       <!-- future Order ends -->
     </template>
   </div>
@@ -80,31 +75,50 @@ import {Order} from '@/models/Room.ts'
   filters: {
     dateStr: function(date: Date) {
       return moment(date).format('MMM Do');
-    } 
+    },
+    days: function(num: number) {
+      return "" + (num+1) +
+       " day" + (num>1 ? "s" : "");
+    },
+    months: function(num: number) {
+      return "" + (num) +
+       " month" + (num>1 ? "s" : "");
+    }
   }
 })
 export default class OrderInfo extends Vue {
   @Prop() item!: Order;
   order: Order = this.item;
 
-  rentTime: String = this.order.isLongRent ? "long" : "short";
+  rentType: String = this.order.isLongRent ? "long" : "short";
 
   get isStarted(): Boolean {
     return moment().isAfter(this.order.startDate);
   }
 
-  get timePassed(): Number {
-    var start: Moment = moment(this.order.startDate);
-    if (this.order.isLongRent) {
-      return Math.ceil(moment().diff(start, 'month', true));
-    } else {
-      return Math.ceil(moment().diff(start, 'day', true));
-    }
+  get timePassed(): number {
+    let start: Moment = moment(this.order.startDate);
+    return this.order.isLongRent ?
+      Math.ceil(moment().diff(start, 'month', true)) :
+      Math.ceil(moment().diff(start, 'day', true));
   }
+  // get timePassed(): String {
+  //   let start: Moment = moment(this.order.startDate);
+  //   let num: number;
+  //   if (this.order.isLongRent) {
+  //     num = Math.ceil(moment().diff(start, 'month', true));
+  //     return "" + num + 
+  //     " month" + (num>1 ? "s" : "");
+  //   } else {
+  //     num = Math.ceil(moment().diff(start, 'day', true));
+  //     return "" + (num+1) +
+  //      " day" + (num>1 ? "s" : "");
+  //   }
+  // }
 
   get timeTotal(): Number {
-    var start: Moment = moment(this.order.startDate);
-    var end: Moment = moment(this.order.endDate);
+    let start: Moment = moment(this.order.startDate);
+    let end: Moment = moment(this.order.endDate);
     if (this.order.isLongRent) {
       return end.diff(start, 'month');
     } else {
@@ -113,12 +127,12 @@ export default class OrderInfo extends Vue {
   }
 
   get toDdl(): Number {
-    var ddl: Moment = moment(this.order.ddlDate).endOf('day');
+    let ddl: Moment = moment(this.order.ddlDate).endOf('day');
     return Math.ceil(ddl.diff(moment(), 'day'));
   }
 
   get toStartDay(): Number {
-    var start: Moment = moment(this.order.startDate);
+    let start: Moment = moment(this.order.startDate);
     return Math.ceil(start.diff(moment(), 'day'));
   }
 
@@ -130,6 +144,7 @@ export default class OrderInfo extends Vue {
   width 100%
   border-radius: 3px;
   display flex
+  align-items: flex-end
 }
 
 .orderInfo:hover {
@@ -145,22 +160,9 @@ img {
   margin-right: spaces._6;
 }
 
-.info {
-  height 180px
-  display flex
-  flex-direction column
-  justify-content space-between
-}
-
 p {
   margin: 0;
   text-align: left;
-}
-
-.days {
-  font-family fonts-title
-  font-size 18px
-  font-weight 450
 }
 
 .medium {
@@ -172,16 +174,29 @@ p {
   font-family: fonts-title;
   font-size: font-sizes.small-title;
   clear: right 
-  margin-bottom: 5px;
+  margin-bottom: spaces._1
 }
 
 .room_city {
   text-transform: uppercase;
+  margin-bottom spaces._4
+}
+
+.details {
+  font-family fonts-title
+  font-size 18px
+  font-weight 450
 }
 
 .buttons {
   height 37px
   display flex
+  margin-top spaces._4
+}
+
+.btn {
+  margin-left 0
+  margin-right spaces._4
 }
 
 .tag {

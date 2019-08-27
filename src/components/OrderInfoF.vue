@@ -10,8 +10,8 @@
         {{order.endDate|dateStr}}</p>
       <p class="detail">
         <span class="tag">{{rentType}} rent</span>
-        {{rentTime}}, 
-        ${{order.totalPrice}}
+        <span>{{rentTime}}, </span>
+        <span>${{order.totalPrice}}</span>
       </p>
     </div>
   </div>
@@ -37,17 +37,17 @@ export default class OrderInfo extends Vue {
   order = this.item;
   rentType: String = this.order.isLongRent ? "long" : "short";
   get rentTime(): String {
-    var start: Moment = moment(this.order.startDate);
-    var end: Moment = moment(this.order.endDate);
-    var length: number;
+    let start: Moment = moment(this.order.startDate);
+    let end: Moment = moment(this.order.endDate);
+    let length: number;
     if (this.order.isLongRent) {
       length = end.diff(start, 'month');
       return "" + length + 
-      "month" + (length>1 ? "s" : "");
+      " month" + (length>1 ? "s" : "");
     } else {
       length = end.diff(start, 'day');
       return "" + (length+1) +
-       "day" + (length>1 ? "s" : "");
+       " day" + (length>1 ? "s" : "");
     }
   }
 }
@@ -77,10 +77,6 @@ img {
   object-fit: cover;
   border-radius: 3px;
   margin-right: 20px;
-}
-
-.info {
-  position relative
 }
 
 p {
