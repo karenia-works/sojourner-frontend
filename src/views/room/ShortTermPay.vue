@@ -75,11 +75,8 @@
     }
 
     .img_pay {
-      /* flex布局（作用于容器） */
       display: flex;
-      /* 水平居中（作用于容器） */
       justify-content: center;
-      /* 垂直居中（作用于容器） */
       align-items: center;
     }
 

@@ -1,14 +1,20 @@
 <template>
   <div class="navbar">
     <div class="nav-left">
-      <router-link to="/">
+      <router-link to="/admin">
         <div class="nav-el logo">SOJOURNER</div>
       </router-link>
-      <router-link to="/s">
-        <div class="nav-el">Search</div>
+      <router-link to="/admin/manageUser">
+        <div class="nav-el">User List</div>
       </router-link>
-      <router-link to="/">
-        <div class="nav-el">Explore</div>
+      <router-link to="/admin/ManageOrder">
+        <div class="nav-el">Orders</div>
+      </router-link>
+      <router-link to="/admin/ManageRoom">
+        <div class="nav-el">Rooms</div>
+      </router-link>
+      <router-link to="/admin/ManageRepair">
+        <div class="nav-el">Repair Requests</div>
       </router-link>
     </div>
     <div class="nav-right">

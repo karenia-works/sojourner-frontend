@@ -1,29 +1,34 @@
 import { RouteConfig } from 'vue-router'
+import NotFoundView from '@/views/admin/NotFound.vue'
+import adminHomepage from '@/views/admin/Home.vue'
+import manageUser from '@/views/admin/ManageUser.vue'
+import ManageOrder from '@/views/admin/ManageOrder.vue'
+import ManageRoom from '@/views/admin/ManageRoom.vue'
+import ManageRepair from '@/views/admin/ManageRepair.vue'
 
 export const adminRoutes: RouteConfig[] = [
   {
     path: '',
-    name: 'adminHomepage',
-    component: () => import('@/views/admin/Home.vue'),
+    component: adminHomepage,
   },
   {
     path: 'manageUser',
-    name: 'manageUser',
-    component: () => import('@/views/admin/ManageUser.vue'),
+    component: manageUser,
   },
   {
     path: 'ManageOrder',
-    name: 'ManageOrder',
-    component: () => import('@/views/admin/ManageOrder.vue'),
+    component: ManageOrder,
   },
   {
     path: 'ManageRoom',
-    name: 'ManageRoom',
-    component: () => import('@/views/admin/ManageRoom.vue'),
+    component: ManageRoom,
   },
   {
     path: 'ManageRepair',
-    name: 'ManageRepair',
-    component: () => import('@/views/admin/ManageRepair.vue'),
+    component: ManageRepair,
+  },
+  {
+    path: '/admin/**',
+    component: NotFoundView,
   },
 ]
