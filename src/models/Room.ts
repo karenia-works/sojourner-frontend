@@ -2,12 +2,13 @@ export interface Room {
   id: string
   name: string
   description: string
-  type: 'single' | 'dual' | 'quad'
+  type: 'single' | 'double' | 'quad'
   longAvailable: boolean
   shortAvailable: boolean
   longPrice?: number
   shortPrice?: number
-  address: string
+  address: Object
+  img: Array<string>
 }
 
 export interface Order {
@@ -19,4 +20,15 @@ export interface Order {
   isFinished: boolean
   isLongRent: boolean
   totalPrice: number
+  room: Room
+}
+
+export interface Profile {
+  userId: string
+  userName: string    // nickname
+  email: string
+  phoneNumber: string
+  sex: 'M' | 'F' | 'U'
+  avatar: string
+  signupDate: Date
 }

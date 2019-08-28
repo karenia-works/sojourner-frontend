@@ -24,6 +24,8 @@ button {
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Orders from "@/views/user/Orders.vue";
+import {Order} from '@/models/Room.ts'
+import {Profile} from '@/models/Room.ts'
 
 
 @Component({
@@ -33,9 +35,20 @@ import Orders from "@/views/user/Orders.vue";
 })
 export default class Me extends Vue {
 
-  orders = [
+  profile: Profile = {
+    userId: '456',
+    userName: 'Skuld',
+    email: 'sywang1207@gmail.com',
+    phoneNumber: '13693680360',
+    sex: 'F',
+    avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
+    signupDate: new Date("2019-8-25")
+  };
+
+  orders: Array<Order> = [
     {
       id: "789",
+      roomId: "122",
       startDate: new Date("2019-8-20"),
       endDate: new Date("2019-10-20"),
       ddlDate: new Date("2019-9-20"),
@@ -45,13 +58,14 @@ export default class Me extends Vue {
       room: {
         id: "122",
         name: "Amazing view - Moderne apartment",
+        description: "",
         type: "quad",
         longAvailable: true,
         shortAvailable: true,
         longPrice: 3000,
         shortPrice: 156,
         img:
-          "https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large",
+          ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
         address: {
           city: "Akureyri",
           district: "Villa Lola"
@@ -150,7 +164,7 @@ export default class Me extends Vue {
         }
       }
     }
-  ]
+  ];
 
 }
 </script>
