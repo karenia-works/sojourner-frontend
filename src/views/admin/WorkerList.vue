@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <div class="issue_id">Current Issue ID:{{GetQueryString("iid")}}</div>
+    <div class="add_worker">
+      <button class="btn">Add Worker</button>
+    </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>WID</td>
         <td>Worker Name</td>
         <td>Status</td>
-        <td>Operate</td>
+        <td>More</td>
       </tr>
       <tr class="layer" v-for="worker in workers">
         <td>{{ worker.wid }}</td>
@@ -16,10 +18,13 @@
           <label v-show="worker.is_busy" class="no_judge">Busy</label>
         </td>
         <td>
-          <div class="SendWorker">
-            <router-link to="ManageIssue">
-              <button class="btn" v-show="!worker.is_busy">Send</button>
-            </router-link>
+          <div class="dropdown">
+            <button class="dropbtn">
+              <dotsIcon />
+            </button>
+            <div class="dropdown-content">
+              <router-link to>Delete</router-link>
+            </div>
           </div>
         </td>
       </tr>
@@ -29,10 +34,10 @@
 
 <style lang="stylus" scoped>
 .container {
-  .issue_id {
-    font-size: font-sizes.body-larger;
-    font-weight: bold;
-    padding: 20px;
+  .add_worker {
+    float: right;
+    height: 70px
+    padding-right:30px
   }
 
   .table {
@@ -68,6 +73,43 @@
   }
 }
 
+.dropbtn {
+  background-color: var(--color-bg-light);
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--color-bg-light);
+  min-width: 160px;
+  border: 1px solid var(--color-bg-medium);
+}
+
+.dropdown-content a {
+  padding: 13px 13px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--color-bg-medium);
+}
+
+.dropdown:hover .dropdown-content {
+  display: inline;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: var(--color-bg-medium);
+}
 </style>
 
 <script lang="ts">
@@ -100,12 +142,5 @@ export default class ManagerWorker extends Vue {
       is_busy: false
     }
   ];
-
-  GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
-  }
 }
 </script>

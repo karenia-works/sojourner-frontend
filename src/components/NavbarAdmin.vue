@@ -16,6 +16,9 @@
       <router-link to="/admin/ManageIssue">
         <div class="nav-el">Repair Issue</div>
       </router-link>
+      <router-link to="/admin/WorkerList">
+        <div class="nav-el">Worker List</div>
+      </router-link>
     </div>
     <div class="nav-right">
       <div class="nav-el" id="sign_up" @click="switchLogin()">Sign up</div>
