@@ -21,6 +21,7 @@
 <style lang="stylus" scoped>
 .navbar {
   background: var(--color-bg-medium)
+  flex-shrink 0
   display: flex
   flex-direction: row
   justify-content: space-between
