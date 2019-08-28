@@ -5,12 +5,15 @@
 </template>
 
 <style lang="stylus">
+@import 'styles/common-styles.styl'
+
 #app {
   font-family: fonts-body
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  text-align: center
+  // text-align: center
   --accent-color: var(--color-accent)
+  height: 100%
 }
 </style>
 

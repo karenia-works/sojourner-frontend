@@ -29,6 +29,7 @@
   height: 48px
   font-family: fonts-title
   font-size: font-sizes.body-larger
+  user-select: none
 
   .nav-left {
     display: flex

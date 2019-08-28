@@ -1,11 +1,9 @@
 <template>
   <div class="roominfo" @click="toDetail">
-    <img :src="room.img" class="room_img" />
-    <p class="room_type">{{room_type}}</p>
-    <span>-</span>
-    <p class="room_city">{{room.address.city}}</p>
-    <p class="room_title">{{room.title}}</p>
+    <img :src="placeholder_room_img_src" class="room_img" />
+    <p class="room_title">{{room.name}}</p>
     <p class="room_price">${{room.price}} per night</p>
+    <p class="room_type">{{room_type}}</p>
   </div>
 </template>
 
@@ -67,8 +65,10 @@ import { Room } from "@/models/Room";
 
 @Component
 export default class RoomInfo extends Vue {
-  @Prop() item!: Room;
-  room = this.item;
+  @Prop() room!: Room;
+
+  placeholder_room_img_src =
+    "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80";
 
   get room_type(): string {
     var type = this.room.type;
@@ -79,7 +79,7 @@ export default class RoomInfo extends Vue {
   }
 
   toDetail() {
-    this.$router.push({ name: "room_detail", params: { id: this.item.id } });
+    this.$router.push({ name: "room_detail", params: { id: this.room.id } });
   }
 }
 </script>

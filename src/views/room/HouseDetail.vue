@@ -3,11 +3,11 @@
     <div class="houseBigPic">
       <img alt="housePic" v-for="pic in img" :src="pic.url" />
     </div>
-    <div class="container">
-      <section class="aboutHouse">
+    <div class="aboutHouse">
+      <div class="container">
         <div class="houseInfo">
           <div class="titleWords">
-            <label class="info">{{ houseName }}</label>
+            <h1 class="info">{{ houseName }}</h1>
           </div>
           <div class="advWords">
             <label v-for="item in introItems" class="info intro subtitle">
@@ -107,7 +107,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -140,19 +140,12 @@
 }
 
 .aboutHouse {
-  display: flex
-  justify-content: center
-  flex-direction: row
-  align-items: flex-start
-  padding: 16px
-
   .houseInfo {
-    padding: 36px
     display: flex
     align-items: stretch
     flex-direction: column
-    width: 67vw
     align-items: flex-start
+    lost-column: 2 / 3
 
     .info {
       padding: 5px
@@ -208,15 +201,13 @@
   }
 
   .bookInfo {
-    padding: 36px
     display: flex
     position: sticky
-    top: 10px
     align-items: stretch
     flex-direction: column
-    width: 33vw
     border-style: solid
     border-width: 1px
+    lost-column: 1 / 3
 
     .price {
       align-self: flex-start
@@ -305,6 +296,8 @@ export default class HouseDetail extends Vue {
 
   startDateValid: boolean = true;
   endDateValid: boolean = true;
+
+  houseName = "Xueyuanlu 37tg";
 
   // date = moment(this.startDate).format("YYYY-MM-DD");
 
