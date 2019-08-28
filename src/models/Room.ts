@@ -22,7 +22,7 @@ export interface Order {
   userId: string
   startDate: Date
   endDate: Date
-  ddlDate: Date
+  ddlDate?: Date
   isLongRent: boolean
   isFinished: boolean
   totalPrice: number
