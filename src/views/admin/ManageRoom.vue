@@ -6,7 +6,7 @@
         <td>HID</td>
         <td>Room Name</td>
         <td>Preview</td>
-        <td>is Renting</td>
+        <td>Being Rented</td>
         <td>Short Rent</td>
         <td>Long Rent</td>
         <td>More</td>
@@ -33,26 +33,14 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <a href>Option 1</a>
-              <a href>Option 2</a>
-              <a href>Option 3</a>
+              <router-link :to=getRoomUrl(room.hid)>Detail</router-link>
+              <router-link v-show="room.is_renting">Stop Renting</router-link>
+              <router-link to="">Rent</router-link>
             </div>
           </div>
         </td>
       </tr>
     </table>
-    <div class="progress">
-      <div
-        class="progress-bar progress-bar-success"
-        role="progressbar"
-        aria-valuenow="60"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        style="width: 90%;"
-      >
-        <span class="sr-only">90% 完成（成功）</span>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -182,5 +170,9 @@ export default class ManageRoom extends Vue {
       short_rent_price: 12
     }
   ];
+
+  getRoomUrl(url: string) {
+    return ("/r/"+url)
+  }
 }
 </script>

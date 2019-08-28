@@ -27,9 +27,9 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <a href>Option 1</a>
-              <a href>Option 2</a>
-              <a href>Option 3</a>
+              <router-link to="">Change Info</router-link>
+              <router-link to="">Delete</router-link>
+              <router-link to="">Check Order</router-link>
             </div>
           </div>
         </td>
