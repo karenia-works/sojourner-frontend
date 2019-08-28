@@ -1,6 +1,7 @@
 @import 'breakpoints'
 @import 'sizes'
 
+// @import '/src/assets/fonts/blokkfont.css'
 body {
   padding: 0px
   margin: 0px
@@ -42,6 +43,14 @@ div a {
 
   p a {
     display: inline
+  }
+}
+
+p {
+  line-height: 1.25
+
+  .loading & {
+    line-height: 2
   }
 }
 
@@ -139,4 +148,8 @@ div a {
     font-size: font-sizes.large-title
     font-weight: normal
   }
+}
+
+.mdi {
+  line-height: 1
 }

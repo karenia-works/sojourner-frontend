@@ -1,16 +1,19 @@
 <template>
   <div class="houseDetail">
-    <template v-if="room">
-      <div class="houseBigPic">
-        <img alt="housePic" :src="room.img.url" />
+    <template v-if="room && !isLoading">
+      <div class="houseBigPic" v-if="room.img">
+        <img :src="room.img[0]" />
       </div>
-      <div class="aboutHouse">
+      <div class="about-room">
         <div class="container">
-          <div class="houseInfo">
-            <div class="titleWords">
-              <h1 class="info">{{ room.name }}</h1>
+          <div class="room-info">
+            <div class="room-title">
+              <h1>{{ room.name }}</h1>
             </div>
-            <div class="advWords">{{ room.description }}</div>
+            <div class="room-address">{{ room.address }}</div>
+            <div class="room-description">
+              <vue-markdown :source="room.description"></vue-markdown>
+            </div>
             <hr align="center" width="100%" size="1" />
             <!-- <div class="iconPart">
               <div class="line">
@@ -69,17 +72,19 @@
             -->
           </div>
           <div class="bookInfo">
-            <label class="price">$ {{ room.price }} / Day</label>
-            <br />
-            <label class="book roomType">Date</label>
-            <div id="date-select" class="date_pick">
+            <div class="total-price">${{ totalPrice }}</div>
+            <div class="room-price">
+              <template v-if="rentByDay">${{ room.shortPrice }} / day</template>
+              <template v-else>${{ room.longPrice }} / month</template>
+            </div>
+            <div class="date-select">
               <date-picker
                 :selected-date.sync="startDate"
                 :selected-date-end="endDate"
                 :is-selecting-date-end="false"
                 :has-date-end="true"
               ></date-picker>
-              <span>to</span>
+              <arrow-right-icon />
               <date-picker
                 :selected-date="startDate"
                 :selected-date-end.sync="endDate"
@@ -88,17 +93,19 @@
               ></date-picker>
               <br />
             </div>
-            <label class="book roomType">Room Type</label>
-            <label class="book">{{ roomType }}</label>
+            <div class="rent-by-selection">
+              <div>Rent by</div>
+              <list-selection :options="rentOptions" :selection.sync="rentSelection"></list-selection>
+            </div>
             <div class="rent_button">
-              <div class="long_rent">
-                <router-link tag="a" target="_blank" to="longpay">
-                  <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
-                </router-link>
-              </div>
-              <div class="short_rent">
+              <div class="short_rent" v-if="rentByDay">
                 <router-link to="submit">
                   <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
+                </router-link>
+              </div>
+              <div class="long_rent" v-else>
+                <router-link tag="a" target="_blank" to="longpay">
+                  <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
                 </router-link>
               </div>
             </div>
@@ -107,96 +114,99 @@
       </div>
     </template>
     <template v-else-if="error">{{error}}</template>
-    <template v-else>Loading</template>
+    <template v-else>
+      <div class="houseBigPic loading"></div>
+      <div class="about-room loading">
+        <div class="container">
+          <div class="room-info">
+            <div class="room-title">
+              <h1>Loremipsumdolor</h1>
+            </div>
+            <div class="room-address">Loremipsumlah blahblah</div>
+            <div class="room-description">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis volutpat, tempor cursus lacinia nullam. Sit at quam ut elit non varius luctus. In amet, in praesent dolor nunc, integer sagittis, tincidunt molestie. Fringilla massa porta nec, lacus, hendrerit lectus ac risus. Auctor id commodo diam sed morbi. Duis elit faucibus et eget velit.</p>
+              <p>Suspendisse ultricies pharetra, vestibulum, quis porta varius nam. Turpis nunc tellus aliquet ornare posuere nam scelerisque volutpat. Accumsan faucibus ut orci mi platea iaculis. Enim feugiat quam purus diam ornare quis. Consectetur ornare id sem donec faucibus blandit. Sed ornare sed ultrices at tristique at elementum. Auctor id risus metus blandit tortor, elementum sed. Imperdiet arcu nec, a fames urna lorem proin non vitae.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <style lang="stylus" scoped>
-.houseBigPic img {
-  height: 33vw
-  // width :33vw
-}
-
 .houseBigPic {
+  margin-bottom: spaces._6
   display: flex
   flex-direction: row
   justify-content: center
   align-items: center
   width: 100%
   flex: 1
-  overflow-x: scroll
+  overflow: hidden
   white-space: nowrap
+  object-fit: cover
+  height: 40vw
+  background: var(--color-bg-medium)
+
+  img {
+  }
+
+  & * {
+    // roll scroll
+    ::-webkit-scrollbar {
+      width: 0 !important
+    }
+
+    ::-webkit-scrollbar {
+      width: 0 !important
+      height: 0
+    }
+
+    scrollbar-width: none
+  }
+
+  &.loading {
+    background: var(--color-bg-medium)
+  }
 }
 
-// roll scroll
-::-webkit-scrollbar {
-  width: 0 !important
-}
-
-::-webkit-scrollbar {
-  width: 0 !important
-  height: 0
-}
-
-.aboutHouse {
-  .houseInfo {
+.about-room {
+  .room-info {
     display: flex
     align-items: stretch
     flex-direction: column
     align-items: flex-start
-    lost-column: 2 / 3
+    lost-column: 2 / 3 0 spaces._7
+    margin-v: -(spaces._4)
 
-    .info {
-      padding: 5px
-      display: flex
-      align-items: stretch
-      flex-direction: column
-      align-items: flex-start
-    }
-
-    .intro {
-      height: 50px
-      font-weight: normal
-    }
-
-    .subtitle {
-      font-weight: bolder
-      padding-top: 30px
-    }
-
-    .titleWords {
-      font-weight: bold
-      text-transform: uppercase
-      font-size: font-sizes.medium-title
-      padding: 36px 0px 36px 0px
-    }
-
-    .iconPart {
-      padding: 5px
-      display: flex
-      flex-direction: row
-      align-items: center
-      align-self: stretch
-
-      .line {
-        display: flex
-        flex-direction: column
-        // justify-content : center;
-        // flex-direction: column;
-        align-items: stretch
-        align-self: stretch
-        width: 50%
-
-        .elemt {
-          display: flex
-          flex-direction: column
-          align-items: center
-          align-self: stretch
-          flex-wrap: nowrap
-          padding: 15px
-        }
+    .room-title {
+      h1 {
+        font-weight: normal
+        text-transform: none
+        margin: 0px
+        padding: 0px
       }
+
+      margin-v: spaces._4
     }
+
+    .room-address {
+      font-family: fonts-title
+      font-size: font-sizes.small-title
+      font-weight: 500
+      color: var(--color-text-medium)
+      margin-v: spaces._3
+    }
+
+    .room-description {
+      margin-v: spaces._5
+    }
+  }
+
+  &.loading * {
+    color: var(--color-bg-medium) !important
+    font-family: 'Redacted' !important
   }
 
   .bookInfo {
@@ -204,30 +214,43 @@
     position: sticky
     align-items: stretch
     flex-direction: column
-    border-style: solid
-    border-width: 1px
-    lost-column: 1 / 3
+    lost-column: 1 / 3 0 spaces._7
+    margin-v: -(spaces._4)
 
-    .price {
-      align-self: flex-start
-      font-weight: bolder
-      font-size: font-sizes.medium-title
+    .total-price {
+      font-size: 36px
+      font-family: fonts-title
+      font-weight: 500
+      margin-top: spaces._6
+      margin-bottom: spaces._3
     }
 
-    .date_pick {
-      line-height: 30px
-      font-size: font-sizes.body_larger
-      flex-direction: column
+    .room-price {
+      font-weight: 500
+      color: var(--color-text-medium)
+      margin-v: spaces._3
+    }
+
+    .date-select {
+      font-size: 28px
+      display: flex
+      flex-direction: row
+      align-items: center
+      margin-v: spaces._3
+    }
+
+    .rent-by-selection {
+      display: flex
+      flex-direction: row
+      font-size: 20px
+      margin-v: spaces._3
     }
 
     .rent_button {
-      display: flex
-      flex-direction: row
-      justify-content: center
-      padding-top: 30px
+      margin-v: spaces._3
 
       .rent-btn {
-        font-size: font-sizes.body-larger
+        font-size: 24px
       }
     }
   }
@@ -254,7 +277,14 @@
 
 
 <script lang="ts">
-import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
+import {
+  Component,
+  Emit,
+  Vue,
+  Prop,
+  Model,
+  Watch
+} from "vue-property-decorator";
 import wifiIcon from "mdi-vue/Wifi"; // works without an extension too
 import dishIcon from "mdi-vue/SilverwareForkKnife";
 import smokeDetectorIcon from "mdi-vue/SmokeDetector";
@@ -263,12 +293,17 @@ import washingMachineIcon from "mdi-vue/WashingMachine";
 import fridgeIcon from "mdi-vue/FridgeBottom";
 import microwaveIcon from "mdi-vue/Microwave";
 import parkingIcon from "mdi-vue/Parking";
+import ArrowRightIcon from "mdi-vue/ArrowRight";
 import DatePicker from "@/components/DatePicker.vue";
+import ListSelection from "@/components/ListSelection.vue";
 import moment, { Moment } from "moment";
-import { Room } from "@/models/Room.ts";
+import { Room, exampleRoom } from "@/models/Room.ts";
+import { SearchStatus } from "../../store/search";
+import VueMarkdown from "vue-markdown";
 
 @Component({
   components: {
+    ListSelection,
     wifiIcon,
     dishIcon,
     smokeDetectorIcon,
@@ -277,22 +312,41 @@ import { Room } from "@/models/Room.ts";
     fridgeIcon,
     microwaveIcon,
     parkingIcon,
-    DatePicker
+    DatePicker,
+    ArrowRightIcon,
+    VueMarkdown
   }
 })
 export default class HouseDetail extends Vue {
-  @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
-  @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
-  @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
+  // @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
+  // @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
+  // @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
 
   EquipJudge = [false, true, true, false, true, false, true, true];
 
-  room: Room | boolean = false;
+  room: Room = exampleRoom;
+  isLoading = true;
   error: string | boolean = false;
 
-  startDate: Moment = this.initialStartDate;
-  endDate: Moment = this.initialEndDate;
-  searchStr: string = this.initialSearchStr;
+  get startDate() {
+    return this.searchStatus.startTime;
+  }
+  set startDate(value: Moment) {
+    this.searchStatus.startTime = value;
+    this.$store.commit("replaceSearch", this.searchStatus);
+  }
+  get endDate() {
+    return this.searchStatus.endTime;
+  }
+  set endDate(value: Moment) {
+    this.searchStatus.endTime = value;
+    this.$store.commit("replaceSearch", this.searchStatus);
+  }
+  get searchStr() {
+    return this.searchStatus.keyword;
+  }
+
+  searchStatus: SearchStatus = this.$store.state.searchStore.status;
 
   startDateValid: boolean = true;
   endDateValid: boolean = true;
@@ -301,8 +355,40 @@ export default class HouseDetail extends Vue {
 
   id = "";
 
+  rentByDay: boolean = false;
+
+  rentOptions = ["Day", "Month"];
+
+  get rentSelection() {
+    if (this.rentByDay) {
+      return new Set([0]);
+    } else {
+      return new Set([1]);
+    }
+  }
+
+  set rentSelection(value: Set<number>) {
+    if (value.has(1)) {
+      this.rentByDay = false;
+    } else {
+      this.rentByDay = true;
+    }
+  }
+
+  get totalPrice() {
+    let duration = moment.duration(this.endDate.diff(this.startDate));
+    if (this.rentByDay && this.room.shortPrice) {
+      return (duration.days() + 1) * this.room.shortPrice;
+    } else if (!this.rentByDay && this.room.longPrice) {
+      return (duration.months() + 1) * this.room.longPrice;
+    } else {
+      return NaN;
+    }
+  }
+
   mounted() {
-    this.updateRoom();
+    // this.updateRoom();
+    this.rentByDay = this.searchStatus.useLongRent || true;
   }
 
   async updateRoom() {
@@ -313,6 +399,7 @@ export default class HouseDetail extends Vue {
       this.error = e;
     }
     this.room = this.$store.getters.getRoomById(this.id);
+    this.isLoading = false;
   }
 
   // date = moment(this.startDate).format("YYYY-MM-DD");
