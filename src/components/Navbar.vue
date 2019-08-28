@@ -21,6 +21,7 @@
 <style lang="stylus" scoped>
 .navbar {
   background: var(--color-bg-medium)
+  flex-shrink 0
   display: flex
   flex-direction: row
   justify-content: space-between
@@ -29,6 +30,7 @@
   height: 48px
   font-family: fonts-title
   font-size: font-sizes.body-larger
+  user-select: none
 
   .nav-left {
     display: flex
