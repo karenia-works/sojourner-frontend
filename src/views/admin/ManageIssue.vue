@@ -33,7 +33,7 @@
             </button>
             <div class="dropdown-content">
               <router-link to="" v-show="!Issue.is_reply">Reply</router-link>
-              <router-link to="" v-show="!Issue.is_repair">Send Worker</router-link>
+              <router-link :to="getWorkerUrl(17)" v-show="!Issue.is_repair">Send Worker</router-link>
               <router-link to="">Delete</router-link>
             </div>
           </div>
@@ -186,5 +186,10 @@ export default class ManageIssue extends Vue {
       worker_name:"Trixie Ventura"
     }
   ];
+
+  
+  getWorkerUrl(rid: number) {
+    return ("ManageWorker?iid=" + rid);
+  }
 }
 </script>
