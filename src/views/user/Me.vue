@@ -45,32 +45,21 @@ export default class Me extends Vue {
     signupDate: new Date("2019-8-25")
   };
 
+
   orders: Array<Order> = [
     {
       id: "789",
-      roomId: "122",
+      houseId: "122",
+      userId: "122",
       startDate: new Date("2019-8-20"),
       endDate: new Date("2019-10-20"),
       ddlDate: new Date("2019-9-20"),
       isFinished: false,
       isLongRent: true,
       totalPrice: 6000,
-      room: {
-        id: "122",
-        name: "Amazing view - Moderne apartment",
-        description: "",
-        type: "quad",
-        longAvailable: true,
-        shortAvailable: true,
-        longPrice: 3000,
-        shortPrice: 156,
-        img:
-          ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
-        address: {
-          city: "Akureyri",
-          district: "Villa Lola"
-        }
-      }
+      createDate: new Date("2019-8-18"),  
+      cancelDate: undefined,
+      isPaid: false
     }
   ];
 

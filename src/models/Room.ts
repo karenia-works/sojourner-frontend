@@ -12,18 +12,23 @@ export interface Room {
     district: string
   }
   img: Array<string>
+  equipJudge: Array<boolean>
+  noticeJudge: Array<boolean>
 }
 
 export interface Order {
   id: string
-  roomId: string
+  houseId: string
+  userId: string
   startDate: Date
   endDate: Date
   ddlDate: Date
-  isFinished: boolean
   isLongRent: boolean
+  isFinished: boolean
   totalPrice: number
-  room: Room
+  createDate: Date
+  cancelDate?: Date
+  isPaid: boolean
 }
 
 export interface Profile {

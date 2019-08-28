@@ -36,8 +36,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import OrderInfoA from "@/components/OrderInfoA.vue"; // @ is an alias to /src
-import OrderInfoF from "@/components/OrderInfoF.vue";
+import OrderInfoA from "@/views/user/OrderInfoA.vue"; // @ is an alias to /src
+import OrderInfoF from "@/views/user/OrderInfoF.vue";
 import {Order} from '@/models/Room.ts'
 
 

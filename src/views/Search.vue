@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import RoomsInGrid from "@/components/RoomsInGrid.vue"; // @ is an alias to /src
+import RoomsInGrid from "@/views/room/RoomsInGrid.vue"; // @ is an alias to /src
 import SearchBar from "@/components/SearchBar.vue";
 import { Room } from "../models/Room";
 import { SearchStatus } from "../store/search";
