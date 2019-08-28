@@ -32,7 +32,7 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="" v-show="!Issue.is_reply">Reply</router-link>
+              <router-link to="reply" v-show="!Issue.is_reply">Reply</router-link>
               <router-link :to="getWorkerUrl(Issue.iid)" v-show="!Issue.is_repair">Send Worker</router-link>
               <router-link to="">Delete</router-link>
             </div>

@@ -28,8 +28,8 @@
             </button>
             <div class="dropdown-content">
               <router-link to="">Change Info</router-link>
-              <router-link to="">Delete</router-link>
               <router-link to="">Check Order</router-link>
+              <router-link to="">Delete</router-link>
             </div>
           </div>
         </td>

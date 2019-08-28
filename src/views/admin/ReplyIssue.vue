@@ -10,14 +10,21 @@
         <label>{{ iid }}</label>
         <label v-show="needRepair">Repair Issue</label>
         <label v-show="!needRepair">compliant</label>
-        {{compliant}}
+        <div class="compliant">{{compliant}}</div>
       </div>
     </div>
     <div class="put_img">
       <img v-for="img in imgs" :src="img" />
     </div>
+
+    <div class="title1">Reply:</div>
     <div class="input_reply">
       <textarea class="input_character" />
+    </div>
+    <div class="reply_button">
+      <router-link to="ManageIssue">
+      <button class="reply btn">Reply</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -42,19 +49,47 @@
     .title2 {
       display: flex;
       flex-direction: column;
+
+      .compliant {
+        display: flex;
+        text-align: justify;
+      }
     }
+  }
+
+  .title1 {
+    display: flex;
+    font-weight: bold;
+    margin-right: 20px;
+    font-size: font-sizes.body-larger;
+    line-height: 50px;
   }
 
   .put_img img {
     lost-column: 1 / 3;
   }
-}
 
-.input_reply {
-  .input_character {
-    width: 100%;
-    height: 10vw;
-    font-size: font-sizes-small-title;
+  .input_reply {
+    .input_character {
+      width: 100%;
+      height: 10vw;
+      font-size: font-sizes.body-larger;
+      font-family: Barlow, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--color-bg-medium);
+      border: none;
+      resize: none;
+    }
+  }
+
+  .reply_button {
+    display: flex;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+
+    .reply {
+      font-size: font-sizes.medium-title;
+    }
   }
 }
 </style>
