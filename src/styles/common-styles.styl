@@ -45,44 +45,24 @@ div a {
   }
 }
 
-padding-h() {
-  padding-left: arguments
-  padding-right: arguments
-}
-
-padding-v() {
-  padding-top: arguments
-  padding-bottom: arguments
-}
-
-margin-h() {
-  margin-left: arguments
-  margin-right: arguments
-}
-
-margin-v() {
-  margin-top: arguments
-  margin-bottom: arguments
-}
-
 .container {
-  margin-h: auto
   padding-v: spaces._5
 
   +break-screen(0, breakpoints.small) {
+    margin-h: auto
     margin-h: spaces._3
   }
 
   +break-screen(breakpoints.small, breakpoints.medium) {
-    max-width: 720px
+    lost-center: 720px
   }
 
   +break-screen(breakpoints.medium, breakpoints.large) {
-    max-width: 960px
+    lost-center: 960px
   }
 
   +break-screen(breakpoints.large) {
-    max-width: 1280px
+    lost-center: 1280px
   }
 }
 
@@ -143,7 +123,7 @@ margin-v() {
 
 .content a,
 .btn-span {
-  gradient-hover(var(--color-accent), spaces._1)
+  gradient-hover(var(--color-accent), var(--color-accent-transparent), spaces._1)
 
   margin-h: spaces._1
   padding-h: spaces._1

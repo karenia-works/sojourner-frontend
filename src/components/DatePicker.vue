@@ -172,7 +172,7 @@ class DateDirective {
       lost-waffle: 1 / 7 flex 4px
 
       &.not-current-month {
-        color: #797876
+        color: var(--color-text-medium)
       }
 
       &.selected,

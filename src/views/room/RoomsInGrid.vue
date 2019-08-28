@@ -1,6 +1,6 @@
 <template>
   <div class="results gridView">
-    <roomInfo class v-for="item in rooms" :item="item" :key="item.id"></roomInfo>
+    <roomInfo class v-for="item in rooms" :room="item" :key="item.id"></roomInfo>
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import RoomInfo from "@/components/RoomInfo.vue";
+import RoomInfo from "@/views/room/RoomInfo.vue";
 import { Room } from "@/models/Room";
 
 @Component({
