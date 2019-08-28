@@ -1,13 +1,13 @@
 <template>
   <div class="orders">
-    <div class="showBtn">
-      <button class="btn" @click="toggleFinished">{{btnValue}} finished orders</button>
-    </div>
     <template class="activeOrders">
-      <OrderInfo v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfo>
+      <OrderInfoA v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfoA>
     </template>
+    <div class="showBtn">
+      <button class="btn" @click="toggleFinished">{{btnValue}} rent history</button>
+    </div>
     <template  v-if="showFinished">
-      <OrderInfo v-for="item in finishedOrders" :item="item" :key="item.id" class="finished"></OrderInfo>
+      <OrderInfoF v-for="item in finishedOrders" :item="item" :key="item.id"></OrderInfoF>
     </template>
   </div>
 </template>
@@ -17,26 +17,35 @@
   margin-v spaces._6
 }
 
-.showBtn {
-  height 40px
+.orderInfo.finished {
+  margin-v spaces._5
 }
 
-button {
-  float right
+.showBtn {
+  margin-top spaces._5
+  height 40px
+  display flex
 }
+
+.showBtn button {
+  margin-left 0
+}
+
 </style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import OrderInfo from "@/components/OrderInfo.vue"; // @ is an alias to /src
+import OrderInfoA from "@/views/user/OrderInfoA.vue"; // @ is an alias to /src
+import OrderInfoF from "@/views/user/OrderInfoF.vue";
 import {Order} from '@/models/Room.ts'
 
 
 @Component({
   components: {
-    OrderInfo
-  }
+    OrderInfoA,
+    OrderInfoF
+    }
 })
 export default class Orders extends Vue {
   @Prop() orderlist!: Order[];
@@ -46,15 +55,14 @@ export default class Orders extends Vue {
   finishedOrders: Order[] = [];
 
   showFinished = false;
-  btnValue = "Show";
+
+  get btnValue(): String {
+    return this.showFinished ? 
+      "Hide" : "Show";
+  }
 
   toggleFinished() {
     this.showFinished = !this.showFinished;
-    if (this.showFinished) {
-      this.btnValue = "Hide";
-    } else {
-      this.btnValue = "Show";
-    }
   }
 
   mounted() {
