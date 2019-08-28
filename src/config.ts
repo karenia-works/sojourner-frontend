@@ -1,9 +1,10 @@
 export default {
   backend: {
-    address: 'http://114.116.77.52:8086/api/v1',
+    address: 'http://sojourner.rynco.me/api/v1',
     tokenEndpoint: '/auth/login',
     userEndpoint: '/user',
     searchEndpoint: '/room',
+    imageEndpoint: '/image',
     roomEndpoint: (id: string) => `/room/${id}`,
     orderEndpoint: (id: string) => `/order/${id}`
   },
