@@ -102,19 +102,6 @@ export default class OrderInfo extends Vue {
       Math.ceil(moment().diff(start, 'month', true)) :
       Math.ceil(moment().diff(start, 'day', true));
   }
-  // get timePassed(): String {
-  //   let start: Moment = moment(this.order.startDate);
-  //   let num: number;
-  //   if (this.order.isLongRent) {
-  //     num = Math.ceil(moment().diff(start, 'month', true));
-  //     return "" + num + 
-  //     " month" + (num>1 ? "s" : "");
-  //   } else {
-  //     num = Math.ceil(moment().diff(start, 'day', true));
-  //     return "" + (num+1) +
-  //      " day" + (num>1 ? "s" : "");
-  //   }
-  // }
 
   get timeTotal(): Number {
     let start: Moment = moment(this.order.startDate);
@@ -197,6 +184,7 @@ p {
 .btn {
   margin-left 0
   margin-right spaces._4
+  margin-bottom 0
 }
 
 .tag {

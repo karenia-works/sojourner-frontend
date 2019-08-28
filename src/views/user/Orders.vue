@@ -22,8 +22,13 @@
 }
 
 .showBtn {
+  margin-top spaces._5
   height 40px
   display flex
+}
+
+.showBtn button {
+  margin-left 0
 }
 
 </style>
