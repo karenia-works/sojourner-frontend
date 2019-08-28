@@ -73,7 +73,7 @@ export default class RoomInfo extends Vue {
   get room_type(): string {
     var type = this.room.type;
     if (type === "single") return "1 bed";
-    else if (type === "dual") return "2 beds";
+    else if (type === "double") return "2 beds";
     else if (type === "quad") return "4 beds";
     else return "";
   }

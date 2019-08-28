@@ -12,8 +12,8 @@ export interface Room {
     district: string
   }
   img: Array<string>
-  equipJudge: Array<boolean>
-  noticeJudge: Array<boolean>
+  equipJudge: Array<boolean>  // 8 items
+  noticeJudge: Array<boolean> // 5 items
 }
 
 export interface Order {
