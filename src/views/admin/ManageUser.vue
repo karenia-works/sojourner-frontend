@@ -5,7 +5,7 @@
       <tr class="head">
         <td>UID</td>
         <td>Avatar</td>
-        <td>User user_name</td>
+        <td>User Name</td>
         <td>E-mail</td>
         <td>is Renting</td>
         <td>More</td>

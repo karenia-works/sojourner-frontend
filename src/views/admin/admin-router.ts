@@ -4,7 +4,7 @@ import adminHomepage from '@/views/admin/Home.vue'
 import manageUser from '@/views/admin/ManageUser.vue'
 import ManageOrder from '@/views/admin/ManageOrder.vue'
 import ManageRoom from '@/views/admin/ManageRoom.vue'
-import ManageRepair from '@/views/admin/ManageRepair.vue'
+import ManageIssue from '@/views/admin/ManageIssue.vue'
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -24,8 +24,8 @@ export const adminRoutes: RouteConfig[] = [
     component: ManageRoom,
   },
   {
-    path: 'ManageRepair',
-    component: ManageRepair,
+    path: 'ManageIssue',
+    component: ManageIssue,
   },
   {
     path: '/admin/**',

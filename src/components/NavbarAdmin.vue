@@ -13,8 +13,8 @@
       <router-link to="/admin/ManageRoom">
         <div class="nav-el">Rooms</div>
       </router-link>
-      <router-link to="/admin/ManageRepair">
-        <div class="nav-el">Repair Requests</div>
+      <router-link to="/admin/ManageIssue">
+        <div class="nav-el">Repair Issue</div>
       </router-link>
     </div>
     <div class="nav-right">

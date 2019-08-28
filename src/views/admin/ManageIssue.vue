@@ -3,7 +3,7 @@
     <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
-        <td>RID</td>
+        <td>IID</td>
         <td>Room Name</td>
         <td>Lessee</td>
         <td>Worker</td>
@@ -12,19 +12,19 @@
         <td>Repaired</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="repair in repairs">
-        <td>{{ repair.rid }}</td>
-        <td>{{ repair.room_name }}</td>
-        <td>{{ repair.user_name }}</td>
-        <td>{{ repair.worker_name }}</td>
+      <tr class="layer" v-for="Issue in Issues">
+        <td>{{ Issue.rid }}</td>
+        <td>{{ Issue.room_name }}</td>
+        <td>{{ Issue.user_name }}</td>
+        <td>{{ Issue.worker_name }}</td>
         <td>
-          <div :class="{'line':true , 'line1':!repair.is_reply, 'line2':repair.is_reply&&!repair.is_repair, 'line3': repair.is_reply&&repair.is_repair}"></div>
+          <div :class="{'line':true , 'line1':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!repair.is_reply, 'line2':repair.is_reply&&!repair.is_repair, 'line3': repair.is_reply&&repair.is_repair}"></div>
+          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!repair.is_reply, 'lineE':repair.is_reply&&!repair.is_repair, 'line3': repair.is_reply&&repair.is_repair}"></div>
+          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'lineE':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
         </td>
         <td>
           <div class="dropdown">
@@ -32,8 +32,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="" v-show="!repair.is_reply">Reply</router-link>
-              <router-link to="" v-show="!repair.is_repair">Send Worker</router-link>
+              <router-link to="" v-show="!Issue.is_reply">Reply</router-link>
+              <router-link to="" v-show="!Issue.is_repair">Send Worker</router-link>
               <router-link to="">Delete</router-link>
             </div>
           </div>
@@ -151,8 +151,8 @@ import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
-export default class ManageRepair extends Vue {
-  repairs = [
+export default class ManageIssue extends Vue {
+  Issues = [
     {
       rid: 1,
       room_name: "Coastal Maine Cottage",

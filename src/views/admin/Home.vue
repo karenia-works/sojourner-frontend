@@ -28,8 +28,8 @@
         </router-link>
       </div>
       <div class="choose_btn">
-        <router-link to="/admin/ManageRepair">
-          <button class="btn">Manage Repair Request</button>
+        <router-link to="/admin/ManageIssue">
+          <button class="btn">Manage Repair Isuue</button>
         </router-link>
       </div>
     </div>
