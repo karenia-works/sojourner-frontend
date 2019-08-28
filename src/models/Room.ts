@@ -7,7 +7,10 @@ export interface Room {
   shortAvailable: boolean
   longPrice?: number
   shortPrice?: number
-  address: Object
+  address: {
+    city: string
+    district: string
+  }
   img: Array<string>
 }
 

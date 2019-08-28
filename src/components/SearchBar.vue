@@ -1,86 +1,128 @@
 <template>
   <div class="searchbar">
-    <input type="text" class="input" id="search" placeholder="Where?" v-model.trim="searchStr" />
-    <div id="date-select">
-      <span>,</span>
-      <date-picker
-        :selected-date.sync="startDate"
-        :selected-date-end="endDate"
-        :is-selecting-date-end="false"
-        :has-date-end="true"
-      ></date-picker>
-      <span>to</span>
-      <date-picker
-        :selected-date="startDate"
-        :selected-date-end.sync="endDate"
-        :is-selecting-date-end="true"
-        :has-date-end="true"
-      ></date-picker>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        id="search"
+        placeholder="Take me anywhere"
+        v-model.trim="status.keyword"
+        @keypress.enter="emitSearch"
+      />
+      <div id="date-select">
+        <!-- <span>,</span> -->
+        <date-picker
+          :selected-date.sync="status.startTime"
+          :selected-date-end="status.endTime"
+          :is-selecting-date-end="false"
+          :has-date-end="true"
+        ></date-picker>
+        <span>to</span>
+        <date-picker
+          :selected-date="status.startTime"
+          :selected-date-end.sync="status.endTime"
+          :is-selecting-date-end="true"
+          :has-date-end="true"
+        ></date-picker>
+      </div>
+      <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
     </div>
-    <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
+    <div class="search-filters" v-if="showFilters">
+      <div class="filter-title filter-item">Filters</div>
+      <div class="filter-frame filter-item">
+        <div class="filter-frame-title">Room for</div>
+        <list-selection :options="options" :selection.sync="roomType" :multiselect="true"></list-selection>
+      </div>
+      <div class="filter-frame filter-item">
+        <div class="filter-frame-title">Bill by</div>
+        <list-selection
+          :options="rentOptions"
+          :selection.sync="rentType"
+          :multiselect="false"
+          :allow-empty="true"
+        ></list-selection>
+      </div>
+    </div>
   </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Emit, Vue, Prop, Model } from "vue-property-decorator";
+import {
+  Component,
+  Emit,
+  Vue,
+  Prop,
+  Model,
+  PropSync,
+  Watch
+} from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import DatePicker from "./DatePicker.vue";
+import { SearchStatus, RoomType } from "@/store/search.ts";
+import ListSelection from "./ListSelection.vue";
 
 @Component({
-  components: { DatePicker }
+  components: { DatePicker, ListSelection }
 })
 export default class SearchBar extends Vue {
-  @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
-  @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
-  @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
+  @PropSync("searchStatus", {
+    type: SearchStatus,
+    default: () => new SearchStatus()
+  })
+  status!: SearchStatus;
 
-  startDate_: Moment = this.initialStartDate;
-  endDate_: Moment = this.initialEndDate;
-  searchStr: string = this.initialSearchStr;
+  @Prop({ type: Boolean, default: false })
+  showFilters!: boolean;
 
-  startDateValid: boolean = true;
-  endDateValid: boolean = true;
+  options = ["One", "Two", "Four"];
+  static roomTypes: Array<RoomType> = ["single", "double", "quad"];
+  rentOptions = ["Day", "Month"];
 
-  get startDate() {
-    return this.startDate_;
-  }
-  get endDate() {
-    return this.endDate_;
-  }
-  set startDate(val: Moment) {
-    this.startDate_ = val;
-  }
-  set endDate(val: Moment) {
-    this.endDate_ = val;
+  get roomType(): Set<number> {
+    let roomType = new Set<number>();
+    this.status.roomType.forEach(val =>
+      roomType.add(SearchBar.roomTypes.findIndex(item => item == val))
+    );
+    return roomType;
   }
 
-  formatDate(date: Date): string {
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  set roomType(value: Set<number>) {
+    this.status.roomType.clear();
+
+    Array.from(value.values())
+      .map(value => SearchBar.roomTypes[value])
+      .forEach(val => this.status.roomType.add(val));
+  }
+
+  get rentType(): Set<number> {
+    if (this.status.useLongRent === true) {
+      return new Set([1]);
+    } else if (this.status.useLongRent === false) {
+      return new Set([0]);
+    } else {
+      return new Set([0, 1]);
+    }
+  }
+
+  set rentType(value: Set<number>) {
+    let long = value.has(1);
+    let short = value.has(0);
+
+    if (long && !short) this.status.useLongRent = true;
+    else if (!long && short) this.status.useLongRent = false;
+    else this.status.useLongRent = null;
   }
 
   @Emit("search")
   emitSearch() {
-    console.log(
-      "",
-      this.startDate.toString(),
-      this.endDate.toString(),
-      this.searchStr
-    );
-    return new SearchEvent(this.searchStr, this.startDate, this.endDate);
+    return this.status;
   }
-}
-export class SearchEvent {
-  constructor(
-    public searchStr: string,
-    public startDate: Moment,
-    public endDate: Moment
-  ) {}
 }
 </script>
 
 <style lang="stylus">
-.searchbar {
+.search-line {
   display: flex
   flex-direction: row
   justify-content: flex-start
@@ -141,6 +183,31 @@ export class SearchEvent {
     +break-screen(0, breakpoints.medium) {
       lost-column: 1 / 4
     }
+  }
+}
+
+.search-filters {
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  margin-h: -(spaces._5)
+
+  .filter-frame {
+    margin-h: spaces._5
+    display: flex
+    flex-direction: row
+
+    .filter-frame-title {
+      margin-right: spaces._4
+      color: colors.text-medium
+      font-weight: bold
+    }
+  }
+
+  .filter-title {
+    margin-h: spaces._5
+    color: colors.text-dark
+    font-weight: bold
   }
 }
 </style>

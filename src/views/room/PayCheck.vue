@@ -75,7 +75,9 @@
           </div>
         </div>
         <div class="agree_button">
-          <button id="search-btn" class="btn search-btn">AGREE</button>
+          <router-link to="shortpay">
+            <button id="search-btn" class="btn search-btn">AGREE</button>
+          </router-link>
         </div>
       </div>
       <div class="RightSide">
@@ -89,7 +91,7 @@
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">{{guestNum}} guest</label>
+            <label class="guest_info">{{guestNum}} guests</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />

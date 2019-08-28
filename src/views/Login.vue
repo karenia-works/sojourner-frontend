@@ -66,7 +66,7 @@
 
 .loginWindow {
   width: 400px
-  background-color: colors.bg-light
+  background-color: var(--color-bg-light)
   border-radius: 5px
   position: absolute
   left: 50%
@@ -98,16 +98,16 @@
 }
 
 input.textErr {
-  background-color: colors.accent
+  background-color: var(--color-accent)
 }
 
 .signupLink {
-  color: colors.text-medium
+  color: var(--color-text-medium)
 }
 
 .jumpLink {
   text-decoration: none
-  color: colors.accent
+  color: var(--color-accent)
 }
 
 .jumpLink:hover {

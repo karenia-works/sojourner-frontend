@@ -15,6 +15,11 @@
           <img class="img" v-show="this.wechatPay" src="../../assets/wechatpay.jpg" />
           <img class="img" v-show="!this.wechatPay" src="../../assets/alipay.jpg" />
         </div>
+        <div class="confirm_btn">
+          <router-link to="/ord">
+          <button id="search-btn" class="btn search-btn" >I have completed the payment</button>
+          </router-link>
+        </div>
       </div>
       <div class="RightSide">
         <div class="overview">
@@ -27,7 +32,7 @@
         <div class="book_info">
           <div class="iconAndWords">
             <guest-icon class="guest_info" />
-            <label class="guest_info">{{ guestNum }} guest</label>
+            <label class="guest_info">{{ guestNum }} guests</label>
           </div>
           <div class="iconAndWords">
             <date-icon class="guest_info" />
@@ -58,6 +63,7 @@
     width: 67vw;
 
     .pay_button {
+      height: 150px;
       display: flex;
       flex-direction: row;
       justify-content: center;

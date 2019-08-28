@@ -147,7 +147,7 @@ class DateDirective {
 }
 
 .picker-modal {
-  background: colors.bg-light
+  background: var(--color-bg-light)
   padding: spaces._4
   box-shadow: spaces._0 spaces._1 12px #79787644
   font-family: fonts-body
@@ -172,16 +172,16 @@ class DateDirective {
       lost-waffle: 1 / 7 flex 4px
 
       &.not-current-month {
-        color: #797876
+        color: var(--color-text-medium)
       }
 
       &.selected,
       &.selected.selected-background {
-        background: colors.accent
+        background: var(--color-accent)
       }
 
       &.selected-background {
-        background: alpha(colors.accent, 0.2)
+        background: var(--color-accent-transparent)
       }
     }
   }
