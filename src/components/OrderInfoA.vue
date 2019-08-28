@@ -1,19 +1,12 @@
 <template>
 <div class="orderInfo">
-  <img :src="order.room.img" class="room_img" />
+  <img :src="order.room.img[0]" class="room_img" />
   <div class="info">
     <p class="room_title">{{order.room.name}}</p>
     <p class="room_city medium">
       <span>{{order.room.address.district}} | </span>
       <span>{{order.room.address.city}}</span>
     </p>
-    <!-- <p class="time">
-      <span class="tag">{{rentType}} rent</span> 
-      <span class="medium-text">from </span>
-      {{order.startDate|dateStr}}
-      <span class="medium-text"> to </span>
-      {{order.endDate|dateStr}}
-    </p> -->
     <template v-if="isStarted">
       <template v-if="order.isLongRent">
         <!-- longRent order -->
