@@ -54,5 +54,5 @@ export var mutations: MutationTree<RoomBufferState> = {
 export const roomStore: Module<RoomBufferState, RootState> = {
   state: () => new RoomBufferState(),
   actions,
-  mutations
+  mutations,getters
 }

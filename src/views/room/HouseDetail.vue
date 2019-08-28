@@ -1,114 +1,113 @@
 <template>
   <div class="houseDetail">
-    <div class="houseBigPic">
-      <img alt="housePic" v-for="pic in img" :src="pic.url" />
-    </div>
-    <div class="aboutHouse">
-      <div class="container">
-        <div class="houseInfo">
-          <div class="titleWords">
-            <h1 class="info">{{ houseName }}</h1>
-          </div>
-          <div class="advWords">
-            <label v-for="item in introItems" class="info intro subtitle">
-              {{ item.subtitle }}
-              <label class="info intro">{{ item.intro_text}}</label>
-            </label>
-          </div>
-          <hr align="center" width="100%" size="1" />
-          <div class="iconPart">
-            <div class="line">
-              <div class="elemt">
-                <wifi-icon class="icon" />
-                <label class="info">Wi-Fi:</label>
-                <label v-show="this.EquipJudge[0]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[0]" class="info no_judge">No</label>
+    <template v-if="room">
+      <div class="houseBigPic">
+        <img alt="housePic" :src="room.img.url" />
+      </div>
+      <div class="aboutHouse">
+        <div class="container">
+          <div class="houseInfo">
+            <div class="titleWords">
+              <h1 class="info">{{ room.name }}</h1>
+            </div>
+            <div class="advWords">{{ room.description }}</div>
+            <hr align="center" width="100%" size="1" />
+            <!-- <div class="iconPart">
+              <div class="line">
+                <div class="elemt">
+                  <wifi-icon class="icon" />
+                  <label class="info">Wi-Fi:</label>
+                  <label v-show="this.EquipJudge[0]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[0]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <dish-icon class="icon" />
+                  <label class="info">Breakfast:</label>
+                  <label v-show="this.EquipJudge[1]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[1]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <smoke-detector-icon class="icon" />
+                  <label class="info">Smoke Detector:</label>
+                  <label v-show="this.EquipJudge[2]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[2]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <tv-icon class="icon" />
+                  <label class="info">Television:</label>
+                  <label v-show="this.EquipJudge[3]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[3]" class="info no_judge">No</label>
+                </div>
               </div>
-              <div class="elemt">
-                <dish-icon class="icon" />
-                <label class="info">Breakfast:</label>
-                <label v-show="this.EquipJudge[1]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[1]" class="info no_judge">No</label>
-              </div>
-              <div class="elemt">
-                <smoke-detector-icon class="icon" />
-                <label class="info">Smoke Detector:</label>
-                <label v-show="this.EquipJudge[2]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[2]" class="info no_judge">No</label>
-              </div>
-              <div class="elemt">
-                <tv-icon class="icon" />
-                <label class="info">Television:</label>
-                <label v-show="this.EquipJudge[3]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[3]" class="info no_judge">No</label>
+              <div class="line">
+                <div class="elemt">
+                  <washing-machine-icon class="icon" />
+                  <label class="info">Wash Machine:</label>
+                  <label v-show="this.EquipJudge[4]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[4]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <fridge-icon class="icon" />
+                  <label class="info">Fridge:</label>
+                  <label v-show="this.EquipJudge[5]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[5]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <microwave-icon class="icon" />
+                  <label class="info">Microwave:</label>
+                  <label v-show="this.EquipJudge[6]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[6]" class="info no_judge">No</label>
+                </div>
+                <div class="elemt">
+                  <parking-icon class="icon" />
+                  <label class="info">Parking Space:</label>
+                  <label v-show="this.EquipJudge[7]" class="info yes_judge">Yes</label>
+                  <label v-show="!this.EquipJudge[7]" class="info no_judge">No</label>
+                </div>
               </div>
             </div>
-            <div class="line">
-              <div class="elemt">
-                <washing-machine-icon class="icon" />
-                <label class="info">Wash Machine:</label>
-                <label v-show="this.EquipJudge[4]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[4]" class="info no_judge">No</label>
-              </div>
-              <div class="elemt">
-                <fridge-icon class="icon" />
-                <label class="info">Fridge:</label>
-                <label v-show="this.EquipJudge[5]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[5]" class="info no_judge">No</label>
-              </div>
-              <div class="elemt">
-                <microwave-icon class="icon" />
-                <label class="info">Microwave:</label>
-                <label v-show="this.EquipJudge[6]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[6]" class="info no_judge">No</label>
-              </div>
-              <div class="elemt">
-                <parking-icon class="icon" />
-                <label class="info">Parking Space:</label>
-                <label v-show="this.EquipJudge[7]" class="info yes_judge">Yes</label>
-                <label v-show="!this.EquipJudge[7]" class="info no_judge">No</label>
-              </div>
-            </div>
+            -->
           </div>
-        </div>
-
-        <div class="bookInfo">
-          <label class="price">$ {{ price }} / Day</label>
-          <br />
-          <label class="book roomType">Date</label>
-          <div id="date-select" class="date_pick">
-            <date-picker
-              :selected-date.sync="startDate"
-              :selected-date-end="endDate"
-              :is-selecting-date-end="false"
-              :has-date-end="true"
-            ></date-picker>
-            <span>to</span>
-            <date-picker
-              :selected-date="startDate"
-              :selected-date-end.sync="endDate"
-              :is-selecting-date-end="true"
-              :has-date-end="true"
-            ></date-picker>
+          <div class="bookInfo">
+            <label class="price">$ {{ room.price }} / Day</label>
             <br />
-          </div>
-          <label class="book roomType">Room Type</label>
-          <label class="book">{{ roomType }}</label>
-          <div class="rent_button">
-            <div class="long_rent">
-              <router-link tag="a" target="_blank" to="longpay">
-                <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
-              </router-link>
+            <label class="book roomType">Date</label>
+            <div id="date-select" class="date_pick">
+              <date-picker
+                :selected-date.sync="startDate"
+                :selected-date-end="endDate"
+                :is-selecting-date-end="false"
+                :has-date-end="true"
+              ></date-picker>
+              <span>to</span>
+              <date-picker
+                :selected-date="startDate"
+                :selected-date-end.sync="endDate"
+                :is-selecting-date-end="true"
+                :has-date-end="true"
+              ></date-picker>
+              <br />
             </div>
-            <div class="short_rent">
-              <router-link to="submit">
-                <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
-              </router-link>
+            <label class="book roomType">Room Type</label>
+            <label class="book">{{ roomType }}</label>
+            <div class="rent_button">
+              <div class="long_rent">
+                <router-link tag="a" target="_blank" to="longpay">
+                  <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
+                </router-link>
+              </div>
+              <div class="short_rent">
+                <router-link to="submit">
+                  <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else-if="error">{{error}}</template>
+    <template v-else>Loading</template>
   </div>
 </template>
 
@@ -288,7 +287,8 @@ export default class HouseDetail extends Vue {
 
   EquipJudge = [false, true, true, false, true, false, true, true];
 
-  room: Room | undefined;
+  room: Room | boolean = false;
+  error: string | boolean = false;
 
   startDate: Moment = this.initialStartDate;
   endDate: Moment = this.initialEndDate;
@@ -298,6 +298,22 @@ export default class HouseDetail extends Vue {
   endDateValid: boolean = true;
 
   houseName = "Xueyuanlu 37tg";
+
+  id = "";
+
+  mounted() {
+    this.updateRoom();
+  }
+
+  async updateRoom() {
+    this.id = this.$route.params.id;
+    try {
+      await this.$store.dispatch("assureRoomAvailability", this.id);
+    } catch (e) {
+      this.error = e;
+    }
+    this.room = this.$store.getters.getRoomById(this.id);
+  }
 
   // date = moment(this.startDate).format("YYYY-MM-DD");
 
