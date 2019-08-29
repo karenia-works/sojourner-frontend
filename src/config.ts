@@ -9,8 +9,8 @@ export default {
     profileEndpoint: (id: string) => `/profile/${id}`,
     roomEndpoint: (id: string) => `/room/${id}`,
     orderEndpoint: (id: string) => `/order/${id}`,
-    orderByUser: (id: string) => `/order/for_user/${id}`,
-    orderByHouse: (id: string) => `/order/for_house/${id}`
+    orderByUser: `/order/for_user`,
+    orderByHouse: `/order/for_house`
   },
   auth: {
     client_id: '',

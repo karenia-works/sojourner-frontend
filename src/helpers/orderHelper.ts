@@ -33,7 +33,12 @@ async function findOrderByRoom(
     id: string
 ): Promise<Order[]> {
     let Orders = await Axios.get<Order[]>(
-        config.backend.address + config.backend.orderByHouse(id)
+        config.backend.address + config.backend.orderByHouse,
+        {
+            params:{
+                oid: id
+            }
+        }
     )
     if (Orders.status == 200) {
         return Orders.data
@@ -54,3 +59,5 @@ async function findOrderByUser(
     else
         throw new Error('findByUserError')
 }
+
+export {findOrderByRoom, findOrderByUser, getOrder, insertOrder}

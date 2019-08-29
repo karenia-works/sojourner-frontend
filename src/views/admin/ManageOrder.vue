@@ -20,21 +20,21 @@
         <td>Price</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="order in orders">
-        <td>{{ order.oid }}</td>
-        <td>{{ order.room_name }}</td>
+      <tr class="layer" v-for="order in orders" :key="order.id">
+        <td>{{ order.id.substr(order.id.length-4)  }}</td>
+        <td>{{ order.house.name }}</td>
         <td>
-          <img :src="order.ava_url" class="ava_img" />
+          <img :src="order.house.img[0]" class="ava_img" />
         </td>
-        <td>{{ order.user_name }}</td>
-        <td>{{ order.duration }}</td>
+        <td>{{ order.userEmail }}</td>
+        <td>{{ getDuration(order.startDate, order.endDate) }}</td>
         <td>
-          <label v-show="order.is_long_rent" class="yes_judge">Long Rent</label>
-          <label v-show="!order.is_long_rent" class="no_judge">Short Rent</label>
+          <label v-show="order.isLongRent" class="yes_judge">Long Rent</label>
+          <label v-show="!order.isLongRent" class="no_judge">Short Rent</label>
         </td>
         <td>
-          <label v-show="order.is_long_rent">${{ order.price }}/month</label>
-          <label v-show="!order.is_long_rent">${{ order.price }}/day</label>
+          <label v-show="order.isLongRent">${{ order.house.longPrice }}/month</label>
+          <label v-show="!order.isLongRent">${{ order.house.shortPrice }}/day</label>
         </td>
         <td>
           <div class="dropdown">
@@ -142,21 +142,32 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import { Order } from '@/models/Room';
+import moment, { Moment } from "moment";
+import {findOrderByRoom} from "@/helpers/orderHelper"
 
 @Component({
-  components: { dotsIcon, searchbarAdmin }
+  components: { dotsIcon, searchbarAdmin, }
 })
 export default class Manageorder extends Vue {
-  orders = [];
+  orders:Order[] = [];
 
-  origin_url = "http://localhost:5000/api/v1/room";
-  api_url = "http://localhost:5000/api/v1/room";
+  origin_url = "https://sojourner.rynco.me/api/v1/order/orderView";
+  api_url = "https://sojourner.rynco.me/api/v1/order/orderView";
   keyword = "";
+
+  stringToFormattedDate(str: string):string{
+    return moment(str).format("MM-DD")
+  }
+
+  getDuration(startDate: string, endDate: string){
+    return (this.stringToFormattedDate(startDate) + "->" + this.stringToFormattedDate(endDate))    
+  }
 
   getAPI() {
     axios
       .get(this.api_url)
-      .then(response => (this.orders = response.data))
+      .then(response => {(this.orders = response.data); console.log(this.orders)})
       .catch(error => console.log(error));
   }
 
@@ -168,6 +179,11 @@ export default class Manageorder extends Vue {
     if (this.keyword == "") this.api_url = this.origin_url;
     else this.api_url = this.origin_url + "?kw=" + this.keyword;
     this.getAPI();
+  }
+
+  findOrderByRoom(){
+    console.log(this.keyword)
+    findOrderByRoom(this.keyword).then(orders=>this.orders=orders)
   }
 }
 </script>

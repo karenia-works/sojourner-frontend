@@ -11,20 +11,20 @@
     </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
-        <td>UID</td>
         <td>Avatar</td>
-        <td>User Name</td>
         <td>E-mail</td>
+        <td>User Name</td>
+        <td>Gender</td>
         <td>is Renting</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="user in users">
-        <td>{{ user.uid }}</td>
         <td>
           <img :src="user.ava_url" class="ava_img" />
         </td>
-        <td>{{ user.user_name }}</td>
         <td>{{ user.email }}</td>
+        <td>{{ user.user_name }}</td>
+        <td>{{ user.sex }}</td>
         <td>
           <label v-show="user.is_renting" class="yes_judge">Yes</label>
           <label v-show="!user.is_renting" class="no_judge">No</label>
