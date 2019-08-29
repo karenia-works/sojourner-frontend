@@ -11,7 +11,8 @@
 <style lang="stylus" >
 footer {
   margin-top: spaces._6
-  background: var(--color-bg-medium)
+  background: var(--color-bg-light)
+  color: var(--color-text-medium)
 }
 
 .footer-column {
