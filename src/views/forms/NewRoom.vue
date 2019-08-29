@@ -10,8 +10,9 @@
 
         <div class="item">
           <label for="city">Where is your room <span>located</span>?</label>
+          <input type="text" class="input" id="country" placeholder="country" v-model.trim="r.address.country" />
           <input type="text" class="input" id="city" placeholder="city" v-model.trim="r.address.city" />
-          <input type="text" class="input" id="district" placeholder="street" v-model.trim="r.address.district" />
+          <input type="text" class="input" id="street" placeholder="street" v-model.trim="r.address.street" />
         </div>
 
         <div class="item">
@@ -117,8 +118,9 @@ export default class NewRoom extends Vue{
     longPrice: undefined,
     shortPrice: undefined,
     address: {
+      country: "",
       city: "",
-      district: ""
+      street: ""
     },
     img: [],
     equipJudge: [false, false, false, false, false, false, false, false],

@@ -20,13 +20,13 @@ export default class Checkbox extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-input[type=checkbox], input[type=radio] {
+input[type=checkbox]{
   display none
 }
 
-input:checked+label {
-  color red
-}
+// input:checked+label {
+//   color red
+// }
 
 .checkLabel {
   color: var(--color-text-medium)

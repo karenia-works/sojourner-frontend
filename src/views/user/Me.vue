@@ -12,7 +12,6 @@
   display flex
   flex-direction column
 }
-
 </style>
 
 <script lang="ts">
@@ -26,7 +25,7 @@ import {Profile} from '@/models/Room.ts'
 @Component({
   components: {
     Orders,
-    UserInfo
+    UserInfo,
   }
 })
 export default class Me extends Vue {
@@ -39,7 +38,6 @@ export default class Me extends Vue {
     avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
     signupDate: new Date("2019-8-25")
   };
-
 
   orders: Array<Order> = [
     {
