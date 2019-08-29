@@ -61,4 +61,17 @@ export interface Profile {
   signupDate: Date
 }
 
+export interface Issue {
+  id: string
+  uid: string
+  hid: string
+  wid: string
+  img: string[]
+  complaint: string
+  needRepair: boolean
+  isReplied: boolean
+  isFinished: boolean
+  createTime: Date
+}
+
 export { exampleRoom }
