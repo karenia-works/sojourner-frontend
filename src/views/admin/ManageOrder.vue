@@ -1,6 +1,14 @@
 <template>
   <div class="container">
-    <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        placeholder="Type in the order you would like to find"
+        v-model.trim="keyword"
+      />
+      <button class="btn" @click="reRoute">Search</button>
+    </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>OID</td>
@@ -34,8 +42,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="">Delete</router-link>
-              <router-link to="">Change Info</router-link>
+              <router-link to>Delete</router-link>
+              <router-link to>Change Info</router-link>
             </div>
           </div>
         </td>
@@ -46,9 +54,15 @@
 
 <style lang="stylus" scoped>
 .container {
-  .SearchBar {
-    padding-top: 50px;
-    padding-bottom: 100px;
+  .search-line {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 60px;
+
+    .input {
+      lost-column: 9 / 12;
+    }
   }
 
   .table {
@@ -127,52 +141,33 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
+import axios from "axios";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class Manageorder extends Vue {
-  orders = [
-    {
-      oid: 1,
-      user_name: "Clarissa Findlay",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6061582/a643208f_original.jpg?aki_policy=xx_large",
-      room_name: "Coastal Maine Cottage",
-      is_long_rent: true,
-      duration: "Aug12 - Sep18",
-      price: 309
-    },
-    {
-      oid: 32,
-      user_name: "Elissa Dejesus",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/14086670/8f77374b_original.jpg?aki_policy=xx_large",
-      room_name: "A beautiful villa in North Iceland",
-      is_long_rent: true,
-      duration: "Jan13 - Feb12",
-      price: 138
-    },
-    {
-      oid: 21,
-      user_name: "Cassidy Ayala",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/cd17b75f-9aee-4f68-b80d-dde84996fb4b.jpg?aki_policy=xx_large",
-      room_name: "Kealakekua Bay Bali Cottage -steps from Bay",
-      is_long_rent: false,
-      duration: "May5 - Jun27",
-      price: 225
-    },
-    {
-      oid: 341,
-      user_name: "Tanner Espinosa",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6717551/528a76f1_original.jpg?aki_policy=large",
-      room_name: "The house among olive trees",
-      is_long_rent: true,
-      duration: "Aug12 - Sep18",
-      price: 798
-    }
-  ];
+  orders = [];
+
+  origin_url = "http://localhost:5000/api/v1/room";
+  api_url = "http://localhost:5000/api/v1/room";
+  keyword = "";
+
+  getAPI() {
+    axios
+      .get(this.api_url)
+      .then(response => (this.orders = response.data))
+      .catch(error => console.log(error));
+  }
+
+  mounted() {
+    this.getAPI();
+  }
+
+  reRoute() {
+    if (this.keyword == "") this.api_url = this.origin_url;
+    else this.api_url = this.origin_url + "?kw=" + this.keyword;
+    this.getAPI();
+  }
 }
 </script>

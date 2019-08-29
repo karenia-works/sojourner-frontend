@@ -1,6 +1,14 @@
 <template>
   <div class="container">
-    <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        placeholder="Type in the user you would like to find"
+        v-model.trim="keyword"
+      />
+      <button class="btn" @click="reRoute">Search</button>
+    </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>UID</td>
@@ -27,9 +35,9 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="">Change Info</router-link>
-              <router-link to="">Check Order</router-link>
-              <router-link to="">Delete</router-link>
+              <router-link to>Change Info</router-link>
+              <router-link to>Check Order</router-link>
+              <router-link to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -40,9 +48,15 @@
 
 <style lang="stylus" scoped>
 .container {
-  .SearchBar {
-      padding-top :50px;
-      padding-bottom  :100px;
+  .search-line {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 60px;
+
+    .input {
+      lost-column: 9 / 12;
+    }
   }
 
   .table {
@@ -121,44 +135,33 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
+import axios from "axios";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageUser extends Vue {
-  users = [
-    {
-      uid:10,
-      user_name: "Clarissa Findlay",
-      ava_url:
-        "https://pic2.zhimg.com/v2-8df0e1ada7af09d3c62f2ba5ec4e4266_r.jpg",
-      email: "KatarinaThatcher@example.com",
-      is_renting: true
-    },
-    {
-      uid:13,
-      user_name: "Elissa Dejesus",
-      ava_url:
-        "https://pic1.zhimg.com/v2-b3972560b6f5b7ecfac44b3ceb78d134_r.jpg",
-      email: "KatarinaThatcher@example.com",
-      is_renting: true
-    },
-    {
-      uid:84,
-      user_name: "Cassidy Ayala",
-      ava_url:
-        "https://pic4.zhimg.com/v2-5b59a66778496948e13b429f17666be8_r.jpg",
-      email: "KatarinaThatcher@example.com",
-      is_renting: false
-    },
-    {
-      uid:71,
-      user_name: "Tanner Espinosa",
-      ava_url:
-        "https://pic2.zhimg.com/v2-f5a7d3fff4272ea3fc29122045f4b317_r.jpg",
-      email: "KatarinaThatcher@example.com",
-      is_renting: true
-    }
-  ];
+  users = [];
+  
+  origin_url = "http://localhost:5000/api/v1/room";
+  api_url = "http://localhost:5000/api/v1/room";
+  keyword = "";
+
+  getAPI() {
+    axios
+      .get(this.api_url)
+      .then(response => (this.users = response.data))
+      .catch(error => console.log(error));
+  }
+
+  mounted() {
+    this.getAPI();
+  }
+
+  reRoute() {
+    if (this.keyword == "") this.api_url = this.origin_url;
+    else this.api_url = this.origin_url + "?kw=" + this.keyword;
+    this.getAPI();
+  }
 }
 </script>
