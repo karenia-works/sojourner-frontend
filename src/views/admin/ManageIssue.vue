@@ -13,7 +13,7 @@
         <td>More</td>
       </tr>
       <tr class="layer" v-for="Issue in Issues">
-        <td>{{ Issue.rid }}</td>
+        <td>{{ Issue.iid }}</td>
         <td>{{ Issue.room_name }}</td>
         <td>{{ Issue.user_name }}</td>
         <td>{{ Issue.worker_name }}</td>
@@ -32,8 +32,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="" v-show="!Issue.is_reply">Reply</router-link>
-              <router-link :to="getWorkerUrl(17)" v-show="!Issue.is_repair">Send Worker</router-link>
+              <router-link to="reply" v-show="!Issue.is_reply">Reply</router-link>
+              <router-link :to="getWorkerUrl(Issue.iid)" v-show="!Issue.is_repair">Send Worker</router-link>
               <router-link to="">Delete</router-link>
             </div>
           </div>
@@ -154,7 +154,7 @@ import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 export default class ManageIssue extends Vue {
   Issues = [
     {
-      rid: 1,
+      iid: 1,
       room_name: "Coastal Maine Cottage",
       is_reply: false,
       is_repair: false,
@@ -162,7 +162,7 @@ export default class ManageIssue extends Vue {
       worker_name:"Hafsah Lane"
     },
     {
-      rid: 2,
+      iid: 2,
       room_name: "A beautiful villa in North Iceland",
       is_reply: true,
       is_repair: false,
@@ -170,7 +170,7 @@ export default class ManageIssue extends Vue {
       worker_name:"Bradley Hanna"
     },
     {
-      rid: 3,
+      iid: 3,
       room_name: "Kealakekua Bay Bali Cottage -steps from Bay",
       is_reply: false,
       is_repair: false,
@@ -178,7 +178,7 @@ export default class ManageIssue extends Vue {
       worker_name:"Jenny Oneal"
     },
     {
-      rid: 4,
+      iid: 4,
       room_name: "The house among olive trees",
       is_reply: true,
       is_repair: true,
@@ -188,8 +188,8 @@ export default class ManageIssue extends Vue {
   ];
 
   
-  getWorkerUrl(rid: number) {
-    return ("ManageWorker?iid=" + rid);
+  getWorkerUrl(iid: number) {
+    return ("ManageWorker?iid=" + iid);
   }
 }
 </script>

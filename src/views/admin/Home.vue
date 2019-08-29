@@ -32,6 +32,11 @@
           <button class="btn">Manage Repair Isuue</button>
         </router-link>
       </div>
+      <div class="choose_btn">
+        <router-link to="/admin/WorkerList">
+          <button class="btn">Manage Worker List</button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

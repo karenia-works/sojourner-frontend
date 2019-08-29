@@ -1,6 +1,6 @@
 <template>
   <div class="date-picker">
-    <v-popover>
+    <v-popover placement="auto-end">
       <input type="text" class="picker-input input" readonly :value="dateStr" />
       <template slot="popover">
         <div class="picker-modal">
@@ -62,6 +62,9 @@ export default class DatePicker extends Vue {
   @PropSync("selectedDateEnd", { default: () => moment(), type: moment })
   syncSelectedDateEnd!: Moment;
 
+  @Prop({ default: () => [], type: Array })
+  disallowedDates!: Array<{ start: Moment | null; end: Moment | null }>;
+
   active: boolean = false;
 
   get dateStr(): string {
@@ -69,6 +72,14 @@ export default class DatePicker extends Vue {
       ? this.syncSelectedDateEnd
       : this.syncSelectedDate;
     return selectedDay.format(this.dateFormat);
+  }
+
+  isDayDisabled(m: Moment): boolean {
+    return this.disallowedDates.some(
+      ({ start, end }) =>
+        (start == null ? true : m.isSameOrAfter(start, "day")) &&
+        (end == null ? true : m.isSameOrBefore(end, "day"))
+    );
   }
 
   monthDates(): Array<DateDirective> {
@@ -86,8 +97,11 @@ export default class DatePicker extends Vue {
           currentDay.clone(),
           currentDay.isSame(this.syncFocusedDate, "month"),
           currentDay.isSame(selectedDay, "day"),
+          currentDay.isSame(this.syncSelectedDate, "day"),
+          currentDay.isSame(this.syncSelectedDateEnd, "day"),
           currentDay.isSameOrAfter(this.syncSelectedDate, "day") &&
-            currentDay.isSameOrBefore(this.syncSelectedDateEnd, "day")
+            currentDay.isSameOrBefore(this.syncSelectedDateEnd, "day"),
+          this.isDayDisabled(currentDay)
         )
       );
       currentDay.add(1, "day");
@@ -96,13 +110,15 @@ export default class DatePicker extends Vue {
   }
 
   selectDate(date: Moment) {
-    if (this.isSelectingDateEnd && this.hasDateEnd)
-      this.syncSelectedDateEnd = date;
-    else if (this.hasDateEnd) this.syncSelectedDate = date;
-    else {
-      this.syncSelectedDate = this.syncSelectedDateEnd = date;
+    if (!this.isDayDisabled(date)) {
+      if (this.isSelectingDateEnd && this.hasDateEnd)
+        this.syncSelectedDateEnd = date;
+      else if (this.hasDateEnd) this.syncSelectedDate = date;
+      else {
+        this.syncSelectedDate = this.syncSelectedDateEnd = date;
+      }
+      this.syncFocusedDate = date.clone();
     }
-    this.syncFocusedDate = date.clone();
   }
 
   moveMonthLast() {
@@ -122,18 +138,20 @@ class DateDirective {
     public date: Moment,
     public isCurrentMonth: boolean = true,
     public isSelected: boolean = false,
-    public isSelectedBackground: boolean = false
+    public isSelectionStart: boolean = false,
+    public isSelectionEnd: boolean = false,
+    public isSelectedBackground: boolean = false,
+    public isDisabled: boolean = false
   ) {}
 
-  getClass(): {
-    "not-current-month": boolean;
-    selected: boolean;
-    "selected-background": boolean;
-  } {
+  getClass() {
     return {
       "not-current-month": !this.isCurrentMonth,
       selected: this.isSelected,
-      "selected-background": this.isSelectedBackground
+      "selection-start": this.isSelectionStart,
+      "selection-end": this.isSelectionEnd,
+      "selected-background": this.isSelectedBackground,
+      disabled: this.isDisabled
     };
   }
 }
@@ -169,19 +187,30 @@ class DateDirective {
     lost-flex-container: row
 
     .calendar-date {
-      lost-waffle: 1 / 7 flex 4px
+      lost-waffle: 1 / 7 flex 0px
+      margin-v: spaces._3
 
-      &.not-current-month {
+      &.not-current-month,
+      &.disabled {
         color: var(--color-text-medium)
       }
 
       &.selected,
       &.selected.selected-background {
-        background: var(--color-accent)
+        background-image: linear-gradient(180deg, transparent 0% 50%, var(--color-accent) 50% 100%)
       }
 
+      // &.selection-start {
+      // margin-left: spaces._2
+      // padding-right: spaces._2
+      // }
+
+      // &.selection-end {
+      // margin-right: spaces._2
+      // padding-left: spaces._2
+      // }
       &.selected-background {
-        background: var(--color-accent-transparent)
+        background-image: linear-gradient(180deg, transparent 0% 50%, var(--color-accent-transparent) 50% 100%)
       }
     }
   }

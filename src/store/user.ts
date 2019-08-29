@@ -1,4 +1,4 @@
-import Vuex, { MutationTree, ActionTree, Store, Module } from 'vuex'
+import Vuex, { MutationTree, ActionTree, Store, Module, GetterTree } from 'vuex'
 import { RootState } from './rootState'
 import axios from 'axios'
 import config from '@/config'
@@ -34,6 +34,14 @@ interface UserLoginData {}
 
 const formHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+export var getters: GetterTree<UserState, RootState> = {
+  authHeader(state) {
+    if (state.loggedIn) {
+      return {}
+    }
+  }
 }
 
 export var actions: ActionTree<UserState, RootState> = {
@@ -115,5 +123,6 @@ export class UserState {
 export const userStore: Module<UserState, RootState> = {
   state: new UserState(),
   mutations,
-  actions
+  actions,
+  getters
 }

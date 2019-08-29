@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="newRoom">
+    <div class="newIssue">
       <h1>new room</h1>
       <div class="form">
         <div class="item">

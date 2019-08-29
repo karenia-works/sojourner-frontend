@@ -8,6 +8,7 @@ import ManageIssue from '@/views/admin/ManageIssue.vue'
 import ManageWorker from '@/views/admin/ManageWorker.vue'
 import WorkerList from '@/views/admin/WorkerList.vue'
 import NewRoom from '@/views/forms/NewRoom.vue'
+import ReplyIssue from '@/views/admin/ReplyIssue.vue'
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -33,6 +34,10 @@ export const adminRoutes: RouteConfig[] = [
   {
     path: 'ManageIssue',
     component: ManageIssue,
+  },
+  {
+    path: 'reply',
+    component:ReplyIssue,
   },
   {
     path: 'ManageWorker',
