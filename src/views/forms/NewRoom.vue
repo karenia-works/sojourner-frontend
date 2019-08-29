@@ -21,26 +21,19 @@
           v-model.trim="r.description" />
         </div>
 
-        <div class="item">
+        <div class="item type">
           <label>How many <span>beds</span> can be offered?</label>
-          <div class="subitem">
-            <input type="radio" id="single" value="single" v-model="r.type" style="color: red">
-            <label for="single">1</label>
-          </div>
-          <div class="subitem">
-            <input type="radio" id="double" value="double" v-model="r.type">
-            <label for="double">2</label>
-          </div>
-          <div class="subitem">
-            <input type="radio" id="quad" value="quad" v-model="r.type">
-            <label for="quad">4</label>
-          </div>
+          <Radio :values="types" :texts="['1', '2', '4']" :roomType.sync="r.type"></Radio>
         </div>
 
-        <div class="item">
-          <label>You'd like to rent your room...</label>
-          <Checkbox :cId="'isLong'" :cText="'by month'" :picked.sync="r.longAvailable"></Checkbox>
-          <Checkbox :cId="'isShort'" :cText="'by day'" :picked.sync="r.shortAvailable"></Checkbox>
+        <div class="item term">
+          <label>You'd like to rent your room </label>
+          <div class="checks">
+            <Checkbox :cId="'isLong'" :cText="'by month'"
+            :picked.sync="r.longAvailable" class="checkbox"></Checkbox>
+            <Checkbox :cId="'isShort'" :cText="'by day'" 
+            :picked.sync="r.shortAvailable" class="checkbox"></Checkbox>
+          </div>
         </div>
 
         <div class="item price" v-if="r.longAvailable || r.shortAvailable">
@@ -57,17 +50,16 @@
         </div>
 
         <div class="item equip">
-          <label>equipJudge</label>
-          {{r.equipJedge}}          
-          <Checkbox :cId="'eq0'" :cText="equips[0]" :picked.sync="r.equipJudge[0]"></Checkbox>
-          <Checkbox :cId="'eq1'" :cText="equips[1]" :picked.sync="r.equipJudge[1]"></Checkbox>
-          <Checkbox :cId="'eq2'" :cText="equips[2]" :picked.sync="r.equipJudge[2]"></Checkbox>
-          <Checkbox :cId="'eq3'" :cText="equips[3]" :picked.sync="r.equipJudge[3]"></Checkbox>
-          <Checkbox :cId="'eq4'" :cText="equips[4]" :picked.sync="r.equipJudge[4]"></Checkbox>
-          <Checkbox :cId="'eq5'" :cText="equips[5]" :picked.sync="r.equipJudge[5]"></Checkbox>
-          <Checkbox :cId="'eq6'" :cText="equips[6]" :picked.sync="r.equipJudge[6]"></Checkbox>
-          <Checkbox :cId="'eq7'" :cText="equips[7]" :picked.sync="r.equipJudge[7]"></Checkbox>
-          
+          <label>You can provide...</label>
+          <div class="checks">
+            <Checkbox 
+              v-for="(item, index) in equips"
+              :key="index" :cId="'eq'+index" 
+              :cText="item" 
+              :picked.sync="r.equipJudge[index]"
+              class="checkbox"
+            ></Checkbox>          
+          </div>
         </div>
     </div>
   </div>
@@ -77,10 +69,12 @@
 import { Component, Prop, PropSync, Vue, Watch } from "vue-property-decorator";
 import {Room} from "@/models/Room.ts"
 import Checkbox from "@/components/Checkbox.vue"
+import Radio from "@/components/Radio.vue"
 
 @Component({
   components: {
-    Checkbox
+    Checkbox,
+    Radio
   }
 })
 export default class NewRoom extends Vue{
@@ -95,7 +89,11 @@ export default class NewRoom extends Vue{
     "fridge",
     "microwave",
     "parking lot"
-  ]
+  ];
+
+  types: Array<string> = ["single", "double", "quad"];
+  typeTexts: Array<string> = ["1", "2", "4"];
+
 
   r: Room = { 
     id: "",
@@ -137,20 +135,42 @@ textarea {
   width 400px
 }
 
-.subitem label {
-  display inline-block
-}
-
-input[type=checkbox], input[type=radio] {
-  display none
-}
-
-input:checked+label {
-  color red
-}
-
 .input {
   margin-left 0
 }
 
+.type label {
+  margin-bottom spaces._3
+}
+
+.term label, .term .checks, .term .checkbox {
+  display inline-block
+}
+
+.term .checks .checkbox {
+  margin-left spaces._3
+}
+
+.price .subitem {
+  display flex
+  align-items flex-end
+}
+
+.price .subitem label {
+  font-size font-sizes.body-larger
+  margin-right spaces._3
+}
+
+.equip .checks {
+  width 100%
+  // width 500px
+  display flex
+  flex-wrap wrap
+}
+
+.equip .checks .checkbox {
+  width 150px
+  margin-v spaces._1
+  // lost-column: 1/3;
+}
 </style>

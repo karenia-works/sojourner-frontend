@@ -1,8 +1,7 @@
 <template>
 <div>
-  <input type="checkbox" :id="cId" 
-  v-model="checked">
-  <label :for="cId">{{cText}}</label>
+  <input type="checkbox" :id="cId" v-model="checked" />
+  <label :for="cId" class="checkLabel" :class="{selected: checked}">{{cText}}</label>
 </div>
 </template>
 
@@ -27,6 +26,27 @@ input[type=checkbox], input[type=radio] {
 
 input:checked+label {
   color red
+}
+
+.checkLabel {
+  color: var(--color-text-medium)
+  font-weight: 400
+  transition: all 250ms
+  font-size: font-sizes.body-larger
+  font-family: fonts-title
+
+  &:hover {
+    color: var(--color-text-dark)
+  }
+
+  &.selected {
+    color: var(--color-text-dark)
+    font-weight: 500
+    background: linear-gradient(180deg, transparent 0% 50%, var(--color-accent-transparent) 50% 100%)
+
+    &:hover {
+    }
+  }
 }
 </style>
 
