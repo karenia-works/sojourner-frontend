@@ -32,20 +32,23 @@ It stands 50 metres back from the shoreline directly in between Pads 40 and 41 I
   noticeJudge: [true, true, true, true, true, true, true, true],
   img: [
     'https://www.nasa.gov/sites/default/files/thumbnails/image/3-2014-1588a.jpg',
-    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg',
-  ],
+    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg'
+  ]
 }
 
 export interface Order {
   id: string
-  roomId: string
+  houseId: string
+  userId: string
   startDate: Date
   endDate: Date
-  ddlDate: Date
-  isFinished: boolean
+  ddlDate?: Date
   isLongRent: boolean
+  isFinished: boolean
   totalPrice: number
-  room: Room
+  createDate: Date
+  cancelDate?: Date
+  isPaid: boolean
 }
 
 export interface Profile {

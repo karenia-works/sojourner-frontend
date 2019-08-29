@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import RoomInfo from "@/components/RoomInfo.vue";
+import RoomInfo from "@/views/room/RoomInfo.vue";
 import { Room } from "@/models/Room";
 
 @Component({

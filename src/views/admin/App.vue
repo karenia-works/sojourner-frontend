@@ -1,15 +1,16 @@
 <template>
   <!-- Root page for admin pages -->
   <div class="admin-world admin-cyan">
-    <!-- <navbar></navbar> -->
+    <navbar-admin></navbar-admin>
     <router-view />
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import NavbarAdmin from "@/components/NavbarAdmin.vue";
 
 @Component({
-  components: {}
+  components: { NavbarAdmin }
 })
 export default class AdminWorld extends Vue {}
 </script>

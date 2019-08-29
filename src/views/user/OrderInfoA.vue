@@ -1,11 +1,11 @@
 <template>
 <div class="orderInfo">
-  <img :src="order.room.img[0]" class="room_img" />
+  <img :src="room.img[0]" class="room_img" />
   <div class="info">
-    <p class="room_title">{{order.room.name}}</p>
+    <p class="room_title">{{room.name}}</p>
     <p class="room_city medium">
-      <span>{{order.room.address.district}} | </span>
-      <span>{{order.room.address.city}}</span>
+      <span>{{room.address.district}} | </span>
+      <span>{{room.address.city}}</span>
     </p>
     <template v-if="isStarted">
       <template v-if="order.isLongRent">
@@ -63,6 +63,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import {Order} from '@/models/Room.ts'
+import {Room} from '@/models/Room.ts'
 
 @Component({
   filters: {
@@ -79,9 +80,27 @@ import {Order} from '@/models/Room.ts'
     }
   }
 })
-export default class OrderInfo extends Vue {
+export default class OrderInfoA extends Vue {
   @Prop() item!: Order;
   order: Order = this.item;
+  room: Room = {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        description: "",
+        type: "quad",
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
+        img:
+          ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
+        address: {
+          city: "Akureyri",
+          district: "Villa Lola"
+        },
+        equipJudge: [],
+        noticeJudge: []
+      };
 
   rentType: String = this.order.isLongRent ? "long" : "short";
 

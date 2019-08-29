@@ -1,10 +1,10 @@
 <template>
   <div class="orderInfo finished">
-    <img :src="order.room.img" class="room_img" />
+    <img :src="room.img[0]" class="room_img" />
     <div class="info">
       <p class="room_title">
-        {{order.room.address.district}} | 
-        <span class="dark">{{order.room.address.city}}</span>
+        {{room.address.district}} | 
+        <span class="dark">{{room.address.city}}</span>
       </p>
       <p class="time">{{order.startDate|dateStr}} - 
         {{order.endDate|dateStr}}</p>
@@ -21,6 +21,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import {Order} from '@/models/Room.ts'
+import {Room} from '@/models/Room.ts'
 
 @Component({
   components: {
@@ -32,10 +33,30 @@ import {Order} from '@/models/Room.ts'
     } 
   }
 })
-export default class OrderInfo extends Vue {
+export default class OrderInfoF extends Vue {
   @Prop() item!: Order;
   order = this.item;
+  room: Room = {
+        id: "122",
+        name: "Amazing view - Moderne apartment",
+        description: "",
+        type: "quad",
+        longAvailable: true,
+        shortAvailable: true,
+        longPrice: 3000,
+        shortPrice: 156,
+        img:
+          ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
+        address: {
+          city: "Akureyri",
+          district: "Villa Lola"
+        },
+        equipJudge: [],
+        noticeJudge: []
+      };
+
   rentType: String = this.order.isLongRent ? "long" : "short";
+  
   get rentTime(): String {
     let start: Moment = moment(this.order.startDate);
     let end: Moment = moment(this.order.endDate);
