@@ -387,7 +387,7 @@ export default class HouseDetail extends Vue {
   }
 
   mounted() {
-    // this.updateRoom();
+    this.updateRoom();
     this.rentByDay = this.searchStatus.useLongRent || true;
   }
 
