@@ -60,7 +60,7 @@ export interface Order {
 }
 
 export interface Profile {
-  userId: string
+  id: string
   userName: string // nickname
   email: string
   phoneNumber: string
