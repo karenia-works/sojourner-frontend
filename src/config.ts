@@ -12,7 +12,7 @@ export default {
     ProfileEndpoint: `profile`,
     profileEndpoint: (id: string) => `profile/${id}`,
     orderByUser: `order/for_user`,
-    orderByHouse: `order/for_house`,
+    orderByHouse: `order/for_house`
   },
   auth: {
     client_id: 'client',

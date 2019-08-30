@@ -5,6 +5,7 @@
     <p>{{profile.email}}</p>
     <p>{{profile.phoneNumber}}</p>
   </div>
+  <div class="content"><a @click="logout">Logout</a></div>
 </div>
 </template>
 
@@ -18,6 +19,11 @@ import {Profile} from '@/models/Room.ts'
 export default class UserInfo extends Vue {
   @Prop() item!: Profile;
   profile: Profile = this.item;
+
+  logout(){
+    this.$store.commit("logout")
+    this.$router.push("/")
+  }
   
 }
 </script>
