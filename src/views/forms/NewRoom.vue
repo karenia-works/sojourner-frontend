@@ -52,7 +52,7 @@
         </div>
 
         <div class="file-selection">
-          <file-selection @upload="uploadImg" :selectedFiles.sync="files">
+          <file-selection @upload="uploadImg" :selectedFiles.sync="files" :showUpload="false">
           </file-selection>
         </div>
 

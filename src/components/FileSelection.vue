@@ -27,14 +27,14 @@ import Axios from "axios";
   }
 })
 export default class FileSelection extends Vue {
-  // @Prop({ type: Boolean, default: false }) showUpload!: boolean;
+  @Prop({ type: Boolean, default: false }) showUpload!: boolean;
 
   @PropSync("selectedFiles", { type: Array, default: () => [] })
   files!: File[];
 
-  get showUpload(): boolean {
-    return this.files.length > 0;
-  }
+  // get showUpload(): boolean {
+  //   return this.files.length > 0;
+  // }
 
   removeFile(index: number) {
     this.files.splice(index, 1);
