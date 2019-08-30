@@ -8,10 +8,10 @@ export default {
     issueEndpoint: 'issue',
     roomEndpoint: (id: string) => `room/${id}`,
     orderEndpoint: (id: string) => `order/${id}`,
-    descreteIssueEndpoint: (id: string) => `issue/${id}`，
+    descreteIssueEndpoint: (id: string) => `issue/${id}`,
     ProfileEndpoint: `profile`,
     profileEndpoint: (id: string) => `profile/${id}`,
-    roomEndpoint: (id: string) => `room/${id}`,,
+    roomEndpoint: (id: string) => `room/${id}`,
     orderByUser: `order/for_user`,
     orderByHouse: `order/for_house`,
   },
