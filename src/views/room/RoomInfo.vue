@@ -67,13 +67,10 @@ import { Room } from "@/models/Room";
 export default class RoomInfo extends Vue {
   @Prop() room!: Room;
 
-  placeholder_room_img_src =
-    "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80";
-
   get room_type(): string {
     var type = this.room.type;
     if (type === "single") return "1 bed";
-    else if (type === "dual") return "2 beds";
+    else if (type === "double") return "2 beds";
     else if (type === "quad") return "4 beds";
     else return "";
   }

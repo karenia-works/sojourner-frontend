@@ -1,17 +1,22 @@
 export default {
   backend: {
     address: 'https://sojourner.rynco.me/api/v1/',
-    tokenEndpoint: '/connect/token',
+    tokenEndpoint: 'https://sojourner.rynco.me/connect/token',
     userEndpoint: 'user',
     searchEndpoint: 'room',
     imageEndpoint: 'image',
     issueEndpoint: 'issue',
     roomEndpoint: (id: string) => `room/${id}`,
     orderEndpoint: (id: string) => `order/${id}`,
+    descreteIssueEndpoint: (id: string) => `issue/${id}`,
+    ProfileEndpoint: `profile`,
+    profileEndpoint: (id: string) => `profile/${id}`,
+    orderByUser: `order/for_user`,
+    orderByHouse: `order/for_house`,
     descreteIssueEndpoint: (id: string) => `issue/${id}`
   },
   auth: {
-    client_id: '',
-    client_secret: ''
+    client_id: 'client',
+    client_secret: 'client'
   }
 }

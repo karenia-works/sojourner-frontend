@@ -21,7 +21,7 @@
           </p>
         </div>
         <div class="buttons">
-          <button class="btn">file an issue</button>
+          <button class="btn" @click="toggleIssueWindow">file an issue</button>
           <button class="btn">renew the lease</button>
         </div>
         <!-- longRent order ends -->
@@ -39,10 +39,14 @@
           </p>
         </div>
         <div class="buttons">
-          <button class="btn">file an issue</button>
+          <button class="btn"  @click="toggleIssueWindow">file an issue</button>
         </div>
         <!-- shortRent order ends -->
       </template>
+      <div class="issue" v-if="showIssue">
+        <div class="cover" @click="toggleIssueWindow"></div>
+        <NewIssue class="issueWindow"></NewIssue>
+      </div>
     </template>
     <template v-else>
       <!-- future Order -->
@@ -62,6 +66,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import moment, { Moment } from "moment";
+import NewIssue from "@/views/forms/NewIssue.vue";
 import {Order} from '@/models/Room.ts'
 import {Room} from '@/models/Room.ts'
 
@@ -78,9 +83,17 @@ import {Room} from '@/models/Room.ts'
       return "" + (num) +
        " month" + (num>1 ? "s" : "");
     }
+  },
+  components: {
+    NewIssue
   }
 })
 export default class OrderInfoA extends Vue {
+  showIssue: boolean = false;  
+  toggleIssueWindow(): void {
+    this.showIssue = !this.showIssue;
+  }
+  
   @Prop() item!: Order;
   order: Order = this.item;
   room: Room = {
@@ -95,8 +108,9 @@ export default class OrderInfoA extends Vue {
         img:
           ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
         address: {
+          country: "Iceland",
           city: "Akureyri",
-          district: "Villa Lola"
+          street: "Villa Lola"
         },
         equipJudge: [],
         noticeJudge: []
@@ -206,6 +220,31 @@ p {
   text-transform: uppercase
   border-width 3px colors.accent solid
   border-radius 3px
+}
+
+.cover {
+  height: 100%
+  width: 100%
+  position: fixed
+  top: 0
+  left: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  z-index: 8
+}
+
+.issueWindow {
+  width: 400px
+  background-color: var(--color-bg-light)
+  border-radius: 5px
+  position fixed
+  top: 20%
+  left: 50%
+  margin-left: -200px
+  z-index: 9
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: spaces._6
 }
 </style>
 

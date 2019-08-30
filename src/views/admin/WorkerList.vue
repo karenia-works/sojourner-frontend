@@ -115,32 +115,25 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
+import axios from "axios";
 
 @Component({
   components: { dotsIcon }
 })
 export default class ManagerWorker extends Vue {
-  workers = [
-    {
-      wid: 10,
-      worker_name: "Clarissa Findlay",
-      is_busy: false
-    },
-    {
-      wid: 13,
-      worker_name: "Elissa Dejesus",
-      is_busy: true
-    },
-    {
-      wid: 84,
-      worker_name: "Cassidy Ayala",
-      is_busy: false
-    },
-    {
-      wid: 71,
-      worker_name: "Tanner Espinosa",
-      is_busy: false
-    }
-  ];
+  workers = [];
+  
+  origin_url = "http://localhost:5000/api/v1/room";
+  api_url = "http://localhost:5000/api/v1/room";
+  keyword = "";
+
+  getAPI() {
+    axios
+      .get(this.api_url)
+      .then(response => (this.workers = response.data))
+      .catch(error => console.log(error));
+  }
+
+  
 }
 </script>

@@ -1,8 +1,7 @@
 <template>
   <div v-if="showLogin">
     <div class="cover" @click="closeLogin"></div>
-    <div class="login loginWindow" v-if="!signup">
-      <!-- <close-icon class="close" @click="closeLogin"/> -->
+    <div class="login loginWindow">
       <input
         type="email"
         class="input"
@@ -18,11 +17,10 @@
       </div>
       <p class="signupLink">
         Don't have an account?&nbsp;
-        <span class="jumpLink" @click="toSignup">Sign up</span> now
+        <span class="jumpLink" @click="closeLogin"><router-link to="/register">Sign up</router-link></span> now
       </p>
     </div>
-    <div class="signup loginWindow" v-if="signup">
-      <!-- <close-icon class="close" @click="closeLogin"/> -->
+    <!-- <div class="signup loginWindow" v-if="signup">
       <input
         type="email"
         class="input"
@@ -49,7 +47,7 @@
         Already have an account?&nbsp;
         <span class="jumpLink" @click="toLogin">Log in</span>
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -128,9 +126,6 @@ export default class Login extends Vue {
   @PropSync("show", { default: false, type: Boolean })
   showLogin!: boolean;
 
-  @PropSync("isSignUp", { default: false, type: Boolean })
-  signup!: boolean;
-
   @Prop({ default: false }) isSinglePage!: boolean;
 
   openLogin() {
@@ -138,12 +133,6 @@ export default class Login extends Vue {
   }
   closeLogin() {
     this.showLogin = false;
-  }
-  toLogin() {
-    this.signup = false;
-  }
-  toSignup() {
-    this.signup = true;
   }
 
   inputCheck = {

@@ -6,9 +6,9 @@
         class="input"
         id="search"
         placeholder="Type in the keyword you would like to find"
-        v-model.trim="status.keyword"
+        v-model.trim="keyword"
       />
-      <button id="search-btn" class="btn search-btn" @click.prevent="emitSearch">Search</button>
+      <button id="search-btn" class="btn search-btn" @click.prevent="reRoute()">Search</button>
     </div>
     <div class="search-filters"></div>
   </div>
@@ -24,69 +24,57 @@ import {
   Model,
   PropSync
 } from "vue-property-decorator";
-import { SearchStatus } from "@/store/search.ts";
 
 @Component({
   components: {}
 })
 export default class searchbarAdmin extends Vue {
-  @PropSync("searchStatus", {
-    type: SearchStatus,
-    default: () => new SearchStatus()
-  })
-  status!: SearchStatus;
-
-  @Prop({ type: Boolean, default: false })
-  showFiters!: boolean;
-
-  @Emit("search")
-  emitSearch() {
-    return this.status;
+  reRoute(keyword: string) {
+    this.$router.push({ name: "adminRoom", query: { kw: keyword } });
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .search-line {
-  display: flex
-  flex-direction: row
-  justify-content: center
-  align-items: center
-  flex-wrap: wrap
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   // Fonts
-  font-family: fonts-title
-  font-size: font-sizes.medium-title
+  font-family: fonts-title;
+  font-size: font-sizes.medium-title;
 
-  input,
-  button {
-    font-size: font-sizes.medium-title
+  input, button {
+    font-size: font-sizes.medium-title;
   }
 
   &>* {
-    margin-v: spaces._3
+    margin-v: spaces._3;
   }
 
   * {
-    align-items: center
+    align-items: center;
   }
 
   #search {
     +break-screen(breakpoints.medium, 0) {
-      lost-column: 9 / 12
+      lost-column: 9 / 12;
     }
 
     +break-screen(0, breakpoints.medium) {
-      lost-column: 3 / 3
+      lost-column: 3 / 3;
     }
   }
 
   #search-btn {
     +break-screen(breakpoints.medium, 0) {
-      lost-column: 2 / 12
+      lost-column: 2 / 12;
     }
 
     +break-screen(0, breakpoints.medium) {
-      lost-column: 1 / 4
+      lost-column: 1 / 4;
     }
   }
 }
