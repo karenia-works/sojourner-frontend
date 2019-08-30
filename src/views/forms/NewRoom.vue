@@ -51,6 +51,11 @@
           </div>
         </div>
 
+        <div class="file-selection">
+          <file-selection @upload="uploadImg" :selectedFiles.sync="files" :showUpload="false">
+          </file-selection>
+        </div>
+
         <div class="item equip">
           <label>You can provide...</label>
           <div class="checks">
@@ -87,13 +92,16 @@ import { Component, Prop, PropSync, Vue, Watch } from "vue-property-decorator";
 import {Room} from "@/models/Room.ts";
 import Checkbox from "@/components/Checkbox.vue";
 import Radio from "@/components/Radio.vue";
+import FileSelection from "@/components/FileSelection.vue";
 import config from "@/config.ts"
 import axios from 'axios';
+import {uploadImages} from "@/helpers/uploadHelper"
 
 @Component({
   components: {
     Checkbox,
-    Radio
+    Radio,
+    FileSelection
   }
 })
 export default class NewRoom extends Vue{
@@ -116,6 +124,8 @@ export default class NewRoom extends Vue{
     "No Games"
   ]
 
+  files: Array<File> = [];
+
   r: Room = { 
     id: "",
     name: "",
@@ -135,11 +145,18 @@ export default class NewRoom extends Vue{
     noticeJudge: [false, false, false, false, false]
   }
 
-  async commit(){
-    let result = await axios.post(
-      config.backend.address+config.backend.roomEndpoint,
-      this.r
+  async uploadImg(files: File[]) {
+    let fileNames = await uploadImages(files);
+    let fileLinks = fileNames.map(name=>`https://sojourner.rynco.me/api/v1/image/${name}`)
+    this.r.img = fileLinks
+  }
 
+  async commit(){
+    await this.uploadImg(this.files);
+    let result = await axios.post(
+      config.backend.address+config.backend.searchEndpoint,
+      this.r
+      ,{headers: this.$store.getters.authHeader}
     )
 
     let success = result.status == 201

@@ -12,8 +12,8 @@ import { Component, Prop, Vue, PropSync } from "vue-property-decorator";
   
 })
 export default class Checkbox extends Vue {
-  @Prop() cId!: string;
-  @Prop() cText!: string;
+  @Prop(String) cId!: string;
+  @Prop(String) cText!: string;
   @PropSync("picked", { default: false, type: Boolean })
   checked!: boolean;  
 }

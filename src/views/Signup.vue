@@ -8,7 +8,7 @@
           <input
             type="email" class="input" id="email"
             placeholder="email address"
-            v-model.trim="account.username"
+            v-model.trim="u.email"
             :class="{textErr: !inputCheck.email}"
             autofocus
           />
@@ -16,7 +16,7 @@
 
         <div class="item">
           <label for="password">Set a password</label>
-          <input type="password" class="input" id="password" placeholder="password" v-model="account.password" />
+          <input type="password" class="input" id="password" placeholder="password" v-model="password" />
         </div>
 
         <div class="item">
@@ -60,13 +60,7 @@ import axios from 'axios';
 export default class Signup extends Vue{
   genders: Array<string> = ["Male", "Female"];
 
-  account = {
-    username: "",
-    password: "",
-    role: "IdentityServerApi",
-    id: null,
-    key: null
-  }
+  password: string = "";
 
   u: Profile = { 
     id: "",
@@ -79,11 +73,16 @@ export default class Signup extends Vue{
   }
 
   async commit(){
-    this.u.email = this.account.username;
+    await this.$store.dispatch("registerUser", 
+    {
+      username: this.u.email,
+      password: this.password
+    });
+    
     let result = await axios.post(
-      config.backend.address+config.backend.roomEndpoint,
-      this.account
-
+      config.backend.address+config.backend.ProfileEndpoint,
+      this.u,
+      {headers: this.$store.getters.authHeader}
     )
 
     let success = result.status == 201
