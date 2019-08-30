@@ -4,6 +4,7 @@ import axios from 'axios'
 import config from '@/config'
 import qs from 'qs'
 import { Profile } from '@/models/Room'
+import { getProfileId, updateProfile } from '@/helpers/profileHelper'
 
 interface TokenContext {
   client_id: string
@@ -23,6 +24,14 @@ interface TokenContext {
   device_code?: string
 }
 
+// {
+//   username: string
+//   password: string
+//   role: "IdentityServerApi"
+//   id: null
+//   key: null
+// }
+
 export class UserData {
   constructor(public username: string) {}
 
@@ -35,7 +44,7 @@ interface UserLoginData {
   access_token: string
   expires_in: number
   token_type: string
-  scope: 'IdentityServerApi' | 'admin' | 'worker'
+  scope: string
 }
 
 const formHeaders = {
@@ -81,20 +90,24 @@ export var actions: ActionTree<UserState, RootState> = {
     let isLoginSuccessful = loginData.status >= 200 && loginData.status < 400
     if (!isLoginSuccessful) return
 
-    ctx.commit('updateLoginData', loginData.data)
-
-    let userData = await axios.get<UserData>(
-      config.backend.address + config.backend.userEndpoint,
-      {
-        headers: ctx.state.userLoginData
-      }
-    )
+    ctx.commit('updateLoginData', { data: loginData.data, email })
+    ctx.commit('tryStoreData')
 
     if (payload.callback) {
       payload.callback(isLoginSuccessful)
     }
+  },
+  async updateProfile(ctx) {
+    if (!ctx.state.email) throw new Error('Not logged in')
+    let profile = await getProfileId(ctx.state.email, ctx.getters.authHeader)
 
-    ctx.commit('updateUserData', userData.data)
+    console.log(
+      await axios.get(config.backend.address + 'user/me', {
+        headers: ctx.getters.authHeader
+      })
+    )
+
+    ctx.commit('updateUserData', profile)
   },
   async registerUser(
     ctx,
@@ -120,18 +133,38 @@ export var actions: ActionTree<UserState, RootState> = {
 
 export var mutations: MutationTree<UserState> = {
   updateUserData(state, s: Profile) {
-    state.userData = s
+    state.profile = s
     state.loggedIn = true
   },
-  updateLoginData(state, d: UserLoginData) {
-    state.userLoginData = d
+  updateLoginData(state, data: { data: UserLoginData; email: string }) {
+    state.userLoginData = data.data
+    state.email = data.email
+  },
+  tryResolveData(state, window: Window) {
+    let header = window.localStorage.getItem('auth')
+    let scope = window.localStorage.getItem('auth_scope') || 'identityServerApi'
+    if (header && scope) {
+      state.userLoginData = {
+        access_token: header,
+        expires_in: 0,
+        token_type: 'Bearer',
+        scope
+      }
+    }
+  },
+  tryStoreData(state) {
+    if (state.userLoginData) {
+      window.localStorage.setItem('auth', state.userLoginData.access_token)
+      window.localStorage.setItem('auth_scope', state.userLoginData.scope)
+    }
   }
 }
 
 export class UserState {
   loggedIn: boolean = false
   userLoginData?: UserLoginData
-  userData?: Profile
+  email?: string
+  profile?: Profile
   loginError?: any
 }
 
