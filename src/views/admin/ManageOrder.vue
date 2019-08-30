@@ -169,6 +169,7 @@ export default class Manageorder extends Vue {
       .get(this.api_url)
       .then(response => {(this.orders = response.data); console.log(this.orders)})
       .catch(error => console.log(error));
+      this.reRoute(); 
   }
 
   mounted() {

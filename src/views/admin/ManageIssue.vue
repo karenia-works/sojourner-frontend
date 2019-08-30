@@ -169,8 +169,8 @@ import axios from "axios";
 export default class ManageIssue extends Vue {
   Issues = [];
   
-  origin_url = "http://localhost:5000/api/v1/room";
-  api_url = "http://localhost:5000/api/v1/room";
+  origin_url = "https://sojourner.rynco.me/api/v1/issue/unfinishedIssue";
+  api_url = "https://sojourner.rynco.me/api/v1/issue/unfinishedIssue";
   keyword = "";
 
   getWorkerUrl(iid: number) {

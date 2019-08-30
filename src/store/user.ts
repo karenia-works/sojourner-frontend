@@ -59,7 +59,7 @@ export var getters: GetterTree<UserState, RootState> = {
       }
     }
     else
-      return { _: undefined };
+      return { };
   }
 }
 
@@ -143,7 +143,7 @@ export var mutations: MutationTree<UserState> = {
     state.email = data.email
     state.loggedIn = true
   },
-  tryResolveData(state, window: Window) {
+  tryRestoreData(state) {
     let header = window.localStorage.getItem('auth')
     let scope = window.localStorage.getItem('auth_scope') || 'identityServerApi'
     if (header && scope) {
