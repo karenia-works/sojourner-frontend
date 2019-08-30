@@ -31,7 +31,7 @@ import { Order } from "@/models/Room.ts";
 import { Profile } from "@/models/Room.ts";
 import { findOrderByUser } from "@/helpers/orderHelper.ts";
 import axios from 'axios';
-import { config } from '@vue/test-utils';
+import config from "@/config.ts";
 
 @Component({
   components: {
@@ -53,7 +53,7 @@ export default class Me extends Vue {
       .get(config.backend.address, {
         headers: this.$store.getters.authHeader
       })
-      .then(response => (this.users = response.data))
+      // .then(response => (this.users = response.data))
       .catch(error => console.log(error));
   }
 
