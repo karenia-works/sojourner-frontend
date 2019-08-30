@@ -12,18 +12,10 @@
         v-if="shouldSearch && !searching && !searchError && rooms.length>0"
       ></RoomsInGrid>
       <div class="search-error" v-else-if="shouldSearch && !searching && !searchError">
-        <div class="jumbotron">
-          <img src="../assets/sojourner-no-result.svg" alt class="search-tip-pic" />
-          <h2>No room was found matching your target.</h2>
-          <h3>Maybe try something different?</h3>
-        </div>
+        <errors :error-code="204" />
       </div>
       <div class="search-error" v-else-if="shouldSearch && searchError">
-        <div class="jumbotron">
-          <img src="../assets/sojourner-no-data.svg" alt class="search-tip-pic" />
-          <h2>Something's wrong with data connection</h2>
-          {{searchErrorText}}
-        </div>
+        <errors :error-code="searchErrorCode" />
       </div>
       <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
       <div class="search-indicator" v-else>
@@ -41,19 +33,6 @@
 .search-error {
   lost-column: 1 / 1
 }
-
-.jumbotron {
-  padding-v: spaces._6
-  lost-column: 1 / 1
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
-}
-
-.search-tip-pic {
-  max-height: 40vh
-}
 </style>
 
 <script lang="ts">
@@ -66,12 +45,14 @@ import { Dictionary } from "vue-router/types/router";
 import axios from "axios";
 import config from "../config";
 import ExploreSection from "@/components/search/Explore.vue";
+import Errors from "@/components/art/Errors.vue";
 
 @Component({
   components: {
     RoomsInGrid,
     SearchBar,
-    ExploreSection
+    ExploreSection,
+    Errors
   }
 })
 export default class Search extends Vue {
@@ -80,7 +61,13 @@ export default class Search extends Vue {
 
   shouldSearch: boolean = false;
   searching: boolean = true;
-  searchError: boolean = false;
+  searchErrorCode: number = 200;
+  get searchError(): boolean {
+    return this.searchErrorCode >= 300;
+  }
+  set searchError(_) {
+    throw new Error();
+  }
   searchErrorText?: string;
 
   mounted() {
@@ -110,17 +97,16 @@ export default class Search extends Vue {
       );
 
       this.searching = false;
+      this.searchErrorCode = searchData.status;
       if (searchData.status >= 400) {
-        this.searchError = true;
         this.searchErrorText = searchData.statusText;
       } else {
-        this.searchError = false;
         this.searching = false;
         this.rooms = searchData.data;
       }
     } catch (e) {
       this.searching = false;
-      this.searchError = true;
+      this.searchErrorCode = 999;
       this.searchErrorText = "Network error. Try again!";
     }
   }
