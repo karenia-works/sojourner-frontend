@@ -26,11 +26,15 @@ import Axios from "axios";
     DeleteIcon
   }
 })
-export default class FileSelector extends Vue {
+export default class FileSelection extends Vue {
   @Prop({ type: Boolean, default: false }) showUpload!: boolean;
 
   @PropSync("selectedFiles", { type: Array, default: () => [] })
   files!: File[];
+
+  // get showUpload(): boolean {
+  //   return this.files.length > 0;
+  // }
 
   removeFile(index: number) {
     this.files.splice(index, 1);

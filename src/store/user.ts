@@ -116,8 +116,6 @@ export var actions: ActionTree<UserState, RootState> = {
     payload: {
       username: string
       password: string
-      name: string
-      phone: string
     }
   ) {
     let result = await axios.post(
@@ -146,19 +144,23 @@ export var mutations: MutationTree<UserState> = {
   tryRestoreData(state) {
     let header = window.localStorage.getItem('auth')
     let scope = window.localStorage.getItem('auth_scope') || 'identityServerApi'
-    if (header && scope) {
+    let email = window.localStorage.getItem('email') || 'identityServerApi'
+    if (header && scope && email) {
       state.userLoginData = {
         access_token: header,
         expires_in: 0,
         token_type: 'Bearer',
         scope
       }
+      state.email = email
+      state.loggedIn = true
     }
   },
   tryStoreData(state) {
-    if (state.userLoginData) {
+    if (state.userLoginData && state.email) {
       window.localStorage.setItem('auth', state.userLoginData.access_token)
       window.localStorage.setItem('auth_scope', state.userLoginData.scope)
+      window.localStorage.setItem('email', state.email)
     }
   }
 }
