@@ -12,8 +12,7 @@ export default {
     ProfileEndpoint: `profile`,
     profileEndpoint: (id: string) => `profile/${id}`,
     orderByUser: `order/for_user`,
-    orderByHouse: `order/for_house`,
-    descreteIssueEndpoint: (id: string) => `issue/${id}`
+    orderByHouse: `order/for_house`
   },
   auth: {
     client_id: 'client',
