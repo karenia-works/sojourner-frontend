@@ -140,7 +140,7 @@ export var mutations: MutationTree<UserState> = {
     state.userLoginData = data.data
     state.email = data.email
   },
-  tryResolveData(state, window: Window) {
+  tryRestoreData(state) {
     let header = window.localStorage.getItem('auth')
     let scope = window.localStorage.getItem('auth_scope') || 'identityServerApi'
     if (header && scope) {

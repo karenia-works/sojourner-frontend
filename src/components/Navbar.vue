@@ -12,8 +12,18 @@
       </router-link>
     </div>
     <div class="nav-right">
-      <div class="nav-el" id="sign_up" @click="switchLogin()">Sign up</div>
-      <login :show.sync="showLogin" />
+      <template v-if="loggedIn">
+        <div class="nav-el" id="sign_up" @click="switchLogin()">Log in</div>
+        <login :show.sync="showLogin" />
+        <router-link to="/register">
+          <div class="nav-el">Sign up</div>
+        </router-link>
+      </template>
+      <template v-else>
+        <router-link to="/u/me">
+          <div class="nav-el">Me</div>
+        </router-link>
+      </template>
     </div>
   </div>
 </template>
@@ -21,7 +31,7 @@
 <style lang="stylus" scoped>
 .navbar {
   background: var(--color-bg-medium)
-  flex-shrink 0
+  flex-shrink: 0
   display: flex
   flex-direction: row
   justify-content: space-between
@@ -67,6 +77,10 @@ export default class Navbar extends Vue {
 
   switchLogin() {
     this.showLogin = !this.showLogin;
+  }
+
+  get loggedIn(): boolean {
+    return this.$store.state.userStore.loggedIn;
   }
 }
 </script>
