@@ -137,6 +137,24 @@ export var actions: ActionTree<UserState, RootState> = {
         key: null
       }
     )
+  },
+  async registerWorker(
+    ctx,
+    payload: {
+      username: string
+      password: string
+    }
+  ) {
+    let result = await axios.post(
+      new URL(config.backend.userEndpoint, config.backend.address).href,
+      {
+        username: payload.username,
+        password: payload.password,
+        role: 'worker',
+        id: null,
+        key: null
+      }
+    )
   }
 }
 

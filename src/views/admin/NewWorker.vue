@@ -93,15 +93,15 @@ export default class NewWorker extends Vue {
   };
 
   async commit() {
-    await this.$store.dispatch("registerUser", {
+    await this.$store.dispatch("registerWorker", {
       username: this.u.email,
       password: this.password
     });
 
-    await this.$store.dispatch("loginUser", {
-      email: this.u.email,
-      password: this.password
-    });
+    // await this.$store.dispatch("loginUser", {
+    //   email: this.u.email,
+    //   password: this.password
+    // });
 
     let result = await axios.post(
       config.backend.address + config.backend.ProfileEndpoint,
