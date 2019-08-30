@@ -10,12 +10,12 @@ interface TokenContext {
   client_id: string
   client_secret: string
   grant_type:
-    | 'authorization_code'
-    | 'client_credentials'
-    | 'password'
-    | 'refresh_token'
-    | 'urn:ietf:params:oauth:grant-type:device_code'
-    | 'hashed_password'
+  | 'authorization_code'
+  | 'client_credentials'
+  | 'password'
+  | 'refresh_token'
+  | 'urn:ietf:params:oauth:grant-type:device_code'
+  | 'hashed_password'
   scope?: string
   redirect_uri?: string
   username?: string
@@ -33,7 +33,7 @@ interface TokenContext {
 // }
 
 export class UserData {
-  constructor(public username: string) {}
+  constructor(public username: string) { }
 
   public updateFrom(data: UserLoginData) {
     // TODO

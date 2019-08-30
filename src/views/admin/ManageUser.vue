@@ -147,6 +147,7 @@ export default class ManageUser extends Vue {
 
   origin_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
   api_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
+  del_url = "https://sojourner.rynco.me/api/v1/profile/";
   keyword = "";
 
   getAPI() {
@@ -191,7 +192,7 @@ export default class ManageUser extends Vue {
   }
 
   DeleteItem(delete_id: string) {
-    return this.origin_url + "/" + delete_id;
+    return this.del_url + delete_id;
   }
 
   getUserOrderUrl(uid: number) {

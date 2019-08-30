@@ -1,18 +1,24 @@
 <template>
   <div class="container">
     <div class="add_worker">
-      <button class="btn">Add Worker</button>
+      <router-link to="NewWorker">
+        <button class="btn">Add Worker</button>
+      </router-link>
     </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>WID</td>
         <td>Worker Name</td>
+        <td>Phone Number</td>
+        <td>Email</td>
         <td>Status</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="worker in workers">
-        <td>{{ worker.wid }}</td>
-        <td>{{ worker.worker_name }}</td>
+        <td>{{ worker.id.substr(worker.id.length-4) }}</td>
+        <td>{{ worker.userName }}</td>
+        <td>{{ worker.phoneNumber }}</td>
+        <td>{{ worker.email }}</td>
         <td>
           <label v-show="!worker.is_busy" class="yes_judge">Free</label>
           <label v-show="worker.is_busy" class="no_judge">Busy</label>
@@ -23,7 +29,7 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to>Delete</router-link>
+              <router-link v-on:click.native="deleteAPI(worker.email)" to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -36,8 +42,8 @@
 .container {
   .add_worker {
     float: right;
-    height: 70px
-    padding-right:30px
+    height: 70px;
+    padding-right: 30px;
   }
 
   .table {
@@ -116,15 +122,18 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import axios from "axios";
+import { getProfileId } from "@/helpers/profileHelper";
+import { Profile } from "@/models/Room";
 
 @Component({
   components: { dotsIcon }
 })
 export default class ManagerWorker extends Vue {
-  workers = [];
-  
-  origin_url = "https://sojourner.rynco.me/api/v1/profile/allUserList/worker";
-  api_url = "https://sojourner.rynco.me/api/v1/profile/allUserList/worker";
+  workers: Profile[] = [];
+
+  origin_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/worker";
+  api_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/worker";
+  del_url = "https://sojourner.rynco.me/api/v1/profile/";
 
   getAPI() {
     axios
@@ -135,6 +144,24 @@ export default class ManagerWorker extends Vue {
       .catch(error => console.log(error));
   }
 
-  
+  async deleteAPI(delete_id: string) {
+    try {
+      await axios.delete(this.DeleteItem(delete_id), {
+        headers: this.$store.getters.authHeader
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // this.rooms.filter(x => x.id == delete_id);
+    this.getAPI();
+  }
+
+  DeleteItem(delete_id: string) {
+    return this.del_url + delete_id;
+  }
+
+  mounted() {
+    this.getAPI();
+  }
 }
 </script>
