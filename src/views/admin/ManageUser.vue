@@ -36,7 +36,7 @@
             </button>
             <div class="dropdown-content">
               <router-link to>Change Info</router-link>
-              <router-link to>Check Order</router-link>
+              <router-link :to="getUserOrderUrl(user.email)">Check Order</router-link>
               <router-link v-on:click.native="deleteAPI(user.email)" to="">Delete</router-link>
             </div>
           </div>
@@ -159,7 +159,6 @@ export default class ManageUser extends Vue {
 
 
   async deleteAPI(delete_id: string) {
-    console.log(this.$store.getters.authHeader);
     try {
       await axios.delete(this.DeleteItem(delete_id), {
         headers: this.$store.getters.authHeader
@@ -182,6 +181,10 @@ export default class ManageUser extends Vue {
   }
   DeleteItem(delete_id: string) {
     return this.origin_url + "/" + delete_id;
+  }
+
+  getUserOrderUrl(uid: number) {
+    return ("UserOrder?uid=" + uid);
   }
 }
 </script>

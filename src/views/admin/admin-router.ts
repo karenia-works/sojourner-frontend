@@ -9,6 +9,7 @@ import ManageWorker from '@/views/admin/ManageWorker.vue'
 import WorkerList from '@/views/admin/WorkerList.vue'
 import NewRoom from '@/views/forms/NewRoom.vue'
 import ReplyIssue from '@/views/admin/ReplyIssue.vue'
+import UserOrder from '@/views/admin/UserOrder.vue'
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -22,6 +23,10 @@ export const adminRoutes: RouteConfig[] = [
   {
     path: 'ManageOrder',
     component: ManageOrder,
+  },
+  {
+    path: 'UserOrder',
+    component: UserOrder,
   },
   {
     path: 'ManageRoom',
