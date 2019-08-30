@@ -8,9 +8,9 @@
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
-        <label v-show="needRepair">Repair Issue</label>
-        <label v-show="!needRepair">compliant</label>
-        <div class="compliant">{{compliant}}</div>
+        <label v-show="Issues.needRepair">Repair Issue</label>
+        <label v-show="!Issues.needRepair">compliant</label>
+        <div class="compliant">{{Issues.complaint}}</div>
       </div>
     </div>
     <div class="put_img">
@@ -19,11 +19,11 @@
 
     <div class="title1">Reply:</div>
     <div class="input_reply">
-      <textarea class="input_character" />
+      <textarea class="input_character" v-model="Issues.reply" />
     </div>
     <div class="reply_button">
       <router-link to="ManageIssue">
-      <button class="reply btn">Reply</button>
+        <button class="reply btn" @click="ReplyIssue(Issues)">Reply</button>
       </router-link>
     </div>
   </div>
@@ -96,21 +96,57 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import axios from "axios";
 
 @Component({
   components: {}
 })
 export default class ReplyIssue extends Vue {
-  iid: number = 20;
-  needRepair: boolean = true;
-  imgs: string[] = [
-    "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-    "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-    "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large"
-  ];
-  compliant: string =
-    "m of mr friendly by strongly peculiar juvenile. Unpleasant it sufficient simplicity am by friendship no inhabiting. Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length an. Man request adapted spirits set pressed. Up to denoting subjects sensible feelings it indulged directly. We dwelling elegance do shutters appetite yourself diverted. Our next drew much you with rank. Tore many held age hold rose than our. She literature sentiments any contrasted. Set aware joy sense young now tears china shy. ";
-  reply: string = "";
-  isReplied: boolean = true;
+  iid: string = this.GetQueryString("iid") as string;
+  api_url = "https://sojourner.rynco.me/api/v1/issue/";
+
+  Issues = [];
+
+  // needRepair: boolean = true;
+  // imgs: string[] = [
+  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
+  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
+  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large"
+  // ];
+  // compliant: string =
+  //   "m of mr friendly by strongly peculiar juvenile. Unpleasant it sufficient simplicity am by friendship no inhabiting. Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length an. Man request adapted spirits set pressed. Up to denoting subjects sensible feelings it indulged directly. We dwelling elegance do shutters appetite yourself diverted. Our next drew much you with rank. Tore many held age hold rose than our. She literature sentiments any contrasted. Set aware joy sense young now tears china shy. ";
+  // reply: string = "";
+  // isReplied: boolean = true;
+
+  async ReplyIssue(issue) {
+    issue.isReplied=true;
+    let request = await axios.put(this.api_url + this.iid, issue, {
+      headers: this.$store.getters.authHeader
+    });
+    if (request.status < 200 && request.status >= 300)
+      throw new Error(
+        `Can not add order! state: ${request.status},id: ${issue.id}`
+      );
+  }
+
+  getAPI() {
+    axios
+      .get(this.api_url + this.iid, {
+        headers: this.$store.getters.authHeader
+      })
+      .then(response => (this.Issues = response.data))
+      .catch(error => console.log(error));
+  }
+
+  mounted() {
+    this.getAPI();
+  }
+
+  GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+  }
 }
 </script>

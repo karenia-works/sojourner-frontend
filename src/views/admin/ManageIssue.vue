@@ -26,13 +26,13 @@
         <td>{{ Issue.user_name }}</td>
         <td>{{ Issue.worker_name }}</td>
         <td>
-          <div :class="{'line':true , 'line1':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'lineE':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
         </td>
         <td>
           <div class="dropdown">
@@ -40,8 +40,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="reply" v-show="!Issue.is_reply">Reply</router-link>
-              <router-link :to="getWorkerUrl(Issue.iid)" v-show="!Issue.is_repair">Send Worker</router-link>
+              <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
+              <router-link :to="getWorkerUrl(Issue.id)" v-show="!Issue.isFinished">Send Worker</router-link>
               <router-link to="">Delete</router-link>
             </div>
           </div>
@@ -175,6 +175,10 @@ export default class ManageIssue extends Vue {
 
   getWorkerUrl(iid: number) {
     return ("ManageWorker?iid=" + iid);
+  }
+
+  getReplyUrl(iid: number) {
+    return ("reply?iid=" + iid);
   }
 
   getAPI() {
