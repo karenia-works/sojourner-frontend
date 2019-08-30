@@ -1,6 +1,14 @@
 <template>
   <div class="container">
-    <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        placeholder="Type in the order you would like to find"
+        v-model.trim="keyword"
+      />
+      <button class="btn" @click="reRoute">Search</button>
+    </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>OID</td>
@@ -12,21 +20,21 @@
         <td>Price</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="order in orders">
-        <td>{{ order.oid }}</td>
-        <td>{{ order.room_name }}</td>
+      <tr class="layer" v-for="order in orders" :key="order.id">
+        <td>{{ order.id.substr(order.id.length-4)  }}</td>
+        <td>{{ order.house.name }}</td>
         <td>
-          <img :src="order.ava_url" class="ava_img" />
+          <img :src="order.house.img[0]" class="ava_img" />
         </td>
-        <td>{{ order.user_name }}</td>
-        <td>{{ order.duration }}</td>
+        <td>{{ order.userEmail }}</td>
+        <td>{{ getDuration(order.startDate, order.endDate) }}</td>
         <td>
-          <label v-show="order.is_long_rent" class="yes_judge">Long Rent</label>
-          <label v-show="!order.is_long_rent" class="no_judge">Short Rent</label>
+          <label v-show="order.isLongRent" class="yes_judge">Long Rent</label>
+          <label v-show="!order.isLongRent" class="no_judge">Short Rent</label>
         </td>
         <td>
-          <label v-show="order.is_long_rent">${{ order.price }}/month</label>
-          <label v-show="!order.is_long_rent">${{ order.price }}/day</label>
+          <label v-show="order.isLongRent">${{ order.house.longPrice }}/month</label>
+          <label v-show="!order.isLongRent">${{ order.house.shortPrice }}/day</label>
         </td>
         <td>
           <div class="dropdown">
@@ -34,8 +42,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="">Delete</router-link>
-              <router-link to="">Change Info</router-link>
+              <router-link to>Delete</router-link>
+              <router-link to>Change Info</router-link>
             </div>
           </div>
         </td>
@@ -46,9 +54,15 @@
 
 <style lang="stylus" scoped>
 .container {
-  .SearchBar {
-    padding-top: 50px;
-    padding-bottom: 100px;
+  .search-line {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 60px;
+
+    .input {
+      lost-column: 9 / 12;
+    }
   }
 
   .table {
@@ -127,52 +141,49 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
+import axios from "axios";
+import { Order } from '@/models/Room';
+import moment, { Moment } from "moment";
+import {findOrderByRoom} from "@/helpers/orderHelper"
 
 @Component({
-  components: { dotsIcon, searchbarAdmin }
+  components: { dotsIcon, searchbarAdmin, }
 })
 export default class Manageorder extends Vue {
-  orders = [
-    {
-      oid: 1,
-      user_name: "Clarissa Findlay",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6061582/a643208f_original.jpg?aki_policy=xx_large",
-      room_name: "Coastal Maine Cottage",
-      is_long_rent: true,
-      duration: "Aug12 - Sep18",
-      price: 309
-    },
-    {
-      oid: 32,
-      user_name: "Elissa Dejesus",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/14086670/8f77374b_original.jpg?aki_policy=xx_large",
-      room_name: "A beautiful villa in North Iceland",
-      is_long_rent: true,
-      duration: "Jan13 - Feb12",
-      price: 138
-    },
-    {
-      oid: 21,
-      user_name: "Cassidy Ayala",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/cd17b75f-9aee-4f68-b80d-dde84996fb4b.jpg?aki_policy=xx_large",
-      room_name: "Kealakekua Bay Bali Cottage -steps from Bay",
-      is_long_rent: false,
-      duration: "May5 - Jun27",
-      price: 225
-    },
-    {
-      oid: 341,
-      user_name: "Tanner Espinosa",
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6717551/528a76f1_original.jpg?aki_policy=large",
-      room_name: "The house among olive trees",
-      is_long_rent: true,
-      duration: "Aug12 - Sep18",
-      price: 798
-    }
-  ];
+  orders:Order[] = [];
+
+  origin_url = "https://sojourner.rynco.me/api/v1/order/orderView";
+  api_url = "https://sojourner.rynco.me/api/v1/order/orderView";
+  keyword = "";
+
+  stringToFormattedDate(str: string):string{
+    return moment(str).format("MM-DD")
+  }
+
+  getDuration(startDate: string, endDate: string){
+    return (this.stringToFormattedDate(startDate) + "->" + this.stringToFormattedDate(endDate))    
+  }
+
+  getAPI() {
+    axios
+      .get(this.api_url)
+      .then(response => {(this.orders = response.data); console.log(this.orders)})
+      .catch(error => console.log(error));
+  }
+
+  mounted() {
+    this.getAPI();
+  }
+
+  reRoute() {
+    if (this.keyword == "") this.api_url = this.origin_url;
+    else this.api_url = this.origin_url + "?kw=" + this.keyword;
+    this.getAPI();
+  }
+
+  findOrderByRoom(){
+    console.log(this.keyword)
+    findOrderByRoom(this.keyword).then(orders=>this.orders=orders)
+  }
 }
 </script>

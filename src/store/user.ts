@@ -10,12 +10,12 @@ interface TokenContext {
   client_id: string
   client_secret: string
   grant_type:
-    | 'authorization_code'
-    | 'client_credentials'
-    | 'password'
-    | 'refresh_token'
-    | 'urn:ietf:params:oauth:grant-type:device_code'
-    | 'hashed_password'
+  | 'authorization_code'
+  | 'client_credentials'
+  | 'password'
+  | 'refresh_token'
+  | 'urn:ietf:params:oauth:grant-type:device_code'
+  | 'hashed_password'
   scope?: string
   redirect_uri?: string
   username?: string
@@ -33,7 +33,7 @@ interface TokenContext {
 // }
 
 export class UserData {
-  constructor(public username: string) {}
+  constructor(public username: string) { }
 
   public updateFrom(data: UserLoginData) {
     // TODO
@@ -53,11 +53,13 @@ const formHeaders = {
 
 export var getters: GetterTree<UserState, RootState> = {
   authHeader(state) {
-    if (state.userLoginData) {
+    if (state.loggedIn && state.userLoginData) {
       return {
         Authorization: `Bearer ${state.userLoginData.access_token}`
       }
     }
+    else
+      return { _: undefined };
   }
 }
 
@@ -114,8 +116,6 @@ export var actions: ActionTree<UserState, RootState> = {
     payload: {
       username: string
       password: string
-      name: string
-      phone: string
     }
   ) {
     let result = await axios.post(
@@ -139,23 +139,28 @@ export var mutations: MutationTree<UserState> = {
   updateLoginData(state, data: { data: UserLoginData; email: string }) {
     state.userLoginData = data.data
     state.email = data.email
+    state.loggedIn = true
   },
   tryRestoreData(state) {
     let header = window.localStorage.getItem('auth')
     let scope = window.localStorage.getItem('auth_scope') || 'identityServerApi'
-    if (header && scope) {
+    let email = window.localStorage.getItem('email') || 'identityServerApi'
+    if (header && scope && email) {
       state.userLoginData = {
         access_token: header,
         expires_in: 0,
         token_type: 'Bearer',
         scope
       }
+      state.email = email
+      state.loggedIn = true
     }
   },
   tryStoreData(state) {
-    if (state.userLoginData) {
+    if (state.userLoginData && state.email) {
       window.localStorage.setItem('auth', state.userLoginData.access_token)
       window.localStorage.setItem('auth_scope', state.userLoginData.scope)
+      window.localStorage.setItem('email', state.email)
     }
   }
 }

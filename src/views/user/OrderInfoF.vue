@@ -48,8 +48,9 @@ export default class OrderInfoF extends Vue {
         img:
           ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
         address: {
+          country: "Iceland",
           city: "Akureyri",
-          district: "Villa Lola"
+          street: "Villa Lola"
         },
         equipJudge: [],
         noticeJudge: []

@@ -1,31 +1,44 @@
 <template>
   <div class="container">
-    <searchbarAdmin class="SearchBar" :searchStatus.sync="searchStatus" @search="onSearch"></searchbarAdmin>
+    <div class="search-line">
+      <input
+        type="text"
+        class="input"
+        placeholder="Type in the room name you would like to find"
+        v-model.trim="keyword"
+      />
+      <button class="btn" @click="reRoute">Search</button>
+    </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>HID</td>
         <td>Room Name</td>
         <td>Preview</td>
-        <td>Being Rented</td>
         <td>Short Rent</td>
+        <td>Avability</td>
         <td>Long Rent</td>
+        <td>Avability</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="room in rooms">
-        <td>{{ room.hid }}</td>
-        <td>{{ room.room_name }}</td>
+        <td>{{ room.id.substr(room.id.length-4) }}</td>
+        <td>{{ room.name }}</td>
         <td>
-          <img :src="room.ava_url" class="ava_img" />
+          <img :src="room.img[0]" class="ava_img" />
         </td>
         <td>
-          <label v-show="room.is_renting" class="yes_judge">Yes</label>
-          <label v-show="!room.is_renting" class="no_judge">No</label>
+          <label>${{ room.shortPrice }}/day</label>
         </td>
         <td>
-          <label>${{ room.short_rent_price }}/day</label>
+          <label v-show="room.shortAvailbale" class="yes_judge">Yes</label>
+          <label v-show="!room.shortAvailbale" class="no_judge">No</label>
         </td>
         <td>
-          <label>${{ room.long_rent_price }}/month</label>
+          <label>${{ room.longPrice }}/month</label>
+        </td>
+        <td>
+          <label v-show="room.longAvailable" class="yes_judge">Yes</label>
+          <label v-show="!room.longAvailable" class="no_judge">No</label>
         </td>
         <td>
           <div class="dropdown">
@@ -33,9 +46,10 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link :to=getRoomUrl(room.hid)>Detail</router-link>
+              <router-link :to="getRoomUrl(room.id)">Detail</router-link>
               <router-link v-show="room.is_renting">Stop Renting</router-link>
-              <router-link to="">Rent</router-link>
+              <router-link to>Rent</router-link>
+              <router-link v-on:click.native="DeleteItem(room.id)" to="">Delete</router-link>
             </div>
           </div>
         </td>
@@ -46,9 +60,15 @@
 
 <style lang="stylus" scoped>
 .container {
-  .SearchBar {
-    padding-top: 50px;
-    padding-bottom: 100px;
+  .search-line {
+    display: flex;
+    flex-direction: row;
+    width :100%;
+    padding-bottom :60px;
+
+    .input{
+      lost-column: 9 / 12;
+    }
   }
 
   .table {
@@ -127,52 +147,44 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
+import axios from "axios";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageRoom extends Vue {
-  rooms = [
-    {
-      hid: 1,
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6061582/a643208f_original.jpg?aki_policy=xx_large",
-      room_name: "Coastal Maine Cottage",
-      is_renting: true,
-      long_rent_price: 309,
-      short_rent_price: 17
-    },
-    {
-      hid: 2,
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/14086670/8f77374b_original.jpg?aki_policy=xx_large",
-      room_name: "A beautiful villa in North Iceland",
-      is_renting: true,
-      long_rent_price: 138,
-      short_rent_price: 53
-    },
-    {
-      hid: 3,
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/cd17b75f-9aee-4f68-b80d-dde84996fb4b.jpg?aki_policy=xx_large",
-      room_name: "Kealakekua Bay Bali Cottage -steps from Bay",
-      is_renting: false,
-      long_rent_price: 225,
-      short_rent_price: 92
-    },
-    {
-      hid: 4,
-      ava_url:
-        "https://z1.muscache.cn/im/pictures/6717551/528a76f1_original.jpg?aki_policy=large",
-      room_name: "The house among olive trees",
-      is_renting: true,
-      long_rent_price: 798,
-      short_rent_price: 12
-    }
-  ];
+  rooms = [];
+  origin_url = "https://sojourner.rynco.me/api/v1/room";
+  api_url = "https://sojourner.rynco.me/api/v1/room";
+  keyword = "";
 
   getRoomUrl(url: string) {
-    return ("/r/"+url)
+    return "/r/" + url;
+  }
+
+  getAPI() {
+    axios
+      .get(this.api_url)
+      .then(response => (this.rooms = response.data))
+      .catch(error => console.log(error));
+  }
+
+  mounted() {
+    this.getAPI();
+  }
+
+  reRoute() {
+    if (this.keyword == "") this.api_url = this.origin_url;
+    else this.api_url = this.origin_url + "?kw=" + this.keyword;
+    this.getAPI();
+  }
+  DeleteItem(delete_id: string) {
+    this.api_url = this.origin_url + "/" + delete_id;
+    this.getAPI();
+  }
+
+  log(id:string){
+    console.log(id);
   }
 }
 </script>
