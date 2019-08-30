@@ -108,7 +108,7 @@ export default class OrderInfoA extends Vue {
   @Prop() item!: Order;
   order: Order = this.item;
   room: Room = {
-        id: "122",
+        id: "789123789123789123789321",
         name: "Amazing view - Moderne apartment",
         description: "",
         type: "quad",

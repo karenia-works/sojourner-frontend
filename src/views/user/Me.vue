@@ -57,9 +57,9 @@ export default class Me extends Vue {
 
   orders: Array<Order> = [
     {
-      id: "789",
-      houseId: "122",
-      userEmail: "122",
+      id: "789123789123789123789123",
+      houseId: "789123789123789123789321",
+      userEmail: "ying@ying.com",
       startDate: new Date("2019-8-20"),
       endDate: new Date("2019-10-20"),
       ddlDate: new Date("2019-9-20"),

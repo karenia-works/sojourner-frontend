@@ -53,15 +53,18 @@ export default class Renew extends Vue {
   }
 
   async submitRenew() {
-    let result = await axios.post(
-      config.backend.address+'/order/'+this.order.id+`/extendOrderDate`,
-      {
-        time: this.newEnd.toDate()
-      }
-      ,{headers: this.$store.getters.authHeader}
-    )
-
-    let success = result.status == 201
+    let len: number = this.length;
+    if (len > 0 && len === Math.ceil(len)) {
+      let result = await axios.post(
+        config.backend.address+`order/extendorderdate/`+this.order.id,
+        this.newEnd.toDate(),
+        {headers: this.$store.getters.authHeader}
+      )
+  
+      let success = result.status == 201
+    } else {
+      alert("please check your input");
+    }
   }
 }
 </script>
