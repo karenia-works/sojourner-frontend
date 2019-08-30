@@ -164,29 +164,11 @@ export default class NewRoom extends Vue{
       this.$router.push({ name: "home" });
     }
   }
-
-  }
+}
 </script>
 
 <style lang="stylus" scoped>
-.item {
-  margin-v spaces._6
-}
 
-label:first-child {
-  display block
-  font-size font-sizes.small-title
-  font-family fonts-title
-}
-
-label:first-child span {
-  // color colors-admin.accent
-  font-weight 500
-}
-
-textarea {
-  width 400px
-}
 
 .input {
   margin-left 0

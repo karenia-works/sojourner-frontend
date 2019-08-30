@@ -22,7 +22,11 @@
         </div>
         <div class="buttons">
           <button class="btn" @click="toggleIssueWindow">file an issue</button>
-          <button class="btn">renew the lease</button>
+          <button class="btn" @click="openRenew">renew the lease</button>
+          <!-- <div class="renew" v-if="showRenew"> -->
+            <!-- <div class="cover" @click="toggleRenew"></div> -->
+            <Renew :room="room" :order="order" :show.sync="showRenew" v-if="showRenew"></Renew>
+          <!-- </div> -->
         </div>
         <!-- longRent order ends -->
       </template>
@@ -67,6 +71,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import moment, { Moment } from "moment";
 import NewIssue from "@/views/forms/NewIssue.vue";
+import Renew from "@/views/user/Renew.vue";
 import {Order} from '@/models/Room.ts'
 import {Room} from '@/models/Room.ts'
 
@@ -76,7 +81,7 @@ import {Room} from '@/models/Room.ts'
       return moment(date).format('MMM Do');
     },
     days: function(num: number) {
-      return "" + (num+1) +
+      return "" + (num) +
        " day" + (num>1 ? "s" : "");
     },
     months: function(num: number) {
@@ -85,7 +90,8 @@ import {Room} from '@/models/Room.ts'
     }
   },
   components: {
-    NewIssue
+    NewIssue,
+    Renew
   }
 })
 export default class OrderInfoA extends Vue {
@@ -94,6 +100,11 @@ export default class OrderInfoA extends Vue {
     this.showIssue = !this.showIssue;
   }
   
+  showRenew: boolean = false;  
+  openRenew(): void {
+    this.showRenew = true;
+  }
+
   @Prop() item!: Order;
   order: Order = this.item;
   room: Room = {
@@ -158,11 +169,6 @@ export default class OrderInfoA extends Vue {
   border-radius: 3px;
   display flex
   align-items: flex-end
-}
-
-.orderInfo:hover {
-  cursor: pointer;
-  background-color rgba(255, 255, 255, 0.5)
 }
 
 img {
