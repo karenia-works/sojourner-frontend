@@ -35,7 +35,7 @@ export default class searchbarAdmin extends Vue {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .search-line {
   display: flex;
   flex-direction: row;

@@ -147,7 +147,7 @@ export default class SearchBar extends Vue {
 
   #search {
     +break-screen(breakpoints.medium, 0) {
-      lost-column: 5 / 12
+      lost-column: 5 / 12 0 spaces._3
     }
 
     +break-screen(0, breakpoints.medium) {
@@ -160,7 +160,7 @@ export default class SearchBar extends Vue {
     flex-wrap: nowrap
 
     +break-screen(breakpoints.medium, 0) {
-      lost-column: 4 / 12
+      lost-column: 4 / 12 0 spaces._3
     }
 
     +break-screen(0, breakpoints.medium) {
@@ -177,7 +177,7 @@ export default class SearchBar extends Vue {
 
   #search-btn {
     +break-screen(breakpoints.medium, 0) {
-      lost-column: 2 / 12
+      lost-column: 2 / 12 0 spaces._3
     }
 
     +break-screen(0, breakpoints.medium) {
