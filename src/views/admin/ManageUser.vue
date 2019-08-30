@@ -23,11 +23,11 @@
           <img :src="user.ava_url" class="ava_img" />
         </td>
         <td>{{ user.email }}</td>
-        <td>{{ user.user_name }}</td>
+        <td>{{ user.userName }}</td>
         <td>{{ user.sex }}</td>
         <td>
-          <label v-show="user.is_renting" class="yes_judge">Yes</label>
-          <label v-show="!user.is_renting" class="no_judge">No</label>
+          <label v-show="user.isRenting" class="yes_judge">Yes</label>
+          <label v-show="!user.isRenting" class="no_judge">No</label>
         </td>
         <td>
           <div class="dropdown">
@@ -142,14 +142,17 @@ import axios from "axios";
 })
 export default class ManageUser extends Vue {
   users = [];
-  
-  origin_url = "http://localhost:5000/api/v1/room";
-  api_url = "http://localhost:5000/api/v1/room";
+
+  origin_url = "https://sojourner.rynco.me/api/v1/profile";
+  api_url = "https://sojourner.rynco.me/api/v1/profile";
   keyword = "";
 
   getAPI() {
+    console.log(this.$store.getters.authHeader)
     axios
-      .get(this.api_url)
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
       .then(response => (this.users = response.data))
       .catch(error => console.log(error));
   }
@@ -161,6 +164,10 @@ export default class ManageUser extends Vue {
   reRoute() {
     if (this.keyword == "") this.api_url = this.origin_url;
     else this.api_url = this.origin_url + "?kw=" + this.keyword;
+    this.getAPI();
+  }
+  DeleteItem(delete_id: string) {
+    this.api_url = this.origin_url + "/" + delete_id;
     this.getAPI();
   }
 }

@@ -49,6 +49,7 @@
               <router-link :to="getRoomUrl(room.id)">Detail</router-link>
               <router-link v-show="room.is_renting">Stop Renting</router-link>
               <router-link to>Rent</router-link>
+              <router-link v-on:click.native="DeleteItem(room.id)" to="">Delete</router-link>
             </div>
           </div>
         </td>
@@ -176,6 +177,14 @@ export default class ManageRoom extends Vue {
     if (this.keyword == "") this.api_url = this.origin_url;
     else this.api_url = this.origin_url + "?kw=" + this.keyword;
     this.getAPI();
+  }
+  DeleteItem(delete_id: string) {
+    this.api_url = this.origin_url + "/" + delete_id;
+    this.getAPI();
+  }
+
+  log(id:string){
+    console.log(id);
   }
 }
 </script>
