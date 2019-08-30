@@ -4,18 +4,18 @@ import axios from 'axios'
 import config from '@/config'
 import qs from 'qs'
 import { Profile } from '@/models/Room'
-import { getProfileId, updateProfile } from '@/helpers/profileHelper'
+import { getMyProfile, updateProfile } from '@/helpers/profileHelper'
 
 interface TokenContext {
   client_id: string
   client_secret: string
   grant_type:
-  | 'authorization_code'
-  | 'client_credentials'
-  | 'password'
-  | 'refresh_token'
-  | 'urn:ietf:params:oauth:grant-type:device_code'
-  | 'hashed_password'
+    | 'authorization_code'
+    | 'client_credentials'
+    | 'password'
+    | 'refresh_token'
+    | 'urn:ietf:params:oauth:grant-type:device_code'
+    | 'hashed_password'
   scope?: string
   redirect_uri?: string
   username?: string
@@ -33,7 +33,7 @@ interface TokenContext {
 // }
 
 export class UserData {
-  constructor(public username: string) { }
+  constructor(public username: string) {}
 
   public updateFrom(data: UserLoginData) {
     // TODO
@@ -57,9 +57,7 @@ export var getters: GetterTree<UserState, RootState> = {
       return {
         Authorization: `Bearer ${state.userLoginData.access_token}`
       }
-    }
-    else
-      return { _: undefined };
+    } else return undefined
   }
 }
 
@@ -92,36 +90,35 @@ export var actions: ActionTree<UserState, RootState> = {
     let isLoginSuccessful = loginData.status >= 200 && loginData.status < 400
     if (!isLoginSuccessful) return
 
-
     ctx.commit('updateLoginData', { data: loginData.data, email })
     ctx.commit('tryStoreData')
 
     let meData = await axios.get(
-      new URL("user/me", config.backend.address).href,
+      new URL('user/me', config.backend.address).href,
       {
         headers: {
           Authorization: `Bearer ${loginData.data.access_token}`
         }
       }
-    );
+    )
 
     ctx.state.role = meData.data.role
 
-    ctx.dispatch("updateProfile");
+    await ctx.dispatch('updateProfile')
 
     if (payload.callback) {
       payload.callback(isLoginSuccessful)
     }
   },
   async updateProfile(ctx) {
-    if (!ctx.state.email || !ctx.state.userLoginData) throw new Error('Not logged in')
+    if (!ctx.state.email || !ctx.state.userLoginData)
+      throw new Error('Not logged in')
     try {
-      let profile = await getProfileId(ctx.state.email, ctx.getters.authHeader)
+      let profile = await getMyProfile(ctx.getters.authHeader)
       ctx.commit('updateUserData', profile)
     } catch (e) {
-      ctx.commit("logout")
+      ctx.commit('logout')
     }
-
   },
   async registerUser(
     ctx,
@@ -176,10 +173,10 @@ export var mutations: MutationTree<UserState> = {
     }
   },
   logout(state) {
-    state.userLoginData = undefined;
-    state.profile = undefined;
-    state.loggedIn = false;
-    state.loginError = undefined;
+    state.userLoginData = undefined
+    state.profile = undefined
+    state.loggedIn = false
+    state.loginError = undefined
     state.email = undefined
   }
 }
