@@ -52,13 +52,26 @@ export interface Order {
 }
 
 export interface Profile {
-  userId: string
+  id: string
   userName: string // nickname
   email: string
   phoneNumber: string
   sex: 'M' | 'F' | 'U'
   avatar: string
   signupDate: Date
+}
+
+export interface Issue {
+  id: string
+  uid: string
+  hid: string
+  wid: string
+  img: string[]
+  complaint: string
+  needRepair: boolean
+  isReplied: boolean
+  isFinished: boolean
+  createTime: Date
 }
 
 export { exampleRoom }
