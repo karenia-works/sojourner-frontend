@@ -10,66 +10,55 @@
             <div class="room-title">
               <h1>{{ room.name }}</h1>
             </div>
-            <div class="room-address">{{ room.address }}</div>
+            <div class="room-address" v-show="room.address">
+              {{ room.address.street }}
+              {{ room.address.city }}
+            </div>
             <div class="room-description">
               <vue-markdown :source="room.description"></vue-markdown>
             </div>
             <hr align="center" width="100%" size="1" />
-            <!-- <div class="iconPart">
-              <div class="line">
-                <div class="elemt">
+            <div class="iconPart">
+              <h3>House equipments</h3>
+              <div class="icons">
+                <div class="icon-line" :class="equipClassArray[0]">
                   <wifi-icon class="icon" />
-                  <label class="info">Wi-Fi:</label>
-                  <label v-show="this.EquipJudge[0]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[0]" class="info no_judge">No</label>
+                  <div class="icon-desc">Wi-fi</div>
                 </div>
-                <div class="elemt">
+                <div class="icon-line" :class="equipClassArray[1]">
                   <dish-icon class="icon" />
-                  <label class="info">Breakfast:</label>
-                  <label v-show="this.EquipJudge[1]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[1]" class="info no_judge">No</label>
+                  <div class="icon-desc">Kitchen</div>
                 </div>
-                <div class="elemt">
+                <div class="icon-line" :class="equipClassArray[2]">
                   <smoke-detector-icon class="icon" />
-                  <label class="info">Smoke Detector:</label>
-                  <label v-show="this.EquipJudge[2]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[2]" class="info no_judge">No</label>
+                  <div class="icon-desc">Smoke Detector</div>
                 </div>
-                <div class="elemt">
+                <div class="icon-line" :class="equipClassArray[3]">
+                  <washing-machine-icon class="icon" />
+                  <div class="icon-desc">Washing Machine</div>
+                </div>
+                <div class="icon-line" :class="equipClassArray[4]">
                   <tv-icon class="icon" />
-                  <label class="info">Television:</label>
-                  <label v-show="this.EquipJudge[3]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[3]" class="info no_judge">No</label>
+                  <div class="icon-desc">Television</div>
+                </div>
+                <div class="icon-line" :class="equipClassArray[5]">
+                  <fridge-icon class="icon" />
+                  <div class="icon-desc">Fridge</div>
+                </div>
+                <div class="icon-line" :class="equipClassArray[6]">
+                  <microwave-icon class="icon" />
+                  <div class="icon-desc">Microwave Oven</div>
+                </div>
+                <div class="icon-line" :class="equipClassArray[7]">
+                  <parking-icon class="icon" />
+                  <div class="icon-desc">Parking space</div>
                 </div>
               </div>
-              <div class="line">
-                <div class="elemt">
-                  <washing-machine-icon class="icon" />
-                  <label class="info">Wash Machine:</label>
-                  <label v-show="this.EquipJudge[4]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[4]" class="info no_judge">No</label>
-                </div>
-                <div class="elemt">
-                  <fridge-icon class="icon" />
-                  <label class="info">Fridge:</label>
-                  <label v-show="this.EquipJudge[5]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[5]" class="info no_judge">No</label>
-                </div>
-                <div class="elemt">
-                  <microwave-icon class="icon" />
-                  <label class="info">Microwave:</label>
-                  <label v-show="this.EquipJudge[6]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[6]" class="info no_judge">No</label>
-                </div>
-                <div class="elemt">
-                  <parking-icon class="icon" />
-                  <label class="info">Parking Space:</label>
-                  <label v-show="this.EquipJudge[7]" class="info yes_judge">Yes</label>
-                  <label v-show="!this.EquipJudge[7]" class="info no_judge">No</label>
-                </div>
+              <div class="gallery" v-if="room.img">
+                <h3>Gallery</h3>
+                <img v-for="img in room.img" :key="img" :src="img" class="gallery-img" />
               </div>
             </div>
-            -->
           </div>
           <div class="bookInfo">
             <div class="total-price">${{ totalPrice }}</div>
@@ -172,13 +161,24 @@
 }
 
 .about-room {
+  .container{
+    align-items: flex-start
+  }
+
   .room-info {
     display: flex
     align-items: stretch
     flex-direction: column
     align-items: flex-start
-    lost-column: 2 / 3 0 spaces._7
     margin-v: -(spaces._4)
+
+    +break-screen(breakpoints.medium, 0) {
+      lost-column: 2 / 3 0 spaces._7
+    }
+
+    +break-screen(0, breakpoints.medium) {
+      lost-column: 1 / 2 0 spaces._7
+    }
 
     .room-title {
       h1 {
@@ -202,6 +202,40 @@
     .room-description {
       margin-v: spaces._5
     }
+
+    .icons {
+      lost-flex-container: row
+
+      .icon-line {
+        display: flex
+        flex-direction: row
+        align-items: center
+        font-weight: 500
+
+        +break-screen(0, breakpoints.medium) {
+          lost-waffle: 1 / 2 0 0px
+        }
+
+        +break-screen(breakpoints.medium, 0) {
+          lost-waffle: 1 / 4 0 0px
+        }
+
+        .mdi {
+          margin: spaces._2
+        }
+
+        &.no * {
+          color: var(--color-bg-medium)
+          fill: var(--color-bg-medium)
+        }
+      }
+    }
+
+    .gallery {
+      .gallery-img {
+        max-width: 100%
+      }
+    }
   }
 
   &.loading * {
@@ -212,23 +246,32 @@
   .bookInfo {
     display: flex
     position: sticky
+    top: spaces._4
     align-items: stretch
     flex-direction: column
-    lost-column: 1 / 3 0 spaces._7
-    margin-v: -(spaces._4)
+    margin-top: -(spaces._4)
+    height: auto
+
+    +break-screen(breakpoints.medium, 0) {
+      lost-column: 1 / 3 0 spaces._7
+    }
+
+    +break-screen(0, breakpoints.medium) {
+      lost-column: 1 / 2 0 spaces._7
+    }
 
     .total-price {
       font-size: 36px
       font-family: fonts-title
       font-weight: 500
       margin-top: spaces._6
-      margin-bottom: spaces._3
+      margin-bottom: spaces._4
     }
 
     .room-price {
       font-weight: 500
       color: var(--color-text-medium)
-      margin-v: spaces._3
+      margin-v: spaces._4
     }
 
     .date-select {
@@ -236,18 +279,18 @@
       display: flex
       flex-direction: row
       align-items: center
-      margin-v: spaces._3
+      margin-v: spaces._4
     }
 
     .rent-by-selection {
       display: flex
       flex-direction: row
       font-size: 20px
-      margin-v: spaces._3
+      margin-v: spaces._4
     }
 
     .rent_button {
-      margin-v: spaces._3
+      margin-v: spaces._4
 
       .rent-btn {
         font-size: 24px
@@ -342,8 +385,18 @@ export default class HouseDetail extends Vue {
     this.searchStatus.endTime = value;
     this.$store.commit("replaceSearch", this.searchStatus);
   }
+
   get searchStr() {
     return this.searchStatus.keyword;
+  }
+
+  get equipClassArray() {
+    return this.room.equipJudge.map(val => {
+      return {
+        "icon-line": true,
+        no: val
+      };
+    });
   }
 
   searchStatus: SearchStatus = this.$store.state.searchStore.status;

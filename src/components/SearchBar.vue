@@ -190,7 +190,9 @@ export default class SearchBar extends Vue {
   display: flex
   flex-direction: row
   flex-wrap: wrap
+  font-size: font-sizes.body-larger
   margin-h: -(spaces._5)
+  margin-v: spaces._2
 
   .filter-frame {
     margin-h: spaces._5
@@ -200,14 +202,14 @@ export default class SearchBar extends Vue {
     .filter-frame-title {
       margin-right: spaces._4
       color: colors.text-medium
-      font-weight: bold
+      font-weight: 500
     }
   }
 
   .filter-title {
     margin-h: spaces._5
     color: colors.text-dark
-    font-weight: bold
+    font-weight: 500
   }
 }
 </style>

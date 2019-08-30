@@ -7,22 +7,22 @@
       <router-link to="/s">
         <div class="nav-el">Search</div>
       </router-link>
-      <router-link to="/">
+      <!-- <router-link to="/">
         <div class="nav-el">Explore</div>
-      </router-link>
+      </router-link>-->
     </div>
     <div class="nav-right">
-      <template v-if="!$store.state.userStore.loggedIn">
-        <div class="nav-el" id="sign_up" @click.prevent="switchLogin()">Log in</div>
+      <template v-if="!$store.state.userStore.loggedIn || !$store.state.userStore.profile">
+        <div class="nav-el" id="sign_up" @click="switchLogin" key="sign_in">Log in</div>
         <login :show.sync="showLogin" />
-        <router-link to="/register">
+        <router-link to="/register" key="register">
           <div class="nav-el">Sign up</div>
         </router-link>
       </template>
       <template v-else>
-        <router-link to="/u/me">
-          <div class="nav-el" @click.prevent="logout">Logout</div>
-          <div class="nav-el">Me</div>
+        <div class="nav-el" @click.prevent="logout" key="logout">Logout</div>
+        <router-link to="/u/me" key="me">
+          <div class="nav-el">Hi, {{$store.state.userStore.profile.userName}}</div>
         </router-link>
       </template>
     </div>
@@ -31,40 +31,40 @@
 
 <style lang="stylus" scoped>
 .navbar {
-  background: var(--color-bg-medium);
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 16px;
-  padding-h: 24px;
-  height: 48px;
-  font-family: fonts-title;
-  font-size: font-sizes.body-larger;
-  user-select: none;
+  background: var(--color-bg-medium)
+  flex-shrink: 0
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  padding: 16px
+  padding-h: 24px
+  height: 48px
+  font-family: fonts-title
+  font-size: font-sizes.body-larger
+  user-select: none
 
   .nav-left {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    display: flex
+    flex-direction: row
+    align-items: stretch
   }
 
   .nav-right {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    display: flex
+    flex-direction: row
+    align-items: stretch
   }
 
   .nav-el {
-    display: flex;
-    align-items: center;
-    margin-h: 8px;
-    padding-h: 16px;
+    display: flex
+    align-items: center
+    margin-h: 8px
+    padding-h: 16px
   }
 }
 
 .logo {
-  font-weight: bold;
+  font-weight: bold
 }
 </style>
 
@@ -83,7 +83,7 @@ export default class Navbar extends Vue {
   get loggedIn(): boolean {
     return this.$store.state.userStore.loggedIn;
   }
-  
+
   async logout() {
     this.$store.commit("logout");
     setTimeout(() => this.$router.push("/"), 1000);
