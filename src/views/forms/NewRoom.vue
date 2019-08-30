@@ -63,8 +63,21 @@
             ></Checkbox>          
           </div>
         </div>
+
+        <div class="item notice">
+          <label>The tenants should be noticed that...</label>
+          <div class="checks">
+            <Checkbox 
+              v-for="(item, index) in notices"
+              :key="index" :cId="'nt'+index" 
+              :cText="item" 
+              :picked.sync="r.noticeJudge[index]"
+              class="checkbox"
+            ></Checkbox>          
+          </div>
+        </div>
       </div>
-      <button class="btn" @click="submit">finish</button>
+      <button class="btn" @click="commit">finish</button>
     </div>
   </div>
 </template>
@@ -74,6 +87,7 @@ import { Component, Prop, PropSync, Vue, Watch } from "vue-property-decorator";
 import {Room} from "@/models/Room.ts";
 import Checkbox from "@/components/Checkbox.vue";
 import Radio from "@/components/Radio.vue";
+import config from "@/config.ts"
 import axios from 'axios';
 
 @Component({
@@ -85,6 +99,7 @@ import axios from 'axios';
 export default class NewRoom extends Vue{
   checked: boolean=false;
 
+  types: Array<string> = ["single", "double", "quad"];
   equips: Array<string> = [
     "Wi-Fi",
     "breakfast",
@@ -95,18 +110,13 @@ export default class NewRoom extends Vue{
     "microwave",
     "parking lot"
   ];
-
-  types: Array<string> = ["single", "double", "quad"];
-
-  submit(): void {
-    axios.post('/user', this.r)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  notices: Array<string> = [
+    "No Smoking",
+    "No Pets",
+    "No Noise",
+    "No Photographs",
+    "No Games"
+  ]
 
   r: Room = { 
     id: "",
@@ -126,7 +136,18 @@ export default class NewRoom extends Vue{
     equipJudge: [false, false, false, false, false, false, false, false],
     noticeJudge: [false, false, false, false, false]
   }
-}
+
+  async commit(){
+    let result = await axios.post(
+      config.backend.address+config.backend.roomEndpoint,
+      this.r
+
+    )
+
+    let success = result.status == 201
+  }
+
+  }
 </script>
 
 <style lang="stylus" scoped>
@@ -175,16 +196,16 @@ textarea {
   margin-right spaces._3
 }
 
-.equip .checks {
+.equip .checks, .notice .checks {
   width 100%
   // width 500px
   display flex
   flex-wrap wrap
 }
 
-.equip .checks .checkbox {
+.equip .checks .checkbox, .notice .checks .checkbox {
   width 150px
+  lost-column: 1/4;
   margin-v spaces._1
-  // lost-column: 1/3;
 }
 </style>

@@ -54,3 +54,5 @@ async function findOrderByUser(
     else
         throw new Error('findByUserError')
 }
+
+export{findOrderByRoom, findOrderByUser, getOrder, insertOrder};

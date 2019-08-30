@@ -20,6 +20,7 @@ import Orders from "@/views/user/Orders.vue";
 import UserInfo from "@/views/user/UserInfo.vue";
 import {Order} from '@/models/Room.ts'
 import {Profile} from '@/models/Room.ts'
+import {findOrderByUser} from '@/helpers/orderHelper.ts'
 
 
 @Component({
@@ -29,8 +30,12 @@ import {Profile} from '@/models/Room.ts'
   }
 })
 export default class Me extends Vue {
+  mounted() {
+    
+  }
+
   profile: Profile = {
-    userId: '456',
+    id: '456',
     userName: 'Skuld',
     email: 'sywang1207@gmail.com',
     phoneNumber: '13693680360',
