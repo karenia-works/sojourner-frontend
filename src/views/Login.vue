@@ -164,31 +164,21 @@ export default class Login extends Vue {
   name = "";
   phone = "";
 
-  submitLogin() {
+  async submitLogin() {
     var check = this.inputCheck;
     if (!check.email) {
       alert("Please check your email address");
     } else {
-      this.$store.dispatch("loginUser", {
+      await this.$store.dispatch("loginUser", {
         email: this.email,
         password: this.password
       });
-    }
-  }
 
-  submitSignup() {
-    var check = this.inputCheck;
-    if (!check.email) {
-      alert("Please check your email address");
-    } else if (!check.phone) {
-      alert("Please check your phone number");
-    } else {
-      this.$store.dispatch("registerUser", {
-        email: this.email,
-        password: this.password,
-        name: this.name,
-        phone: this.phone
-      });
+      this.showLogin=false;
+
+      if(this.$store.state.role == "admin"){
+        this.$router.push("/admin")
+      }
     }
   }
 }

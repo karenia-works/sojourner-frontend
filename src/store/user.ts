@@ -92,24 +92,36 @@ export var actions: ActionTree<UserState, RootState> = {
     let isLoginSuccessful = loginData.status >= 200 && loginData.status < 400
     if (!isLoginSuccessful) return
 
+
     ctx.commit('updateLoginData', { data: loginData.data, email })
     ctx.commit('tryStoreData')
+
+    let meData = await axios.get(
+      new URL("user/me", config.backend.address).href,
+      {
+        headers: {
+          Authorization: `Bearer ${loginData.data.access_token}`
+        }
+      }
+    );
+
+    ctx.state.role = meData.data.role
+
+    ctx.dispatch("updateProfile");
 
     if (payload.callback) {
       payload.callback(isLoginSuccessful)
     }
   },
   async updateProfile(ctx) {
-    if (!ctx.state.email) throw new Error('Not logged in')
-    let profile = await getProfileId(ctx.state.email, ctx.getters.authHeader)
+    if (!ctx.state.email || !ctx.state.userLoginData) throw new Error('Not logged in')
+    try {
+      let profile = await getProfileId(ctx.state.email, ctx.getters.authHeader)
+      ctx.commit('updateUserData', profile)
+    } catch (e) {
+      ctx.commit("logout")
+    }
 
-    console.log(
-      await axios.get(config.backend.address + 'user/me', {
-        headers: ctx.getters.authHeader
-      })
-    )
-
-    ctx.commit('updateUserData', profile)
   },
   async registerUser(
     ctx,
@@ -123,7 +135,7 @@ export var actions: ActionTree<UserState, RootState> = {
       {
         username: payload.username,
         password: payload.password,
-        role: 'IdentityServerApi',
+        role: 'IdentityServerAccessToken',
         id: null,
         key: null
       }
@@ -162,6 +174,13 @@ export var mutations: MutationTree<UserState> = {
       window.localStorage.setItem('auth_scope', state.userLoginData.scope)
       window.localStorage.setItem('email', state.email)
     }
+  },
+  logout(state) {
+    state.userLoginData = undefined;
+    state.profile = undefined;
+    state.loggedIn = false;
+    state.loginError = undefined;
+    state.email = undefined
   }
 }
 
@@ -169,6 +188,7 @@ export class UserState {
   loggedIn: boolean = false
   userLoginData?: UserLoginData
   email?: string
+  role?: string
   profile?: Profile
   loginError?: any
 }
