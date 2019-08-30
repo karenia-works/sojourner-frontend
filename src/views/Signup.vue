@@ -97,24 +97,17 @@ export default class Signup extends Vue {
       username: this.u.email,
       password: this.password
     });
-
+    
     await this.$store.dispatch("loginUser", {
       email: this.u.email,
       password: this.password
     });
-
+    
     let result = await axios.post(
       config.backend.address + config.backend.ProfileEndpoint,
       this.u,
-      {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.userLoginData.access_token}`
-        }
-      }
-    );
-
-    console.log(result);
-
+      {headers: this.$store.getters.authHeader}
+    )
     this.$router.push({ name: "home" });
   }
 

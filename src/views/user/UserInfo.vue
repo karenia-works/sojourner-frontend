@@ -5,7 +5,7 @@
     <p>{{profile.email}}</p>
     <p>{{profile.phoneNumber}}</p>
   </div>
-  <div class="content"><a @click="logout">Logout</a></div>
+  <!-- <div class="content"><a @click="logout">Logout</a></div> -->
 </div>
 </template>
 

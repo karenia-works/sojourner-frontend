@@ -86,7 +86,7 @@ export default class Navbar extends Vue {
 
   async logout() {
     this.$store.commit("logout");
-    setTimeout(() => this.$router.push("/"), 1000);
+    // setTimeout(() => this.$router.push("/"), 1000);
   }
 }
 </script>
