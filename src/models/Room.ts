@@ -37,7 +37,7 @@ It stands 50 metres back from the shoreline directly in between Pads 40 and 41 I
   shortAvailable: true,
   longPrice: 9999,
   shortPrice: 399,
-  noticeJudge: [true, true, true, true, true, true, true, true],
+  noticeJudge: [true, true, true, true, true],
   img: [
     'https://www.nasa.gov/sites/default/files/thumbnails/image/3-2014-1588a.jpg',
     'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg'
@@ -70,6 +70,16 @@ export interface Profile {
   sex: 'M' | 'F' | 'U'
   avatar: string
   signupDate: Date
+}
+
+var exampleProfile: Profile = {
+  id: "qwertyqwertyqwertyqwerty",
+  userName: "yingyingying", // nickname
+  email: "ying@126.com",
+  phoneNumber: "13636036036",
+  sex: 'M',
+  avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
+  signupDate: new Date()
 }
 
 export interface Issue {

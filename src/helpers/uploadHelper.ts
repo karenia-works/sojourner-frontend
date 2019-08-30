@@ -7,13 +7,18 @@ async function uploadImages(
 ): Promise<string[]> {
   let imageNames: string[] = []
   let asyncImgUpload = async (img: File, index: number) => {
+    let form = new FormData()
+    form.append('file', img)
     let request = await Axios.post(
       config.backend.address + config.backend.imageEndpoint,
-      new FormData().append('file', img),
+      form,
       {
         onUploadProgress: (event: ProgressEvent) => {
           if (uploadCallack) uploadCallack(index, event.loaded, event.total)
-        }
+        },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
       }
     )
     imageNames[index] = request.data as string
