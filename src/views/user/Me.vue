@@ -12,7 +12,6 @@
   display flex
   flex-direction column
 }
-
 </style>
 
 <script lang="ts">
@@ -21,17 +20,22 @@ import Orders from "@/views/user/Orders.vue";
 import UserInfo from "@/views/user/UserInfo.vue";
 import {Order} from '@/models/Room.ts'
 import {Profile} from '@/models/Room.ts'
+import {findOrderByUser} from '@/helpers/orderHelper.ts'
 
 
 @Component({
   components: {
     Orders,
-    UserInfo
+    UserInfo,
   }
 })
 export default class Me extends Vue {
+  mounted() {
+    
+  }
+
   profile: Profile = {
-    userId: '456',
+    id: '456',
     userName: 'Skuld',
     email: 'sywang1207@gmail.com',
     phoneNumber: '13693680360',
@@ -39,7 +43,6 @@ export default class Me extends Vue {
     avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
     signupDate: new Date("2019-8-25")
   };
-
 
   orders: Array<Order> = [
     {
