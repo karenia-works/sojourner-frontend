@@ -25,6 +25,7 @@ export const adminRoutes: RouteConfig[] = [
   },
   {
     path: 'ManageRoom',
+    name: "adminRoom",
     component: ManageRoom,
   },
   {
@@ -37,7 +38,7 @@ export const adminRoutes: RouteConfig[] = [
   },
   {
     path: 'reply',
-    component:ReplyIssue,
+    component: ReplyIssue,
   },
   {
     path: 'ManageWorker',

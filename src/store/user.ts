@@ -10,12 +10,12 @@ interface TokenContext {
   client_id: string
   client_secret: string
   grant_type:
-    | 'authorization_code'
-    | 'client_credentials'
-    | 'password'
-    | 'refresh_token'
-    | 'urn:ietf:params:oauth:grant-type:device_code'
-    | 'hashed_password'
+  | 'authorization_code'
+  | 'client_credentials'
+  | 'password'
+  | 'refresh_token'
+  | 'urn:ietf:params:oauth:grant-type:device_code'
+  | 'hashed_password'
   scope?: string
   redirect_uri?: string
   username?: string
@@ -33,7 +33,7 @@ interface TokenContext {
 // }
 
 export class UserData {
-  constructor(public username: string) {}
+  constructor(public username: string) { }
 
   public updateFrom(data: UserLoginData) {
     // TODO
@@ -53,11 +53,13 @@ const formHeaders = {
 
 export var getters: GetterTree<UserState, RootState> = {
   authHeader(state) {
-    if (state.userLoginData) {
+    if (state.loggedIn && state.userLoginData) {
       return {
         Authorization: `Bearer ${state.userLoginData.access_token}`
       }
     }
+    else
+      return { _: undefined };
   }
 }
 
@@ -139,6 +141,7 @@ export var mutations: MutationTree<UserState> = {
   updateLoginData(state, data: { data: UserLoginData; email: string }) {
     state.userLoginData = data.data
     state.email = data.email
+    state.loggedIn = true
   },
   tryResolveData(state, window: Window) {
     let header = window.localStorage.getItem('auth')

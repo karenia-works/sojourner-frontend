@@ -57,4 +57,4 @@ async function findOrderByUser(id: string): Promise<Order[]> {
   } else throw new Error('findByUserError')
 }
 
-export{findOrderByRoom, findOrderByUser, getOrder, insertOrder};
+export {findOrderByRoom, findOrderByUser, getOrder, insertOrder}

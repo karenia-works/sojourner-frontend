@@ -11,7 +11,6 @@ export default {
     descreteIssueEndpoint: (id: string) => `issue/${id}`,
     ProfileEndpoint: `profile`,
     profileEndpoint: (id: string) => `profile/${id}`,
-    roomEndpoint: (id: string) => `room/${id}`,
     orderByUser: `order/for_user`,
     orderByHouse: `order/for_house`,
   },

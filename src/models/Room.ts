@@ -48,11 +48,14 @@ export interface Order {
   id: string
   houseId: string
   userId: string
+  name:string
   startDate: Date
   endDate: Date
   ddlDate?: Date
   isLongRent: boolean
   isFinished: boolean
+  longPrice:number
+  shortPrice:number
   totalPrice: number
   createDate: Date
   cancelDate?: Date
