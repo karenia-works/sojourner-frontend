@@ -3,6 +3,7 @@ import { RootState } from './rootState'
 import axios from 'axios'
 import config from '@/config'
 import qs from 'qs'
+import { Profile } from '@/models/Room'
 
 interface TokenContext {
   client_id: string
@@ -23,14 +24,19 @@ interface TokenContext {
 }
 
 export class UserData {
-  constructor(public userId: string, public username: string) {}
+  constructor(public username: string) {}
 
   public updateFrom(data: UserLoginData) {
     // TODO
   }
 }
 
-interface UserLoginData {}
+interface UserLoginData {
+  access_token: string
+  expires_in: number
+  token_type: string
+  scope: 'IdentityServerApi' | 'admin' | 'worker'
+}
 
 const formHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -38,8 +44,10 @@ const formHeaders = {
 
 export var getters: GetterTree<UserState, RootState> = {
   authHeader(state) {
-    if (state.loggedIn) {
-      return {}
+    if (state.userLoginData) {
+      return {
+        Authorization: `Bearer ${state.userLoginData.access_token}`
+      }
     }
   }
 }
@@ -48,25 +56,22 @@ export var actions: ActionTree<UserState, RootState> = {
   async loginUser(
     ctx,
     payload: {
-      username: string
+      email: string
       password: string
       callback?: (finished: boolean) => void
     }
   ) {
-    let { username, password } = payload
+    let { email: email, password } = payload
     let tokenCtx: TokenContext = {
       client_id: config.auth.client_id,
       client_secret: config.auth.client_secret,
       grant_type: 'password',
-      username,
+      username: email,
       password
     }
 
-    console.log(tokenCtx)
-    // return
-
-    let loginData = await axios.post(
-      config.backend.address + config.backend.tokenEndpoint,
+    let loginData = await axios.post<UserLoginData>(
+      new URL(config.backend.tokenEndpoint).href,
       qs.stringify(tokenCtx),
       {
         headers: formHeaders
@@ -74,13 +79,14 @@ export var actions: ActionTree<UserState, RootState> = {
     )
 
     let isLoginSuccessful = loginData.status >= 200 && loginData.status < 400
+    if (!isLoginSuccessful) return
+
+    ctx.commit('updateLoginData', loginData.data)
 
     let userData = await axios.get<UserData>(
       config.backend.address + config.backend.userEndpoint,
       {
-        params: {
-          username
-        }
+        headers: ctx.state.userLoginData
       }
     )
 
@@ -88,9 +94,9 @@ export var actions: ActionTree<UserState, RootState> = {
       payload.callback(isLoginSuccessful)
     }
 
-    ctx.commit('loggedInUser', userData)
+    ctx.commit('updateUserData', userData.data)
   },
-  registerUser(
+  async registerUser(
     ctx,
     payload: {
       username: string
@@ -99,24 +105,33 @@ export var actions: ActionTree<UserState, RootState> = {
       phone: string
     }
   ) {
-    // TODO
+    let result = await axios.post(
+      new URL(config.backend.userEndpoint, config.backend.address).href,
+      {
+        username: payload.username,
+        password: payload.password,
+        role: 'IdentityServerApi',
+        id: null,
+        key: null
+      }
+    )
   }
 }
 
 export var mutations: MutationTree<UserState> = {
-  updateUserData(state, s: UserData) {
+  updateUserData(state, s: Profile) {
     state.userData = s
     state.loggedIn = true
   },
   updateLoginData(state, d: UserLoginData) {
-    // TODO
+    state.userLoginData = d
   }
 }
 
 export class UserState {
   loggedIn: boolean = false
-  accessToken?: string
-  userData?: UserData = undefined
+  userLoginData?: UserLoginData
+  userData?: Profile
   loginError?: any
 }
 
