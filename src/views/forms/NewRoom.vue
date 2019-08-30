@@ -97,8 +97,6 @@ import axios from 'axios';
   }
 })
 export default class NewRoom extends Vue{
-  checked: boolean=false;
-
   types: Array<string> = ["single", "double", "quad"];
   equips: Array<string> = [
     "Wi-Fi",
