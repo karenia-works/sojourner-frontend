@@ -152,13 +152,13 @@ export var mutations: MutationTree<UserState> = {
     state.loggedIn = true
   },
   tryRestoreData(state) {
-    let email = window.localStorage.getItem('email') || ''
-    let profile = JSON.parse(window.localStorage.getItem('profile') || '')
-    let authData = JSON.parse(window.localStorage.getItem('authData') || '')
+    let email = window.localStorage.getItem('email')
+    let profile = window.localStorage.getItem('profile')
+    let authData = window.localStorage.getItem('authData')
     if (email && profile && authData) {
       state.email = email
-      state.profile = profile
-      state.userLoginData = authData
+      state.profile = JSON.parse(profile)
+      state.userLoginData = JSON.parse(authData)
       state.loggedIn = true
     }
   },
