@@ -78,6 +78,10 @@ export default class Signup extends Vue{
       username: this.u.email,
       password: this.password
     });
+        await this.$store.dispatch("loginUser", {
+          email: this.u.email,
+          password: this.password
+        });
     
     let result = await axios.post(
       config.backend.address+config.backend.ProfileEndpoint,
@@ -85,7 +89,7 @@ export default class Signup extends Vue{
       {headers: this.$store.getters.authHeader}
     )
 
-    let success = result.status == 201
+        this.$router.push({ name: "home" });
   }
 
   inputCheck = {

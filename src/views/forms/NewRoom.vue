@@ -160,6 +160,9 @@ export default class NewRoom extends Vue{
     )
 
     let success = result.status == 201
+    if (success) {
+      this.$router.push({ name: "home" });
+    }
   }
 
   }
