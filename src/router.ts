@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import NotFoundView from './views/NotFound.vue'
 import Login from './views/Login.vue'
+import Signup from './views/Signup.vue'
 import Room from './views/Room.vue'
 import Userland from './views/Userland.vue'
 import { adminRoutes } from '@/views/admin/admin-router'
@@ -47,7 +48,7 @@ export default new Router({
         {
           path: '/register',
           name: 'register',
-          component: Login,
+          component: Signup,
           props: {
             isSinglePage: true,
             show: true,
@@ -59,12 +60,6 @@ export default new Router({
           name: 'user_me',
           component: () =>
             import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
-        },
-        {
-          path: '/ord',
-          name: 'orders',
-          component: () =>
-            import(/* webpackChunkName: "userland" */ './views/user/Orders.vue'),
         },
         {
           path: '/detail',
