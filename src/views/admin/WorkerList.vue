@@ -123,13 +123,14 @@ import axios from "axios";
 export default class ManagerWorker extends Vue {
   workers = [];
   
-  origin_url = "http://localhost:5000/api/v1/room";
-  api_url = "http://localhost:5000/api/v1/room";
-  keyword = "";
+  origin_url = "https://sojourner.rynco.me/api/v1/profile/allUserList/worker";
+  api_url = "https://sojourner.rynco.me/api/v1/profile/allUserList/worker";
 
   getAPI() {
     axios
-      .get(this.api_url)
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
       .then(response => (this.workers = response.data))
       .catch(error => console.log(error));
   }

@@ -169,8 +169,8 @@ import axios from "axios";
 export default class ManageIssue extends Vue {
   Issues = [];
   
-  origin_url = "https://sojourner.rynco.me/api/v1/issue/unfinishedIssue";
-  api_url = "https://sojourner.rynco.me/api/v1/issue/unfinishedIssue";
+  origin_url = "https://sojourner.rynco.me/api/v1/issue";
+  api_url = "https://sojourner.rynco.me/api/v1/issue";
   keyword = "";
 
   getWorkerUrl(iid: number) {
@@ -179,7 +179,9 @@ export default class ManageIssue extends Vue {
 
   getAPI() {
     axios
-      .get(this.api_url)
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
       .then(response => (this.Issues = response.data))
       .catch(error => console.log(error));
   }

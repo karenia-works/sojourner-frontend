@@ -37,7 +37,7 @@
             <div class="dropdown-content">
               <router-link to>Change Info</router-link>
               <router-link :to="getUserOrderUrl(user.email)">Check Order</router-link>
-              <router-link v-on:click.native="deleteAPI(user.email)" to="">Delete</router-link>
+              <router-link v-on:click.native="deleteAPI(user.email)" to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -136,19 +136,21 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import { getProfileId } from "@/helpers/profileHelper";
+import { Profile } from "@/models/Room";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageUser extends Vue {
-  users = [];
+  users: Profile[] = [];
 
-  origin_url = "https://sojourner.rynco.me/api/v1/profile";
-  api_url = "https://sojourner.rynco.me/api/v1/profile";
+  origin_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
+  api_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
   keyword = "";
 
   getAPI() {
-    console.log(this.$store.getters.authHeader)
+    console.log(this.$store.getters.authHeader);
     axios
       .get(this.api_url, {
         headers: this.$store.getters.authHeader
@@ -156,7 +158,6 @@ export default class ManageUser extends Vue {
       .then(response => (this.users = response.data))
       .catch(error => console.log(error));
   }
-
 
   async deleteAPI(delete_id: string) {
     try {
@@ -174,17 +175,27 @@ export default class ManageUser extends Vue {
     this.getAPI();
   }
 
-  reRoute() {
-    if (this.keyword == "") this.api_url = this.origin_url;
-    else this.api_url = this.origin_url + "?kw=" + this.keyword;
-    this.getAPI();
+  async reRoute() {
+    if (this.keyword != "")
+      try {
+        this.users = [];
+        this.users.push( await getProfileId(
+          this.keyword,
+          this.$store.getters.authHeader
+        ));
+      
+      } catch (e) {
+        console.log(e);
+      }
+    else this.getAPI();
   }
+
   DeleteItem(delete_id: string) {
     return this.origin_url + "/" + delete_id;
   }
 
   getUserOrderUrl(uid: number) {
-    return ("UserOrder?uid=" + uid);
+    return "UserOrder?uid=" + uid;
   }
 }
 </script>

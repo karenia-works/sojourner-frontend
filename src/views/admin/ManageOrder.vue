@@ -22,10 +22,9 @@
       </tr>
       <tr class="layer" v-for="order in orders" :key="order.id">
         <td>{{ order.id.substr(order.id.length-4)  }}</td>
-        <td>{{ order.houseId}}</td>
+        <td>{{ order.house.name}}</td>
         <td>
-          <!-- <img :src="order.house.img[0]" class="ava_img" /> -->
-          2121
+          <img :src="order.house.img[0]" class="ava_img" />
         </td>
         <td>{{ order.userEmail }}</td>
         <td>{{ getDuration(order.startDate, order.endDate) }}</td>
@@ -152,8 +151,8 @@ import {findOrderByRoom} from "@/helpers/orderHelper"
 export default class Manageorder extends Vue {
   orders:Order[] = [];
 
-  origin_url = "https://sojourner.rynco.me/api/v1/order/orderList";
-  api_url = "https://sojourner.rynco.me/api/v1/order/orderList";
+  origin_url = "https://sojourner.rynco.me/api/v1/order/orderView";
+  api_url = "https://sojourner.rynco.me/api/v1/order/orderView";
   keyword = "";
 
   stringToFormattedDate(str: string):string{
