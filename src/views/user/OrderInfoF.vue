@@ -84,11 +84,6 @@ export default class OrderInfoF extends Vue {
   align-items: flex-end
 }
 
-.orderInfo:hover {
-  cursor: pointer;
-  background-color rgba(255, 255, 255, 0.5)
-}
-
 .dark {
   color colors.text-dark
 }
