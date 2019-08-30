@@ -47,15 +47,12 @@ It stands 50 metres back from the shoreline directly in between Pads 40 and 41 I
 export interface Order {
   id: string
   houseId: string
-  userId: string
-  name:string
+  userEmail: string
   startDate: Date
   endDate: Date
   ddlDate?: Date
   isLongRent: boolean
   isFinished: boolean
-  longPrice:number
-  shortPrice:number
   totalPrice: number
   createDate: Date
   cancelDate?: Date

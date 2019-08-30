@@ -4,7 +4,7 @@
   <div class="info">
     <p class="room_title">{{room.name}}</p>
     <p class="room_city medium">
-      <span>{{room.address.district}} | </span>
+      <span>{{room.address.street}} | </span>
       <span>{{room.address.city}}</span>
     </p>
     <template v-if="isStarted">

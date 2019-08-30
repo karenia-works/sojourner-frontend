@@ -3,7 +3,7 @@
     <img :src="room.img[0]" class="room_img" />
     <div class="info">
       <p class="room_title">
-        {{room.address.district}} | 
+        {{room.address.street}} | 
         <span class="dark">{{room.address.city}}</span>
       </p>
       <p class="time">{{order.startDate|dateStr}} - 
