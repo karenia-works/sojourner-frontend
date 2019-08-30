@@ -30,9 +30,14 @@ import {findOrderByUser} from '@/helpers/orderHelper.ts'
   }
 })
 export default class Me extends Vue {
-  mounted() {
-    
+  profile?: Profile;
+
+  async mounted() {
+    await this.$store.dispatch("updateProfile")
+    this.profile = this.$store.state.userStore.profile;
   }
+
+
 
   // profile: Profile = {
   //   id: '456',

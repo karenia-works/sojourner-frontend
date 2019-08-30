@@ -52,8 +52,7 @@
         </div>
 
         <div class="file-selection">
-          <file-selection @upload="uploadImg" :selectedFiles.sync="r.img">
-
+          <file-selection @upload="uploadImg" :selectedFiles.sync="files">
           </file-selection>
         </div>
 
@@ -125,6 +124,8 @@ export default class NewRoom extends Vue{
     "No Games"
   ]
 
+  files: Array<File> = [];
+
   r: Room = { 
     id: "",
     name: "",
@@ -151,6 +152,7 @@ export default class NewRoom extends Vue{
   }
 
   async commit(){
+    await this.uploadImg(this.files);
     let result = await axios.post(
       config.backend.address+config.backend.searchEndpoint,
       this.r
