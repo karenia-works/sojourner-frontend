@@ -18,7 +18,7 @@
         <td>is Renting</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="user in users">
+      <tr class="layer" v-for="(user,index) in users" :key="index">
         <td>
           <img :src="user.ava_url" class="ava_img" />
         </td>
@@ -30,12 +30,13 @@
           <label v-show="!user.isRenting" class="no_judge">No</label>
         </td>
         <td>
+          <UpdateUser :user="user" :show.sync="showUpdate"></UpdateUser>
           <div class="dropdown">
             <button class="dropbtn">
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to>Change Info</router-link>
+              <router-link to v-on:click.native="OpenUpdate()">Change Info</router-link>
               <router-link :to="getUserOrderUrl(user.email)">Check Order</router-link>
               <router-link v-on:click.native="deleteAPI(user.email)" to>Delete</router-link>
             </div>
@@ -138,9 +139,10 @@ import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
 import { getProfileId } from "@/helpers/profileHelper";
 import { Profile } from "@/models/Room";
+import UpdateUser from "@/views/forms/UpdateUser.vue"
 
 @Component({
-  components: { dotsIcon, searchbarAdmin }
+  components: { dotsIcon, searchbarAdmin, UpdateUser }
 })
 export default class ManageUser extends Vue {
   users: Profile[] = [];
@@ -180,11 +182,9 @@ export default class ManageUser extends Vue {
     if (this.keyword != "")
       try {
         this.users = [];
-        this.users.push( await getProfileId(
-          this.keyword,
-          this.$store.getters.authHeader
-        ));
-      
+        this.users.push(
+          await getProfileId(this.keyword, this.$store.getters.authHeader)
+        );
       } catch (e) {
         console.log(e);
       }
@@ -197,6 +197,11 @@ export default class ManageUser extends Vue {
 
   getUserOrderUrl(uid: number) {
     return "UserOrder?uid=" + uid;
+  }
+
+  showUpdate: boolean = false;
+  OpenUpdate() {
+    this.showUpdate = true;
   }
 }
 </script>
