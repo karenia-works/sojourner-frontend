@@ -75,8 +75,8 @@ export default class updateUser extends Vue{
 
   async commit(){    
     await this.getUid();
-    let result = await axios.post(
-      config.backend.address+`user/`+this.uid,
+    let result = await axios.put(
+      config.backend.address+`profile/`+this.uid,
       this.user,
       {headers: this.$store.getters.authHeader}
     )
