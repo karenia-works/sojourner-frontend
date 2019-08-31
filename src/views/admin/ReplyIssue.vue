@@ -5,18 +5,21 @@
         <label>IID:</label>
         <label>Type:</label>
         <label>Content:</label>
-        <label>Reply:</label>
+        <label>Picture:</label>
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
         <label v-show="Issues.needRepair">Repair Issue</label>
         <label v-show="!Issues.needRepair">compliant</label>
         <div class="compliant">{{Issues.complaint}}</div>
+    <div class="put_img">
+      <img v-for="(img_, index) in Issues.img" :src="img_" :key="index" />
+    </div>
       </div>
     </div>
-    <div class="put_img">
-      <img v-for="(img, index) in imgs" :src="img" :key="index" />
-    </div>
+      <div class="title1">
+        <label>Reply:</label>
+      </div>
 
     <div class="input_reply">
       <textarea class="input_character" v-model="Issues.reply" />
