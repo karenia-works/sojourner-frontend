@@ -425,7 +425,7 @@ export default class HouseDetail extends Vue {
   }
 
   set rentSelection(value: Set<number>) {
-    if (value.has(1) || this.room.shortAvailable) {
+    if (value.has(1) || !this.room.shortAvailable) {
       this.rentByDay = false;
     } else {
       this.rentByDay = true;

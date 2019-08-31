@@ -49,11 +49,9 @@ export var actions: ActionTree<OrderBufferState, RootState> = {
   async sendPendingOrder(ctx) {
     if (ctx.state.pending) {
       let order = ctx.state.pending.toOrder()
-      await axios.post(
-        config.backend.address + 'order',
-        order,
-        ctx.rootGetters.authHeader
-      )
+      await axios.post(config.backend.address + 'order', order, {
+        headers: ctx.rootGetters.authHeader
+      })
       ctx.commit('setPendingOrder', null)
     }
   }
