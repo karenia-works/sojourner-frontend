@@ -96,6 +96,8 @@ export interface Profile {
   sex: 'M' | 'F' | 'U'
   avatar: string
   signupDate: Date
+  role: string
+  isRenting:boolean
 }
 
 var exampleProfile: Profile = {

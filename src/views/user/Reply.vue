@@ -5,25 +5,22 @@
         <label>IID:</label>
         <label>Type:</label>
         <label>Content:</label>
+        <label>Reply:</label>
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
         <label v-show="Issues.needRepair">Repair Issue</label>
         <label v-show="!Issues.needRepair">compliant</label>
         <div class="compliant">{{Issues.complaint}}</div>
+        <div class="title2">{{Issues.reply}}</div>
       </div>
     </div>
     <div class="put_img">
-      <img v-for="(img, index) in imgs" :src="img" :key="index" />
-    </div>
-
-    <div class="title1">Reply:</div>
-    <div class="input_reply">
-      <textarea class="input_character" v-model="Issues.reply" />
+      <img v-for="img in imgs" :src="img" />
     </div>
     <div class="reply_button">
-      <router-link to="ManageIssue">
-        <button class="reply btn" @click="ReplyIssue(Issues)">Reply</button>
+      <router-link to="issue">
+        <button class="reply btn">back</button>
       </router-link>
     </div>
   </div>
@@ -31,6 +28,9 @@
 
 <style lang="stylus" scoped>
 .container {
+  display: flex;
+  flex-direction: column;
+
   .issue_info {
     text-align: left;
     font-size: font-sizes.body-larger;
@@ -65,20 +65,19 @@
     line-height: 50px;
   }
 
+  .title2 {
+    display: flex;
+    flex-direction: column;
+  }
+
   .put_img img {
     lost-column: 1 / 3;
   }
 
-  .input_reply {
-    .input_character {
-      width: 100%;
-      height: 10vw;
-      font-size: font-sizes.body-larger;
-      font-family: Barlow, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: var(--color-bg-medium);
-      border: none;
-      resize: none;
-    }
+  .replyment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .reply_button {
@@ -103,31 +102,9 @@ import axios from "axios";
 })
 export default class ReplyIssue extends Vue {
   iid: string = this.GetQueryString("iid") as string;
-  api_url = "https://sojourner.rynco.me/api/v1/issue/";
+  api_url = "https://sojourner.rynco.me/api/v1/issue/me/";
 
   Issues = [];
-
-  // needRepair: boolean = true;
-  // imgs: string[] = [
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large"
-  // ];
-  // compliant: string =
-  //   "m of mr friendly by strongly peculiar juvenile. Unpleasant it sufficient simplicity am by friendship no inhabiting. Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length an. Man request adapted spirits set pressed. Up to denoting subjects sensible feelings it indulged directly. We dwelling elegance do shutters appetite yourself diverted. Our next drew much you with rank. Tore many held age hold rose than our. She literature sentiments any contrasted. Set aware joy sense young now tears china shy. ";
-  // reply: string = "";
-  // isReplied: boolean = true;
-
-  async ReplyIssue(issue) {
-    issue.isReplied=true;
-    let request = await axios.put(this.api_url + this.iid, issue, {
-      headers: this.$store.getters.authHeader
-    });
-    if (request.status < 200 && request.status >= 300)
-      throw new Error(
-        `Can not add order! state: ${request.status},id: ${issue.id}`
-      );
-  }
 
   getAPI() {
     axios

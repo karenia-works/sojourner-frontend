@@ -20,7 +20,7 @@
         <td>Avability</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="room in rooms">
+      <tr class="layer" v-for="(room,index) in rooms" :key="index">
         <td>{{ room.id.substr(room.id.length-4) }}</td>
         <td>{{ room.name }}</td>
         <td>
@@ -30,8 +30,8 @@
           <label>${{ room.shortPrice }}/day</label>
         </td>
         <td>
-          <label v-show="room.shortAvailbale" class="yes_judge">Yes</label>
-          <label v-show="!room.shortAvailbale" class="no_judge">No</label>
+          <label v-show="room.shortAvailable  " class="yes_judge">Yes</label>
+          <label v-show="!room.shortAvailable" class="no_judge">No</label>
         </td>
         <td>
           <label>${{ room.longPrice }}/month</label>
@@ -49,7 +49,7 @@
               <router-link :to="getRoomUrl(room.id)">Detail</router-link>
               <router-link v-show="room.is_renting">Stop Renting</router-link>
               <router-link to>Rent</router-link>
-              <router-link v-on:click.native="DeleteItem(room.id)" to="">Delete</router-link>
+              <router-link v-on:click.native="deleteAPI(room.id)" to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -63,10 +63,10 @@
   .search-line {
     display: flex;
     flex-direction: row;
-    width :100%;
-    padding-bottom :60px;
+    width: 100%;
+    padding-bottom: 60px;
 
-    .input{
+    .input {
       lost-column: 9 / 12;
     }
   }
@@ -148,12 +148,13 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import { Room } from "@/models/Room";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageRoom extends Vue {
-  rooms = [];
+  rooms: Room[] = [];
   origin_url = "https://sojourner.rynco.me/api/v1/room";
   api_url = "https://sojourner.rynco.me/api/v1/room";
   keyword = "";
@@ -169,6 +170,19 @@ export default class ManageRoom extends Vue {
       .catch(error => console.log(error));
   }
 
+  async deleteAPI(delete_id: string) {
+    console.log(this.$store.getters.authHeader);
+    try {
+      await axios.delete(this.DeleteItem(delete_id), {
+        headers: this.$store.getters.authHeader
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // this.rooms.filter(x => x.id == delete_id);
+    this.getAPI();
+  }
+
   mounted() {
     this.getAPI();
   }
@@ -179,11 +193,10 @@ export default class ManageRoom extends Vue {
     this.getAPI();
   }
   DeleteItem(delete_id: string) {
-    this.api_url = this.origin_url + "/" + delete_id;
-    this.getAPI();
+    return this.origin_url + "/" + delete_id;
   }
 
-  log(id:string){
+  log(id: string) {
     console.log(id);
   }
 }

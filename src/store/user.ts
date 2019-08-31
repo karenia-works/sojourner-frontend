@@ -10,12 +10,12 @@ interface TokenContext {
   client_id: string
   client_secret: string
   grant_type:
-    | 'authorization_code'
-    | 'client_credentials'
-    | 'password'
-    | 'refresh_token'
-    | 'urn:ietf:params:oauth:grant-type:device_code'
-    | 'hashed_password'
+  | 'authorization_code'
+  | 'client_credentials'
+  | 'password'
+  | 'refresh_token'
+  | 'urn:ietf:params:oauth:grant-type:device_code'
+  | 'hashed_password'
   scope?: string
   redirect_uri?: string
   username?: string
@@ -33,7 +33,7 @@ interface TokenContext {
 // }
 
 export class UserData {
-  constructor(public username: string) {}
+  constructor(public username: string) { }
 
   public updateFrom(data: UserLoginData) {
     // TODO
@@ -156,6 +156,39 @@ export var actions: ActionTree<UserState, RootState> = {
     await ctx.commit('updateUserData', payload.profile)
 
     await ctx.commit('tryStoreData', payload)
+  },
+  async registerWorker(
+    ctx,
+    payload: {
+      username: string
+      password: string
+      profile: Profile
+      dontUpdateProfile?: boolean
+    }
+  ) {
+    let result = await axios.post(
+      new URL(config.backend.userEndpoint, config.backend.address).href,
+      {
+        username: payload.username,
+        password: payload.password,
+        role: 'worker',
+        id: null,
+        key: null
+      }
+    )
+
+    payload.dontUpdateProfile = true
+
+    // await ctx.dispatch('loginUser', payload)
+
+    let profileResult = await axios.post(
+      config.backend.address + config.backend.ProfileEndpoint,
+      payload.profile,
+      { headers: ctx.getters.authHeader }
+    )
+    // await ctx.commit('updateUserData', payload.profile)
+
+    // await ctx.commit('tryStoreData', payload)
   }
 }
 

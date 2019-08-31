@@ -1,41 +1,42 @@
 <template>
-  <div class="container">
-    <div class="Signup">
-      <h1>nice to meet you.</h1>
-      <div class="form">
-        <div class="item">
-          <label for="email"><span>New Email address</span></label>
-          <input
-            type="email" class="input" id="email"
-            placeholder="email address"
-            v-model.trim="u.email"
-            :class="{textErr: !inputCheck.email}"
-          />
-        </div>
-
-        <div class="item">
-          <label for="name"><span>New User name</span>nickname</label>
-          <input type="text" class="input" id="name" placeholder="name" v-model.trim="u.userName" />
-        </div>
-
-        <div class="item">
-          <label for="description"><span>New Phonenumber</span></label>
-          <input
-            type="tel" class="input" id="phone"
-            placeholder="phone number"
-            v-model.trim="u.phoneNumber"
-            :class="{textErr: !inputCheck.phone}"
-          />
-        </div>
-
-        <div class="item type">
-          <label><span>Gender</span></label>
-          <Radio :values="['M', 'F']" :texts="['Male', 'Female']" :roomType.sync="u.sex"></Radio>
-        </div>
+<div class="updateUser" v-if="showWindow">
+  <div class="cover" @click="closeWindow"></div>
+  <div class="updateWindow">
+    <h2>update profile</h2>
+    <div class="form">
+      <div class="item">
+        <label for="email">Email address <span> (fixed)</span></label>
+        <input
+          type="email" class="input" id="email"
+          disabled
+          v-model.trim="user.email"
+        />
       </div>
-      <button class="btn" @click="commit">finish</button>
+
+      <div class="item">
+        <label for="name">Nickname</label>
+        <input type="text" class="input" id="name" placeholder="name" v-model.trim="user.userName" />
+      </div>
+
+      <div class="item">
+        <label for="description">Phone number</label>
+        <input
+          type="tel" class="input" id="phone"
+          placeholder="phone number"
+          v-model.trim="user.phoneNumber"
+          :class="{textErr: !inputCheck.phone}"
+        />
+      </div>
+
+      <div class="item type">
+        <label>Gender</label>
+        <Radio :values="['M', 'F']" :texts="['Male', 'Female']" 
+          :roomType.sync="user.sex" class="radio"></Radio>
+      </div>
     </div>
+    <button class="btn" @click="commit">confirm</button>
   </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -51,51 +52,51 @@ import axios from 'axios';
     Radio
   }
 })
-export default class Signup extends Vue{
-  genders: Array<string> = ["Male", "Female"];
+export default class updateUser extends Vue{
+  @PropSync("show", { default: false, type: Boolean })
+  showWindow!: boolean;
+  @Prop() user!: Profile;
+  
+  uid: string | boolean = false;
 
-  password: string = "";
+  // async mounted() {
+  //   }
 
-  u: Profile = { 
-    id: "",
-    userName: "",
-    email: "",
-    phoneNumber: "",
-    sex: "U",
-    avatar: "",
-    signupDate: new Date()
+  async getUid() {
+    let response = await axios
+      .get(config.backend.address + `user/byEmail/` + this.user.email, {
+        headers: this.$store.getters.authHeader
+      })
+      console.log(response)
+      this.uid = response.data.id;
+      console.log("get uid:" + this.uid)
+
   }
 
-  async commit(){
-    await this.$store.dispatch("registerUser", 
-    {
-      username: this.u.email,
-      password: this.password
-    });
-    
+  async commit(){    
+    await this.getUid();
     let result = await axios.post(
-      config.backend.address+config.backend.ProfileEndpoint,
-      this.u,
+      config.backend.address+`user/`+this.uid,
+      this.user,
       {headers: this.$store.getters.authHeader}
     )
 
     let success = result.status == 201
+    alert("changes committed")
+    this.closeWindow();
   }
 
+
   inputCheck = {
-    email: true,
-    password: true,
     name: true,
     phone: true
   };
 
-  @Watch("account.username")
-  onEmailChanged(val: string, oldVal: string) {
-    if (val) this.inputCheck.email = this.patterns.email.test(val);
-    else this.inputCheck.email = true;
+  closeWindow(): void {
+    this.showWindow = false;
   }
 
-  @Watch("u.phoneNumber")
+  @Watch("user.phoneNumber")
   onPhoneChanged(val: string, oldVal: string) {
     if (val) this.inputCheck.phone = this.patterns.phone.test(val);
     else this.inputCheck.phone = true;
@@ -110,31 +111,52 @@ export default class Signup extends Vue{
 </script>
 
 <style lang="stylus" scoped>
+.cover {
+  height: 100%
+  width: 100%
+  position: fixed
+  top: 0
+  left: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  z-index: 8
+}
+
+.updateWindow {
+  width: 400px
+  background-color: var(--color-bg-light)
+  border-radius: 5px
+  position: fixed
+  left: 50%
+  top: 20%
+  margin-left: -200px
+  z-index: 9
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: spaces._6
+}
+
 .item {
   margin-v spaces._6
 }
 
 label:first-child {
-  display block
-  font-size font-sizes.small-title
+  display inline-block
   font-family fonts-title
+  font-size font-sizes.body-larger
 }
 
 label:first-child span {
-  // color colors-admin.accent
-  font-weight 500
-}
-
-textarea {
-  width 400px
+  font-size font-sizes.body
+  color colors.text-medium
 }
 
 .input {
-  margin-left 0
+  // font-size font-sizes.body-larger
+  margin-left spaces._2
 }
 
 input.textErr {
-  // background-color: var(--color-accent)
   color colors.error
 }
 
