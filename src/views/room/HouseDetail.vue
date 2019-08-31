@@ -132,7 +132,7 @@
 
   img {
     width: 100%
-    height:100%
+    height: 100%
     object-fit: cover
   }
 
@@ -469,7 +469,7 @@ export default class HouseDetail extends Vue {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   }
 
-  rent() {
+  async rent() {
     if (!this.$store.state.userStore.loggedIn) {
       this.rentError = "You are not logged in!";
       return;
@@ -493,7 +493,7 @@ export default class HouseDetail extends Vue {
       createDate
     );
 
-    this.$store.dispatch("setPendingOrder", order);
+    await this.$store.dispatch("setPendingOrder", order);
 
     this.$router.push(`/r/${this.room.id}/submit`);
   }
