@@ -8,7 +8,7 @@
           v-if="$store.state.userStore.profile && profile"
         ></userInfo>
         <div class="issueBtn">
-          <router-link to="">
+          <router-link to="/u/issue">
             <button class="btn">my issues</button>
           </router-link>
         </div>
