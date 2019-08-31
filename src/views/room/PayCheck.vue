@@ -23,7 +23,7 @@
         <mdi-right-arrow />
         <div class="time-container">
           <div class="label">Check out</div>
-          <div class="time">{{ pendingOrder.startDate.format("YYYY-MM-DD") }}</div>
+          <div class="time">{{ pendingOrder.endDate.format("YYYY-MM-DD") }}</div>
         </div>
       </div>
       <div class="keep_in_mind">
@@ -74,6 +74,8 @@
         </template>
         <template v-else>The house owner did not specify anything special to notice.</template>
       </div>
+
+      <hr />
 
       <div class="total">
         <label class="total_cost">Total: ${{ pendingOrder.totalPrice }}</label>
@@ -211,10 +213,18 @@
   }
 }
 
+hr {
+  width: 30%
+  margin-v: spaces._6
+  text-align: left
+  margin-left: 0
+  margin-right: auto
+}
+
 .total {
   display: flex
   justify-content: flex-start
-  margin-top: spaces._8
+  margin-top: spaces._6
 
   .total_cost {
     font-family: fonts-title
@@ -268,7 +278,7 @@ export default class PayCheck extends Vue {
 
   get totalCost() {
     let duration = moment.duration(
-      this.pendingOrder.endDate.diff(this.pendingOrder.endDate)
+      this.pendingOrder.startDate.diff(this.pendingOrder.endDate)
     );
 
     return (duration.days() + 1) * (this.room.shortPrice as number);
@@ -278,7 +288,7 @@ export default class PayCheck extends Vue {
     return (
       moment
         .duration(
-          moment(this.pendingOrder.endDate).diff(this.pendingOrder.endDate)
+          moment(this.pendingOrder.startDate).diff(this.pendingOrder.endDate)
         )
         .asDays() + 1
     );
