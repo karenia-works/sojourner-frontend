@@ -16,7 +16,12 @@
       </div>
       <h1>Works assigned to me</h1>
       <div class="work-list">
-        <issue-display v-for="issue in issues" :key="issue.id" :issue="issue" />
+        <issue-display
+          v-for="issue in issues"
+          :key="issue.id"
+          :issue="issue"
+          @finish="removeIssue"
+        />
         <!-- <div class="issue-line" v-for="issue in issues" :key="issue.id">
           <div class="issue-id">{{issue.id}}</div>
         </div>-->
@@ -26,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import { Issue } from "../../models/Room";
 import Axios from "axios";
 import config from "@/config";
@@ -39,11 +44,15 @@ import IssueDisplay from "@/components/IssueDisplay.vue";
 export default class WorkerHomepage extends Vue {
   issues: Issue[] = [];
 
+  @Watch("$store.state.userStore.loggedIn")
+  mounted() {
+    this.getIssues();
+  }
+
   async getIssues() {
-    let issues = await Axios.get(
-      config.backend.address + "issue/IssueByWid",
-      this.$store.getters.authHeader
-    );
+    let issues = await Axios.get(config.backend.address + "issue/IssueByWid", {
+      headers: this.$store.getters.authHeader
+    });
 
     this.issues = issues.data;
   }
@@ -51,8 +60,8 @@ export default class WorkerHomepage extends Vue {
   removeIssue(event: string) {
     this.issues = this.issues.filter(issue => issue.id == event);
   }
-  logout(){
-    this.$store.commit("logout")
+  logout() {
+    this.$store.commit("logout");
   }
 }
 </script>
