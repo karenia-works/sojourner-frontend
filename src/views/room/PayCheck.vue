@@ -75,18 +75,30 @@
         <template v-else>The house owner did not specify anything special to notice.</template>
       </div>
 
+      <div class="long-contract" v-if="pendingOrder.isLongRent">
+        <h2>Long rent contract</h2>
+        <p>
+          <strong>Please print out the following contract:</strong>
+        </p>
+        <p>
+          <a @click="showContract">Long term contract</a>
+        </p>
+      </div>
+
       <hr />
 
       <div class="total">
         <label class="total_cost">Total: ${{ pendingOrder.totalPrice }}</label>
+        <div class="per-cost" v-if="!pendingOrder.isLongRent">${{ room.shortPrice }} / day</div>
+        <div class="per-cost" v-else>${{ room.longPrice }} / month</div>
       </div>
       <div class="agree-button">
         <a @click="lastPage">
           <button id="search-btn" class="btn search-btn dull">Cancel</button>
         </a>
-        <router-link to="shortpay">
-          <button id="search-btn" class="btn search-btn">AGREE</button>
-        </router-link>
+        <a @click="proceedPayment">
+          <button id="search-btn" class="btn search-btn">Proceed</button>
+        </a>
       </div>
     </div>
   </div>
@@ -135,7 +147,7 @@
     .time {
       font-family: fonts-title
       font-size: font-sizes.medium-title
-      font-weight: bold
+      font-weight: 500
     }
   }
 }
@@ -223,14 +235,21 @@ hr {
 
 .total {
   display: flex
+  flex-direction: column
   justify-content: flex-start
   margin-top: spaces._6
 
   .total_cost {
     font-family: fonts-title
-    font-size: font-sizes.large-title
-    font-weight: 500
+    font-size: font-sizes.medium-title
+    font-weight: bold
     text-align: left
+  }
+
+  .per-cost {
+    margin-top: spaces._4
+    font-weight: 500
+    color: var(--color-text-medium)
   }
 }
 </style>
@@ -311,6 +330,25 @@ export default class PayCheck extends Vue {
 
   lastPage() {
     this.$router.back();
+  }
+
+  showContract() {
+    window.open(
+      `/r/${this.id}/longPay?stayPlace=${
+        this.room.name
+      }&startTime=${this.pendingOrder.startDate.toISOString()}&endTime=${this.pendingOrder.endDate.toISOString()}&totalCost=${
+        this.pendingOrder.totalPrice
+      }&roomType=${this.room.type}`,
+      "_blank"
+    );
+  }
+
+  proceedPayment() {
+    if (this.pendingOrder.isLongRent) {
+      this.$router.push({ name: "user_me" });
+    } else {
+      this.$router.push({ name: "short_term_pay" });
+    }
   }
 }
 </script>

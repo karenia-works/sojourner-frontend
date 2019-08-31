@@ -6,7 +6,7 @@
         <p>Here's a worry-free flat renting service, designed for people just like you.</p>
         <img src="../assets/sojourner-trails.svg" alt id="index-trail-pic" />
       </div>
-      <search-bar :status.sync="searchStatus" @search="onSearch"></search-bar>
+      <search-bar :search-status.sync="searchStatus" @search="onSearch"></search-bar>
     </div>
     <!-- <div class="background color-darker">
       <div class="container" id="explore">
@@ -14,7 +14,7 @@
           <h1>Explore</h1>
         </div>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 

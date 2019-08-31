@@ -43,8 +43,8 @@ export class SearchStatus {
 
     let status = new SearchStatus(
       keyword,
-      endTime,
       startTime,
+      endTime,
       roomType,
       useLongRent
     )
@@ -58,7 +58,7 @@ const actions: ActionTree<SearchState, RootState> = {}
 const mutations: MutationTree<SearchState> = {
   replaceSearch(state, newState: SearchStatus) {
     state.status = newState
-  },
+  }
 }
 
 const getters: GetterTree<SearchState, RootState> = {}
@@ -67,5 +67,5 @@ export const searchStore: Module<SearchState, RootState> = {
   state: () => new SearchState(),
   actions,
   mutations,
-  getters,
+  getters
 }
