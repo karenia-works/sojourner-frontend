@@ -391,7 +391,7 @@ export default class HouseDetail extends Vue {
     return this.room.equipJudge.map(val => {
       return {
         "icon-line": true,
-        no: val
+        no: !val
       };
     });
   }
