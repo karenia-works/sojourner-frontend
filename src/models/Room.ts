@@ -59,6 +59,7 @@ export interface Order {
   createDate: Date
   cancelDate?: Date
   isPaid: boolean
+  house?: Room
 }
 export class PendingOrder {
   constructor(
@@ -111,8 +112,8 @@ var exampleProfile: Profile = {
 export interface Issue {
   id: string
   uemail: string
-  wemail: string
   hid: string
+  wemail: string
   img: string[]
   complaint: string
   reply?: string

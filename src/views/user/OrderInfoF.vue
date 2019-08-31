@@ -34,27 +34,8 @@ import {Room} from '@/models/Room.ts'
   }
 })
 export default class OrderInfoF extends Vue {
-  @Prop() item!: Order;
-  order = this.item;
-  room: Room = {
-        id: "122",
-        name: "Amazing view - Moderne apartment",
-        description: "",
-        type: "quad",
-        longAvailable: true,
-        shortAvailable: true,
-        longPrice: 3000,
-        shortPrice: 156,
-        img:
-          ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
-        address: {
-          country: "Iceland",
-          city: "Akureyri",
-          street: "Villa Lola"
-        },
-        equipJudge: [],
-        noticeJudge: []
-      };
+  @Prop() order!: Order;
+  room?: Room = this.order.house;
 
   rentType: String = this.order.isLongRent ? "long" : "short";
   

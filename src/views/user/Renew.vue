@@ -1,6 +1,6 @@
 <template>
-  <div class="renew">
-    <div class="cover" @click="closeRenew"></div>
+  <div class="renew" v-if="showWindow">
+    <div class="cover" @click="closeWindow"></div>
     <div class="renewWindow">
       <!-- <h2>renew the release</h2> -->
       <p class="room_title">{{room.name}}</p>
@@ -38,18 +38,18 @@ import config from "@/config.ts"
 })
 export default class Renew extends Vue {
   @PropSync("show", { default: false, type: Boolean })
-    showRenew!: boolean;
-  @Prop() room!: Room;
+    showWindow!: boolean;
   @Prop() order!: Order;
 
+  room?: Room = this.order.house;
   length: number = 0;
   oldEnd: Moment = moment(this.order.endDate);
   get newEnd(): Moment {
     return this.oldEnd.clone().add(this.length, 'month');
   }
 
-  closeRenew(): void {
-    this.showRenew = false;
+  closeWindow(): void {
+    this.showWindow = false;
   }
 
   async submitRenew() {
@@ -62,6 +62,10 @@ export default class Renew extends Vue {
       )
   
       let success = result.status == 201
+      // if (success) {
+        alert("renew successfully")
+        this.closeWindow();
+      // }
     } else {
       alert("please check your input");
     }
@@ -84,8 +88,9 @@ export default class Renew extends Vue {
   width: 400px
   background-color: var(--color-bg-light)
   border-radius: 5px
-  position: absolute
+  position: fixed
   left: 50%
+  top: 25%
   margin-left: -200px
   z-index: 9
   display: flex
@@ -126,10 +131,6 @@ p {
   font-size font-sizes.body-larger
   margin-v spaces._5
   }
-
-.newend {
-  // font-size font-sizes.body-larger
-}
 
 .newend span {
   font-weight 500  
