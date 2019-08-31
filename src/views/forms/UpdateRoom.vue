@@ -183,7 +183,7 @@ export default class UpdateRoom extends Vue {
   }
 
   async uploadImg(files: File[]) {
-    if (this.r) {
+    if (typeof(this.r)=="object") {
       let fileNames = await uploadImages(files);
       let fileLinks = fileNames.map(
         name => `https://sojourner.rynco.me/api/v1/image/${name}`
@@ -195,7 +195,7 @@ export default class UpdateRoom extends Vue {
   commitError: string | null = null;
 
   async commit() {
-    if (this.r) {
+    if (typeof(this.r)=="object") {
       await this.uploadImg(this.files);
       try {
         let result = await axios.put(
