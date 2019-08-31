@@ -8,7 +8,12 @@
 .roominfo {
   margin-bottom: 50px
   margin-h: 10px
-  float: left
+}
+
+.results {
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
 }
 </style>
 
