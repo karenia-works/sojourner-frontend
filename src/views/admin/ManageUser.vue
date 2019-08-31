@@ -18,7 +18,7 @@
         <td>is Renting</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="user in users">
+      <tr class="layer" v-for="(user,index) in users" :key="index">
         <td>
           <img :src="user.ava_url" class="ava_img" />
         </td>
@@ -30,14 +30,15 @@
           <label v-show="!user.isRenting" class="no_judge">No</label>
         </td>
         <td>
+          <UpdateUser :user="user" :show.sync="showUpdate"></UpdateUser>
           <div class="dropdown">
             <button class="dropbtn">
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to>Change Info</router-link>
-              <router-link to>Check Order</router-link>
-              <router-link to>Delete</router-link>
+              <router-link to v-on:click.native="OpenUpdate()">Change Info</router-link>
+              <router-link :to="getUserOrderUrl(user.email)">Check Order</router-link>
+              <router-link v-on:click.native="deleteAPI(user.email)" to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -136,19 +137,23 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import { getProfileId } from "@/helpers/profileHelper";
+import { Profile } from "@/models/Room";
+import UpdateUser from "@/views/forms/UpdateUser.vue"
 
 @Component({
-  components: { dotsIcon, searchbarAdmin }
+  components: { dotsIcon, searchbarAdmin, UpdateUser }
 })
 export default class ManageUser extends Vue {
-  users = [];
+  users: Profile[] = [];
 
-  origin_url = "https://sojourner.rynco.me/api/v1/profile";
-  api_url = "https://sojourner.rynco.me/api/v1/profile";
+  origin_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
+  api_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/all";
+  del_url = "https://sojourner.rynco.me/api/v1/profile/";
   keyword = "";
 
   getAPI() {
-    console.log(this.$store.getters.authHeader)
+    console.log(this.$store.getters.authHeader);
     axios
       .get(this.api_url, {
         headers: this.$store.getters.authHeader
@@ -157,18 +162,46 @@ export default class ManageUser extends Vue {
       .catch(error => console.log(error));
   }
 
+  async deleteAPI(delete_id: string) {
+    try {
+      await axios.delete(this.DeleteItem(delete_id), {
+        headers: this.$store.getters.authHeader
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // this.rooms.filter(x => x.id == delete_id);
+    this.getAPI();
+  }
+
   mounted() {
     this.getAPI();
   }
 
-  reRoute() {
-    if (this.keyword == "") this.api_url = this.origin_url;
-    else this.api_url = this.origin_url + "?kw=" + this.keyword;
-    this.getAPI();
+  async reRoute() {
+    if (this.keyword != "")
+      try {
+        this.users = [];
+        this.users.push(
+          await getProfileId(this.keyword, this.$store.getters.authHeader)
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    else this.getAPI();
   }
+
   DeleteItem(delete_id: string) {
-    this.api_url = this.origin_url + "/" + delete_id;
-    this.getAPI();
+    return this.del_url + delete_id;
+  }
+
+  getUserOrderUrl(uid: number) {
+    return "UserOrder?uid=" + uid;
+  }
+
+  showUpdate: boolean = false;
+  OpenUpdate() {
+    this.showUpdate = true;
   }
 }
 </script>

@@ -69,6 +69,18 @@ export default new Router({
             import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
         },
         {
+          path: '/u/issue',
+          name: 'my_issue',
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/user/Issue.vue')
+        },
+        {
+          path: '/u/reply',
+          name: 'my_reply',
+          component: () =>
+            import(/* webpackChunkName: "userland" */ './views/user/Reply.vue')
+        },
+        {
           path: '/r/:id',
           component: Room,
           children: [

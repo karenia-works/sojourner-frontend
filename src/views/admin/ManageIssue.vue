@@ -16,23 +16,35 @@
         <td>Lessee</td>
         <td>Worker</td>
         <td>Reported</td>
-        <td>&ensp;Replied&ensp;</td>    <!--half space-->
+        <td>Replied&ensp;</td>
+        <td>Sended</td>
         <td>Repaired</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="Issue in Issues">
-        <td>{{ Issue.iid }}</td>
-        <td>{{ Issue.room_name }}</td>
-        <td>{{ Issue.user_name }}</td>
+      <tr class="layer" v-for="(Issue, index) in Issues" :key="index">
+        <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
+        <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
+        <td>{{ Issue.uemail }}</td>
         <td>{{ Issue.worker_name }}</td>
         <td>
-          <div :class="{'line':true , 'line1':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'line2':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.is_reply, 'lineE':Issue.is_reply&&!Issue.is_repair, 'line3': Issue.is_reply&&Issue.is_repair}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+          ></div>
+        </td>
+        <td>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
           <div class="dropdown">
@@ -40,9 +52,12 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link to="reply" v-show="!Issue.is_reply">Reply</router-link>
-              <router-link :to="getWorkerUrl(Issue.iid)" v-show="!Issue.is_repair">Send Worker</router-link>
-              <router-link to="">Delete</router-link>
+              <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
+              <router-link
+                :to="getWorkerUrl(Issue.id)"
+                v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail==null"
+              >Send Worker</router-link>
+              <router-link to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -135,26 +150,30 @@
   background-color: var(--color-bg-medium);
 }
 
-.line{
+.line {
   width: 100%;
   height: 20%;
-    }
+}
 
 .line1 {
   background: var(--color-error);
 }
 
 .line2 {
-  background: var(--color-text-medium);
+  background: #FFC85F;
 }
 
 .line3 {
+  background: #3389cc;
+}
+
+.line4 {
   background: var(--color-accent);
 }
 
-.lineE{
+.lineE {
   background: transparent;
-    }
+}
 </style>
 
 <script lang="ts">
@@ -162,24 +181,31 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import moment from "moment";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageIssue extends Vue {
   Issues = [];
-  
-  origin_url = "http://localhost:5000/api/v1/room";
-  api_url = "http://localhost:5000/api/v1/room";
+
+  origin_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
+  api_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
   keyword = "";
 
   getWorkerUrl(iid: number) {
-    return ("ManageWorker?iid=" + iid);
+    return "ManageWorker?iid=" + iid;
+  }
+
+  getReplyUrl(iid: number) {
+    return "reply?iid=" + iid;
   }
 
   getAPI() {
     axios
-      .get(this.api_url)
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
       .then(response => (this.Issues = response.data))
       .catch(error => console.log(error));
   }
