@@ -172,6 +172,7 @@ export var mutations: MutationTree<UserState> = {
   tryRestoreData(state) {
     try {
       let email = window.localStorage.getItem('email')
+      let role = window.localStorage.getItem('role')
       let profile = window.localStorage.getItem('profile')
       let authData = window.localStorage.getItem('authData')
       if (email && profile && authData) {
@@ -180,6 +181,7 @@ export var mutations: MutationTree<UserState> = {
         state.userLoginData = JSON.parse(authData)
         state.loggedIn = true
         state.hasProfile = true
+        state.role = role || undefined
       }
     } catch (_) {}
   },
@@ -191,6 +193,7 @@ export var mutations: MutationTree<UserState> = {
       )
       window.localStorage.setItem('profile', JSON.stringify(state.profile))
       window.localStorage.setItem('email', state.email)
+      if (state.role) window.localStorage.setItem('role', state.role)
     }
   },
   logout(state) {
@@ -204,6 +207,7 @@ export var mutations: MutationTree<UserState> = {
     window.localStorage.removeItem('authData')
     window.localStorage.removeItem('profile')
     window.localStorage.removeItem('email')
+    window.localStorage.removeItem('role')
   }
 }
 

@@ -10,9 +10,13 @@
     </div>
     <div class="worker-works container" v-else>
       <div class="work-filter"></div>
+      <div class="sign-data">
+        <h3>Signed in as {{$store.state.userStore.email}}</h3>
+        <button @click="logout">Logout</button>
+      </div>
       <h1>Works assigned to me</h1>
       <div class="work-list">
-        <issue-display />
+        <issue-display v-for="issue in issues" :key="issue.id" :issue="issue" />
         <!-- <div class="issue-line" v-for="issue in issues" :key="issue.id">
           <div class="issue-id">{{issue.id}}</div>
         </div>-->
@@ -35,29 +39,27 @@ import IssueDisplay from "@/components/IssueDisplay.vue";
 export default class WorkerHomepage extends Vue {
   issues: Issue[] = [];
 
-  getStatus(issue: Issue) {
-    if (issue.needRepair) {
-      if (issue.isReplied) {
-        return "Replied";
-      } else if (issue.isFinished) {
-        return "Finished";
-      } else {
-        return "Open";
-      }
-    } else return "Open";
-  }
-
   async getIssues() {
-    await Axios.get(
+    let issues = await Axios.get(
       config.backend.address + "issue/IssueByWid",
       this.$store.getters.authHeader
     );
+
+    this.issues = issues.data;
+  }
+
+  removeIssue(event: string) {
+    this.issues = this.issues.filter(issue => issue.id == event);
+  }
+  logout(){
+    this.$store.commit("logout")
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.work-list ,.worker-works{
+.work-list,
+.worker-works {
   display: flex
   flex-direction: column
   align-items: stretch
