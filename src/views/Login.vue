@@ -2,6 +2,7 @@
   <div v-if="showLogin">
     <div class="cover" @click="closeLogin"></div>
     <div class="login loginWindow">
+      <slot name="title"></slot>
       <input
         type="email"
         class="input"
@@ -15,9 +16,11 @@
       <div class="btnDiv">
         <button id="login-btn" class="btn" @click="submitLogin">Login</button>
       </div>
-      <p class="signupLink">
+      <p class="signupLink" v-if="showSignUp">
         Don't have an account?&nbsp;
-        <span class="jumpLink" @click="closeLogin"><router-link to="/register">Sign up</router-link></span> now
+        <span class="jumpLink" @click="closeLogin">
+          <router-link to="/register">Sign up</router-link>
+        </span> now
       </p>
     </div>
     <!-- <div class="signup loginWindow" v-if="signup">
@@ -47,7 +50,7 @@
         Already have an account?&nbsp;
         <span class="jumpLink" @click="toLogin">Log in</span>
       </p>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -109,7 +112,7 @@ input.textErr {
 }
 
 .jumpLink:hover {
-  cursor pointer
+  cursor: pointer
 }
 </style>
 
@@ -127,6 +130,8 @@ export default class Login extends Vue {
   showLogin!: boolean;
 
   @Prop({ default: false }) isSinglePage!: boolean;
+
+  @Prop({ default: true }) showSignUp!: boolean;
 
   openLogin() {
     this.showLogin = true;
@@ -172,7 +177,7 @@ export default class Login extends Vue {
         password: this.password
       });
 
-      this.showLogin=false;
+      this.showLogin = false;
 
       if(this.$store.state.userStore.role == "admin"){
         this.$router.push("/admin")

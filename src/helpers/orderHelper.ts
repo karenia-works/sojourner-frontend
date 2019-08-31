@@ -43,13 +43,14 @@ async function findOrderByRoom(id: string): Promise<Order[]> {
   } else throw new Error('findByRoomError')
 }
 
-async function findOrderByUser(id: string): Promise<Order[]> {
+async function findOrderByUser(id: string, header: any): Promise<Order[]> {
   let Orders = await Axios.get<Order[]>(
     config.backend.address + config.backend.orderByUser,
     {
       params: {
         user: id
-      }
+      },
+      headers: header
     }
   )
   if (Orders.status == 200) {
@@ -57,4 +58,4 @@ async function findOrderByUser(id: string): Promise<Order[]> {
   } else throw new Error('findByUserError')
 }
 
-export {findOrderByRoom, findOrderByUser, getOrder, insertOrder}
+export { findOrderByRoom, findOrderByUser, getOrder, insertOrder }

@@ -343,7 +343,8 @@ export default class PayCheck extends Vue {
     );
   }
 
-  proceedPayment() {
+  async proceedPayment() {
+    await this.$store.dispatch("sendPendingOrder");
     if (this.pendingOrder.isLongRent) {
       this.$router.push({ name: "user_me" });
     } else {

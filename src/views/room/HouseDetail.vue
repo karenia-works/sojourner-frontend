@@ -127,11 +127,13 @@
   flex: 1
   overflow: hidden
   white-space: nowrap
-  object-fit: cover
   height: 40vw
   background: var(--color-bg-medium)
 
   img {
+    width: 100%
+    height: 100%
+    object-fit: cover
   }
 
   & * {
@@ -391,7 +393,7 @@ export default class HouseDetail extends Vue {
     return this.room.equipJudge.map(val => {
       return {
         "icon-line": true,
-        no: val
+        no: !val
       };
     });
   }
@@ -423,11 +425,13 @@ export default class HouseDetail extends Vue {
   }
 
   set rentSelection(value: Set<number>) {
-    if (value.has(1) || this.room.shortAvailable) {
-      this.rentByDay = false;
-    } else {
-      this.rentByDay = true;
-    }
+   if(this.room.shortAvailable&&this.room.longAvailable){
+     this.rentByDay=
+value.has(0)
+
+   }else{
+     this.rentByDay=this.room.shortAvailable
+   }
   }
 
   get totalPrice() {

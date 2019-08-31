@@ -17,7 +17,7 @@ export var getters: GetterTree<OrderBufferState, RootState> = {
       state.lru.set(id, Date.now())
       return state.buffer.get(id)
     }
-  },
+  }
 }
 export var actions: ActionTree<OrderBufferState, RootState> = {
   async addOrder(state, id: string) {
@@ -49,14 +49,12 @@ export var actions: ActionTree<OrderBufferState, RootState> = {
   async sendPendingOrder(ctx) {
     if (ctx.state.pending) {
       let order = ctx.state.pending.toOrder()
-      await axios.post(
-        config.backend.address + 'order',
-        order,
-        ctx.rootGetters.authHeader
-      )
+      await axios.post(config.backend.address + 'order', order, {
+        headers: ctx.rootGetters.authHeader
+      })
       ctx.commit('setPendingOrder', null)
     }
-  },
+  }
 }
 export var mutations: MutationTree<OrderBufferState> = {
   setOrder(state, payload: { id: string; order: Order }) {
@@ -66,13 +64,13 @@ export var mutations: MutationTree<OrderBufferState> = {
   setOrderLru(state, id: string) {
     state.lru.set(id, Date.now())
   },
-  setPendingOrder(state, payload: Order) {
+  setPendingOrder(state, payload: PendingOrder) {
     state.pending = payload
-  },
+  }
 }
 
 export const orderStore: Module<OrderBufferState, RootState> = {
   state: () => new OrderBufferState(),
   actions,
-  mutations,
+  mutations
 }

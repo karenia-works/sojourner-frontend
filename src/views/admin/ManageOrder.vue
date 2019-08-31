@@ -17,12 +17,12 @@
         <td>Lessee</td>
         <td>Duration</td>
         <td>Rent Type</td>
-        <td>Price</td>
+        <td>Total Price</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="order in orders" :key="order.id">
         <td>{{ order.id.substr(order.id.length-4)  }}</td>
-        <td>{{ order.house.name }}</td>
+        <td>{{ order.house.name}}</td>
         <td>
           <img :src="order.house.img[0]" class="ava_img" />
         </td>
@@ -33,8 +33,7 @@
           <label v-show="!order.isLongRent" class="no_judge">Short Rent</label>
         </td>
         <td>
-          <label v-show="order.isLongRent">${{ order.house.longPrice }}/month</label>
-          <label v-show="!order.isLongRent">${{ order.house.shortPrice }}/day</label>
+          <label>${{ order.totalPrice }}</label>
         </td>
         <td>
           <div class="dropdown">
@@ -166,7 +165,9 @@ export default class Manageorder extends Vue {
 
   getAPI() {
     axios
-      .get(this.api_url)
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
       .then(response => {(this.orders = response.data); console.log(this.orders)})
       .catch(error => console.log(error));
   }

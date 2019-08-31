@@ -93,11 +93,11 @@ export default class Signup extends Vue {
     userName: "",
     email: "",
     phoneNumber: "",
-    role: "IdentityServerApiScope",
-isRenting: false,
     sex: "U",
     avatar: "",
-    signupDate: new Date()
+    signupDate: new Date(),
+    role: "worker",
+    isRenting: false
   };
 
   error: string | null = null;
@@ -107,13 +107,13 @@ isRenting: false,
     try {
       this.loading = true;
       this.error = null;
-      await this.$store.dispatch("registerUser", {
+      await this.$store.dispatch("registerWorker", {
         username: this.u.email,
         password: this.password,
         profile: this.u
       });
       this.loading = false;
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: "WorkerList" });
     } catch (e) {
       this.loading = false;
       this.error = `${e.response.status}: ${e.response.data.error}`;
@@ -148,39 +148,39 @@ isRenting: false,
 
 <style lang="stylus" scoped>
 .item {
-  margin-v: spaces._6
+  margin-v: spaces._6;
 }
 
 label:first-child {
-  display: block
-  font-size: font-sizes.small-title
-  font-family: fonts-title
+  display: block;
+  font-size: font-sizes.small-title;
+  font-family: fonts-title;
 }
 
 label:first-child span {
   // color colors-admin.accent
-  font-weight: 500
+  font-weight: 500;
 }
 
 textarea {
-  width: 400px
+  width: 400px;
 }
 
 .input {
-  margin-left: 0
+  margin-left: 0;
 }
 
 input.textErr {
   // background-color: var(--color-accent)
-  color: colors.error
+  color: colors.error;
 }
 
 .status {
-  margin-v: spaces._3
+  margin-v: spaces._3;
 }
 
 .err {
-  font-weight: bold
-  color: var(--color-error)
+  font-weight: bold;
+  color: var(--color-error);
 }
 </style>
