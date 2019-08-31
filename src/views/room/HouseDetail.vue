@@ -87,23 +87,16 @@
               <list-selection :options="rentOptions" :selection.sync="rentSelection"></list-selection>
             </div>
             <div class="rent_button">
-              <div class="short_rent" v-if="rentByDay">
-                <router-link to="submit">
-                  <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
-                </router-link>
-              </div>
-              <div class="long_rent" v-else>
-                <router-link tag="a" target="_blank" to="longpay">
-                  <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
-                </router-link>
-              </div>
+              <button id="rent-btn" class="btn rent-btn" @click="rent">Rent</button>
             </div>
+            <div class="rent-error" v-if="rentError">{{rentError}}</div>
           </div>
         </div>
       </div>
     </template>
     <template v-else-if="error">{{error}}</template>
     <template v-else>
+      <loading-bar />
       <div class="houseBigPic loading"></div>
       <div class="about-room loading">
         <div class="container">
@@ -161,7 +154,7 @@
 }
 
 .about-room {
-  .container{
+  .container {
     align-items: flex-start
   }
 
@@ -217,7 +210,7 @@
         }
 
         +break-screen(breakpoints.medium, 0) {
-          lost-waffle: 1 / 4 0 0px
+          lost-waffle: 1 / 3 0 0px
         }
 
         .mdi {
@@ -340,9 +333,11 @@ import ArrowRightIcon from "mdi-vue/ArrowRight";
 import DatePicker from "@/components/DatePicker.vue";
 import ListSelection from "@/components/ListSelection.vue";
 import moment, { Moment } from "moment";
-import { Room, exampleRoom } from "@/models/Room.ts";
+import { Room, exampleRoom, Order, PendingOrder } from "@/models/Room.ts";
 import { SearchStatus } from "../../store/search";
 import VueMarkdown from "vue-markdown";
+import { isPrimitive } from "vue-class-component/lib/util";
+import LoadingBar from "@/components/LoadingBar.vue";
 
 @Component({
   components: {
@@ -357,12 +352,13 @@ import VueMarkdown from "vue-markdown";
     parkingIcon,
     DatePicker,
     ArrowRightIcon,
-    VueMarkdown
+    VueMarkdown,
+    LoadingBar
   }
 })
 export default class HouseDetail extends Vue {
   // @Prop({ default: () => moment(), type: moment }) initialStartDate!: Moment;
-  // @Prop({ default: () => moment(), type: moment }) initialEndDate!: Moment;
+  // @Prop({ default: () => moment(), type: moment }) initialEndDate!: Mom1ent;
   // @Prop({ default: () => "", type: String }) initialSearchStr: string = "";
 
   EquipJudge = [false, true, true, false, true, false, true, true];
@@ -370,6 +366,7 @@ export default class HouseDetail extends Vue {
   room: Room = exampleRoom;
   isLoading = true;
   error: string | boolean = false;
+  rentError: string | boolean = false;
 
   get startDate() {
     return this.searchStatus.startTime;
@@ -410,10 +407,15 @@ export default class HouseDetail extends Vue {
 
   rentByDay: boolean = false;
 
-  rentOptions = ["Day", "Month"];
+  get rentOptions() {
+    let options: string[] = [];
+    if (this.room.shortAvailable) options.push("Day");
+    if (this.room.longAvailable) options.push("Month");
+    return options;
+  }
 
   get rentSelection() {
-    if (this.rentByDay) {
+    if (this.rentByDay || !this.room.shortAvailable) {
       return new Set([0]);
     } else {
       return new Set([1]);
@@ -421,7 +423,7 @@ export default class HouseDetail extends Vue {
   }
 
   set rentSelection(value: Set<number>) {
-    if (value.has(1)) {
+    if (value.has(1) || this.room.shortAvailable) {
       this.rentByDay = false;
     } else {
       this.rentByDay = true;
@@ -439,9 +441,13 @@ export default class HouseDetail extends Vue {
     }
   }
 
-  mounted() {
-    this.updateRoom();
-    this.rentByDay = this.searchStatus.useLongRent || true;
+  async mounted() {
+    await this.updateRoom();
+    if (this.searchStatus.useLongRent === false && this.room.shortAvailable) {
+      this.rentByDay = true;
+    } else {
+      this.rentByDay = false;
+    }
   }
 
   async updateRoom() {
@@ -461,17 +467,36 @@ export default class HouseDetail extends Vue {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   }
 
-  @Emit("search")
-  emitSearch() {
-    console.log(
-      "",
-      this.startDate.toString(),
-      this.endDate.toString(),
-      this.searchStr
+  rent() {
+    if (!this.$store.state.userStore.loggedIn) {
+      this.rentError = "You are not logged in!";
+      return;
+    }
+    this.rentError = false;
+
+    let houseId = this.room.id;
+    let userEmail = this.$store.state.userStore.email;
+    let startDate = this.startDate;
+    let endDate = this.endDate;
+    let isLongRent = !this.rentByDay;
+    let createDate = new Date();
+    let totalPrice = this.totalPrice;
+    let order = new PendingOrder(
+      houseId,
+      userEmail,
+      startDate,
+      endDate,
+      isLongRent,
+      totalPrice,
+      createDate
     );
-    return new SearchEvent(this.searchStr, this.startDate, this.endDate);
+
+    this.$store.dispatch("setPendingOrder", order);
+
+    this.$router.push(`/r/${this.room.id}/submit`);
   }
 }
+
 export class SearchEvent {
   constructor(
     public searchStr: string,

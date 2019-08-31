@@ -3,11 +3,12 @@ import { RootState } from './rootState'
 import axios from 'axios'
 import config from '@/config'
 import qs from 'qs'
-import { Room, Order } from '@/models/Room'
+import { Room, Order, PendingOrder } from '@/models/Room'
 
 class OrderBufferState {
   buffer: Map<string, Order> = new Map()
   lru: Map<string, number> = new Map()
+  pending: PendingOrder | null = null
 }
 
 export var getters: GetterTree<OrderBufferState, RootState> = {
@@ -16,7 +17,7 @@ export var getters: GetterTree<OrderBufferState, RootState> = {
       state.lru.set(id, Date.now())
       return state.buffer.get(id)
     }
-  }
+  },
 }
 export var actions: ActionTree<OrderBufferState, RootState> = {
   async addOrder(state, id: string) {
@@ -39,7 +40,23 @@ export var actions: ActionTree<OrderBufferState, RootState> = {
       // Room is not present, async get from backend
       await state.dispatch('addOrder', id)
     }
-  }
+  },
+
+  setPendingOrder(ctx, payload: PendingOrder) {
+    ctx.commit('setPendingOrder', payload)
+  },
+
+  async sendPendingOrder(ctx) {
+    if (ctx.state.pending) {
+      let order = ctx.state.pending.toOrder()
+      await axios.post(
+        config.backend.address + 'order',
+        order,
+        ctx.rootGetters.authHeader
+      )
+      ctx.commit('setPendingOrder', null)
+    }
+  },
 }
 export var mutations: MutationTree<OrderBufferState> = {
   setOrder(state, payload: { id: string; order: Order }) {
@@ -48,11 +65,14 @@ export var mutations: MutationTree<OrderBufferState> = {
   },
   setOrderLru(state, id: string) {
     state.lru.set(id, Date.now())
-  }
+  },
+  setPendingOrder(state, payload: Order) {
+    state.pending = payload
+  },
 }
 
 export const orderStore: Module<OrderBufferState, RootState> = {
   state: () => new OrderBufferState(),
   actions,
-  mutations
+  mutations,
 }

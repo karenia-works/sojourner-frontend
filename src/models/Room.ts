@@ -1,3 +1,5 @@
+import { Moment } from 'moment'
+
 export interface Room {
   id: string
   name: string
@@ -13,7 +15,7 @@ export interface Room {
     street: string
   }
   img: Array<string>
-  equipJudge: Array<boolean>  // 8 items
+  equipJudge: Array<boolean> // 8 items
   noticeJudge: Array<boolean> // 5 items
 }
 
@@ -23,7 +25,7 @@ var exampleRoom: Room = {
   address: {
     country: 'US',
     city: 'Florida',
-    street: 'Kennedy Space Center, Merritt Island'
+    street: 'Kennedy Space Center, Merritt Island',
   },
   description: `
 The Astronaut Beach House is a two-story house built in 1962 as a part of the then Neptune Beach subdivision at Cape Canaveral, Florida.
@@ -40,8 +42,8 @@ It stands 50 metres back from the shoreline directly in between Pads 40 and 41 I
   noticeJudge: [true, true, true, true, true],
   img: [
     'https://www.nasa.gov/sites/default/files/thumbnails/image/3-2014-1588a.jpg',
-    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg'
-  ]
+    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg',
+  ],
 }
 
 export interface Order {
@@ -59,6 +61,32 @@ export interface Order {
   isPaid: boolean
   house?: Room
 }
+export class PendingOrder {
+  constructor(
+    public houseId: string,
+    public userEmail: string,
+    public startDate: Moment,
+    public endDate: Moment,
+    public isLongRent: boolean,
+    public totalPrice: number,
+    public createDate: Date
+  ) {}
+
+  public toOrder(): Order {
+    return {
+      houseId: this.houseId,
+      userEmail: this.userEmail,
+      startDate: this.startDate.toDate(),
+      endDate: this.endDate.toDate(),
+      isLongRent: this.isLongRent,
+      createDate: this.createDate,
+      totalPrice: this.totalPrice,
+      isFinished: false,
+      id: '',
+      isPaid: false,
+    }
+  }
+}
 
 export interface Profile {
   id: string
@@ -71,13 +99,14 @@ export interface Profile {
 }
 
 var exampleProfile: Profile = {
-  id: "qwertyqwertyqwertyqwerty",
-  userName: "yingyingying", // nickname
-  email: "ying@126.com",
-  phoneNumber: "13636036036",
+  id: 'qwertyqwertyqwertyqwerty',
+  userName: 'yingyingying', // nickname
+  email: 'ying@126.com',
+  phoneNumber: '13636036036',
   sex: 'M',
-  avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
-  signupDate: new Date()
+  avatar:
+    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
+  signupDate: new Date(),
 }
 
 export interface Issue {

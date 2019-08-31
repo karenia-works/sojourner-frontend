@@ -59,7 +59,13 @@
           <Radio :values="['M', 'F']" :texts="['Male', 'Female']" :roomType.sync="u.sex"></Radio>
         </div>
       </div>
-      <button class="btn" @click="commit">finish</button>
+      <div>
+        <button class="btn" @click="commit">finish</button>
+        <div class="status">
+          <div class="loading" v-if="loading">Please wait</div>
+          <div class="err" v-if="error">{{error}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -92,23 +98,24 @@ export default class Signup extends Vue {
     signupDate: new Date()
   };
 
+  error: string | null = null;
+  loading: boolean = false;
+
   async commit() {
-    await this.$store.dispatch("registerUser", {
-      username: this.u.email,
-      password: this.password
-    });
-    
-    await this.$store.dispatch("loginUser", {
-      email: this.u.email,
-      password: this.password
-    });
-    
-    let result = await axios.post(
-      config.backend.address + config.backend.ProfileEndpoint,
-      this.u,
-      {headers: this.$store.getters.authHeader}
-    )
-    this.$router.push({ name: "home" });
+    try {
+      this.loading = true;
+      this.error = null;
+      await this.$store.dispatch("registerUser", {
+        username: this.u.email,
+        password: this.password,
+        profile: this.u
+      });
+      this.loading = false;
+      this.$router.push({ name: "home" });
+    } catch (e) {
+      this.loading = false;
+      this.error = `${e.response.status}: ${e.response.data.error}`;
+    }
   }
 
   inputCheck = {
@@ -164,5 +171,14 @@ textarea {
 input.textErr {
   // background-color: var(--color-accent)
   color: colors.error
+}
+
+.status {
+  margin-v: spaces._3
+}
+
+.err {
+  font-weight: bold
+  color: var(--color-error)
 }
 </style>
