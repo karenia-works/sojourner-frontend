@@ -59,7 +59,13 @@
           <Radio :values="['M', 'F']" :texts="['Male', 'Female']" :roomType.sync="u.sex"></Radio>
         </div>
       </div>
-      <button class="btn" @click="commit">finish</button>
+      <div>
+        <button class="btn" @click="commit">finish</button>
+        <div class="status">
+          <div class="loading" v-if="loading">Please wait</div>
+          <div class="err" v-if="error">{{error}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,7 +83,7 @@ import axios from "axios";
     Radio
   }
 })
-export default class NewWorker extends Vue {
+export default class Signup extends Vue {
   genders: Array<string> = ["Male", "Female"];
 
   password: string = "";
@@ -89,33 +95,28 @@ export default class NewWorker extends Vue {
     phoneNumber: "",
     sex: "U",
     avatar: "",
-    signupDate: new Date()
+    signupDate: new Date(),
+    role: "worker"
   };
 
+  error: string | null = null;
+  loading: boolean = false;
+
   async commit() {
-    await this.$store.dispatch("registerWorker", {
-      username: this.u.email,
-      password: this.password
-    });
-
-    // await this.$store.dispatch("loginUser", {
-    //   email: this.u.email,
-    //   password: this.password
-    // });
-
-    let result = await axios.post(
-      config.backend.address + config.backend.ProfileEndpoint,
-      this.u,
-      {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.userLoginData.access_token}`
-        }
-      }
-    );
-
-    console.log(result);
-
-    this.$router.push({ name: "home" });
+    try {
+      this.loading = true;
+      this.error = null;
+      await this.$store.dispatch("registerWorker", {
+        username: this.u.email,
+        password: this.password,
+        profile: this.u
+      });
+      this.loading = false;
+      // this.$router.push({ name: "home" });
+    } catch (e) {
+      this.loading = false;
+      this.error = `${e.response.status}: ${e.response.data.error}`;
+    }
   }
 
   inputCheck = {
@@ -125,7 +126,7 @@ export default class NewWorker extends Vue {
     phone: true
   };
 
-  @Watch("account.username")
+  @Watch("u.email")
   onEmailChanged(val: string, oldVal: string) {
     if (val) this.inputCheck.email = this.patterns.email.test(val);
     else this.inputCheck.email = true;
@@ -146,30 +147,39 @@ export default class NewWorker extends Vue {
 
 <style lang="stylus" scoped>
 .item {
-  margin-v: spaces._6
+  margin-v: spaces._6;
 }
 
 label:first-child {
-  display: block
-  font-size: font-sizes.small-title
-  font-family: fonts-title
+  display: block;
+  font-size: font-sizes.small-title;
+  font-family: fonts-title;
 }
 
 label:first-child span {
   // color colors-admin.accent
-  font-weight: 500
+  font-weight: 500;
 }
 
 textarea {
-  width: 400px
+  width: 400px;
 }
 
 .input {
-  margin-left: 0
+  margin-left: 0;
 }
 
 input.textErr {
   // background-color: var(--color-accent)
-  color: colors.error
+  color: colors.error;
+}
+
+.status {
+  margin-v: spaces._3;
+}
+
+.err {
+  font-weight: bold;
+  color: var(--color-error);
 }
 </style>

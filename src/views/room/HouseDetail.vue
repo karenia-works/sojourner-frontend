@@ -127,11 +127,13 @@
   flex: 1
   overflow: hidden
   white-space: nowrap
-  object-fit: cover
   height: 40vw
   background: var(--color-bg-medium)
 
   img {
+    width: 100%
+    height:100%
+    object-fit: cover
   }
 
   & * {

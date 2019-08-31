@@ -22,7 +22,11 @@
         <td>
           <div class="SendWorker">
             <router-link to="ManageIssue">
-              <button class="btn" v-show="!worker.isRenting" @click="SendWorker(worker, Issues)">Send</button>
+              <button
+                class="btn"
+                v-show="!worker.isRenting"
+                @click="SendWorker(worker, Issues)"
+              >Send</button>
             </router-link>
           </div>
         </td>
@@ -77,14 +81,17 @@
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import axios from "axios";
+import {updateProfile} from "@/helpers/profileHelper"
+import { Profile } from '../../models/Room';
 
 @Component({
   components: { dotsIcon }
 })
 export default class ManagerWorker extends Vue {
-  workers = [];
+  workers:Profile[] = [];
   iid: string = this.GetQueryString("iid") as string;
   issue_api_url = "https://sojourner.rynco.me/api/v1/issue/";
+  issue_send_api_url = "https://sojourner.rynco.me/api/v1/issue/sendWorker";
 
   Issues = [];
 
@@ -101,7 +108,6 @@ export default class ManagerWorker extends Vue {
       .catch(error => console.log(error));
   }
 
-  
   getIssueAPI() {
     axios
       .get(this.issue_api_url + this.iid, {
@@ -109,34 +115,27 @@ export default class ManagerWorker extends Vue {
       })
       .then(response => (this.Issues = response.data))
       .catch(error => console.log(error));
-      
   }
-
 
   mounted() {
     this.getIssueAPI();
     this.getWorkerAPI();
   }
 
-  async SendWorker(worker, issue) {
+  async SendWorker(worker:Profile, issue) {
     worker.isRenting = true;
-    issue.wemail = worker.email;
+    // issue.wemail = worker.email;
 
-    let request1 = await axios.put(this.api_url + this.iid, worker, {
-      headers: this.$store.getters.authHeader
+    let request1 = await axios.get(this.issue_send_api_url, {
+      headers: this.$store.getters.authHeader,
+      params: { id: this.iid, workEmail: worker.email }
     });
     if (request1.status < 200 && request1.status >= 300)
       throw new Error(
         `Can not add order! state: ${request1.status},id: ${worker.id}`
       );
-      
-    let request2 = await axios.put(this.issue_api_url + this.iid, issue, {
-      headers: this.$store.getters.authHeader
-    });
-    if (request2.status < 200 && request2.status >= 300)
-      throw new Error(
-        `Can not add order! state: ${request2.status},id: ${issue.id}`
-      );
+    // console.log(worker);
+    // updateProfile(worker.email, worker, this.$store.getters.authHeader);
   }
 
   GetQueryString(name) {

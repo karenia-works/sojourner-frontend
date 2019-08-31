@@ -16,23 +16,30 @@
         <td>Lessee</td>
         <td>Worker</td>
         <td>Reported</td>
-        <td>Replied&ensp;</td>    <!--half space-->
+        <td>Replied&ensp;</td>
+        <!--half space-->
         <td>Repaired</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="Issue in Issues">
-        <td>{{ Issue.id.substr(Issue.id.length-4)  }}</td>
+        <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
         <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
         <td>{{ Issue.uemail }}</td>
         <td>{{ Issue.worker_name }}</td>
         <td>
-          <div :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
           <div class="dropdown">
@@ -42,7 +49,7 @@
             <div class="dropdown-content">
               <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
               <router-link :to="getWorkerUrl(Issue.id)" v-show="!Issue.isFinished">Send Worker</router-link>
-              <router-link to="">Delete</router-link>
+              <router-link to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -135,10 +142,10 @@
   background-color: var(--color-bg-medium);
 }
 
-.line{
+.line {
   width: 100%;
   height: 20%;
-    }
+}
 
 .line1 {
   background: var(--color-error);
@@ -152,9 +159,9 @@
   background: var(--color-accent);
 }
 
-.lineE{
+.lineE {
   background: transparent;
-    }
+}
 </style>
 
 <script lang="ts">
@@ -162,23 +169,24 @@ import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
 import searchbarAdmin from "@/components/SearchBarAdmin.vue";
 import axios from "axios";
+import moment from "moment";
 
 @Component({
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageIssue extends Vue {
   Issues = [];
-  
+
   origin_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
   api_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
   keyword = "";
 
   getWorkerUrl(iid: number) {
-    return ("ManageWorker?iid=" + iid);
+    return "ManageWorker?iid=" + iid;
   }
 
   getReplyUrl(iid: number) {
-    return ("reply?iid=" + iid);
+    return "reply?iid=" + iid;
   }
 
   getAPI() {
@@ -186,7 +194,18 @@ export default class ManageIssue extends Vue {
       .get(this.api_url, {
         headers: this.$store.getters.authHeader
       })
-      .then(response => (this.Issues = response.data))
+      .then(
+        response => (this.Issues = response.data)
+        //  (key, value) => {
+        //   if (typeof value === "string") {
+        //     let a = /ISODate\("(.+?)"\)/.exec(value);
+        //     if (a) {
+        //       return moment(a[1]).toDate();
+        //     }
+        //   }
+        //   return value;
+        // }))
+      )
       .catch(error => console.log(error));
   }
 
