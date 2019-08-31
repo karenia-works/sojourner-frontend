@@ -12,21 +12,20 @@
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>IID</td>
-        <!-- <td>Room Name</td>
+        <td>Room Name</td>
         <td>Lessee</td>
-        <td>Worker</td> -->
+        <td>Worker</td>
         <td>Reported</td>
         <td>Replied&ensp;</td>
         <td>Sended</td>
-        <!--half space-->
         <td>Repaired</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="Issue in Issues">
+      <tr class="layer" v-for="(Issue, index) in Issues" :key="index">
         <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
-        <!-- <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td> -->
-        <!-- <td>{{ Issue.uemail }}</td> -->
-        <!-- <td>{{ Issue.worker_name }}</td> -->
+        <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
+        <td>{{ Issue.uemail }}</td>
+        <td>{{ Issue.worker_name }}</td>
         <td>
           <div
             :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
@@ -54,7 +53,10 @@
             </button>
             <div class="dropdown-content">
               <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
-              <router-link :to="getWorkerUrl(Issue.id)" v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail==null">Send Worker</router-link>
+              <router-link
+                :to="getWorkerUrl(Issue.id)"
+                v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail==null"
+              >Send Worker</router-link>
               <router-link to>Delete</router-link>
             </div>
           </div>
@@ -158,11 +160,11 @@
 }
 
 .line2 {
-  background: var(--color-text-medium);
+  background: #FFC85F;
 }
 
 .line3 {
-  background: blue;
+  background: #3389cc;
 }
 
 .line4 {
@@ -185,29 +187,7 @@ import moment from "moment";
   components: { dotsIcon, searchbarAdmin }
 })
 export default class ManageIssue extends Vue {
-  Issues = [
-    {
-      id:"1111111",
-      isReplied:false,
-      isFinished:false,
-      wemail:null,
-    },{
-      id:"2222222",
-      isReplied:true,
-      isFinished:false,
-      wemail:null,
-    },{
-      id:"33333333",
-      isReplied:true,
-      isFinished:false,
-      wemail:"middle@126",
-    },{
-      id:"4444444",
-      isReplied:true,
-      isFinished:true,
-      wemail:"done@126",
-    },
-  ];
+  Issues = [];
 
   origin_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
   api_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
@@ -226,15 +206,13 @@ export default class ManageIssue extends Vue {
       .get(this.api_url, {
         headers: this.$store.getters.authHeader
       })
-      .then(
-        response => (this.Issues = response.data)
-      )
+      .then(response => (this.Issues = response.data))
       .catch(error => console.log(error));
   }
 
-  // mounted() {
-  //   this.getAPI();
-  // }
+  mounted() {
+    this.getAPI();
+  }
 
   reRoute() {
     if (this.keyword == "") this.api_url = this.origin_url;

@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="put_img">
-      <img v-for="img in imgs" :src="img" />
+      <img v-for="(img, index) in imgs" :src="img" :key="index" />
     </div>
 
     <div class="title1">Reply:</div>

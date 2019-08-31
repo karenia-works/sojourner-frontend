@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container">
       <div class="jumbotron">
-        <h1>Welcom, Mr. Administrator</h1>
+        <h1>Welcome, Mr. Administrator</h1>
         <p>Where would you like to get started today?</p>
       </div>
     </div>
@@ -11,33 +11,6 @@
         <h1>Short stay or long rent, we've got you covered!</h1>
       </div>
     </div>-->
-    <div class="choose">
-      <div class="choose_btn">
-        <router-link to="/admin/ManageUser">
-          <button class="btn">Manage User List</button>
-        </router-link>
-      </div>
-      <div class="choose_btn">
-        <router-link to="/admin/ManageOrder">
-          <button class="btn">Manage Orders</button>
-        </router-link>
-      </div>
-      <div class="choose_btn">
-        <router-link to="/admin/ManageRoom">
-          <button class="btn">Manage Rooms</button>
-        </router-link>
-      </div>
-      <div class="choose_btn">
-        <router-link to="/admin/ManageIssue">
-          <button class="btn">Manage Repair Isuue</button>
-        </router-link>
-      </div>
-      <div class="choose_btn">
-        <router-link to="/admin/WorkerList">
-          <button class="btn">Manage Worker List</button>
-        </router-link>
-      </div>
-    </div>
   </div>
 </template>
 

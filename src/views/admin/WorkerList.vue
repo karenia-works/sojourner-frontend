@@ -14,7 +14,7 @@
         <td>Status</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="worker in workers">
+      <tr class="layer" v-for="(worker, index) in workers" :key="index">
         <td>{{ worker.id.substr(worker.id.length-4) }}</td>
         <td>{{ worker.userName }}</td>
         <td>{{ worker.phoneNumber }}</td>

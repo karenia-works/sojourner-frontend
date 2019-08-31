@@ -20,7 +20,7 @@
         <td>Avability</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="room in rooms">
+      <tr class="layer" v-for="(room,index) in rooms" :key="index">
         <td>{{ room.id.substr(room.id.length-4) }}</td>
         <td>{{ room.name }}</td>
         <td>
