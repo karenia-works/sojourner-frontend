@@ -21,9 +21,9 @@
         <td>More</td>
       </tr>
       <tr class="layer" v-for="Issue in Issues">
-        <td>{{ Issue.iid }}</td>
-        <td>{{ Issue.room_name }}</td>
-        <td>{{ Issue.user_name }}</td>
+        <td>{{ Issue.id.substr(Issue.id.length-4)  }}</td>
+        <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
+        <td>{{ Issue.uemail }}</td>
         <td>{{ Issue.worker_name }}</td>
         <td>
           <div :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>

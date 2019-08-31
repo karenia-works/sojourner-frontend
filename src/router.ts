@@ -66,7 +66,7 @@ export default new Router({
           path: '/u/me',
           name: 'user_me',
           component: () =>
-            import(/* webpackChunkName: "userland" */ './views/user/Me.vue')
+            import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
         },
         {
           path: '/u/issue',
@@ -79,15 +79,6 @@ export default new Router({
           name: 'my_reply',
           component: () =>
             import(/* webpackChunkName: "userland" */ './views/user/Reply.vue')
-        },
-        {
-          path: '/detail',
-          name: 'detail',
-          component: () =>
-            import(
-              /* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'
-            )
-            import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
         },
         {
           path: '/r/:id',

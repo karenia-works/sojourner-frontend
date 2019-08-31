@@ -1,24 +1,28 @@
 <template>
   <div class="container">
-    <div class="issue_id">Current Issue ID:{{GetQueryString("iid")}}</div>
+    <div class="issue_id">Current Issue ID:{{ this.iid }}</div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>WID</td>
-        <td>Worker Name</td>
+        <td>Email</td>
+        <td>Phone Number</td>
+        <td>Gender</td>
         <td>Status</td>
         <td>Operate</td>
       </tr>
       <tr class="layer" v-for="worker in workers">
-        <td>{{ worker.wid }}</td>
-        <td>{{ worker.worker_name }}</td>
+        <td>{{ worker.id.substr(worker.id.length-4) }}</td>
+        <td>{{ worker.email }}</td>
+        <td>{{ worker.phoneNumber }}</td>
+        <td>{{ worker.sex }}</td>
         <td>
-          <label v-show="!worker.is_busy" class="yes_judge">Free</label>
-          <label v-show="worker.is_busy" class="no_judge">Busy</label>
+          <label v-show="!worker.isRenting" class="yes_judge">Free</label>
+          <label v-show="worker.isRenting" class="no_judge">Busy</label>
         </td>
         <td>
           <div class="SendWorker">
             <router-link to="ManageIssue">
-              <button class="btn" v-show="!worker.is_busy">Send</button>
+              <button class="btn" v-show="!worker.isRenting" @click="SendWorker(worker, Issues)">Send</button>
             </router-link>
           </div>
         </td>
@@ -67,39 +71,73 @@
     }
   }
 }
-
 </style>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import dotsIcon from "mdi-vue/DotsVertical";
+import axios from "axios";
 
 @Component({
   components: { dotsIcon }
 })
 export default class ManagerWorker extends Vue {
-  workers = [
-    {
-      wid: 10,
-      worker_name: "Clarissa Findlay",
-      is_busy: false
-    },
-    {
-      wid: 13,
-      worker_name: "Elissa Dejesus",
-      is_busy: true
-    },
-    {
-      wid: 84,
-      worker_name: "Cassidy Ayala",
-      is_busy: false
-    },
-    {
-      wid: 71,
-      worker_name: "Tanner Espinosa",
-      is_busy: false
-    }
-  ];
+  workers = [];
+  iid: string = this.GetQueryString("iid") as string;
+  issue_api_url = "https://sojourner.rynco.me/api/v1/issue/";
+
+  Issues = [];
+
+  origin_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/worker";
+  api_url = "https://sojourner.rynco.me/api/v1/profile/alluserlist/worker";
+  del_url = "https://sojourner.rynco.me/api/v1/profile/";
+
+  getWorkerAPI() {
+    axios
+      .get(this.api_url, {
+        headers: this.$store.getters.authHeader
+      })
+      .then(response => (this.workers = response.data))
+      .catch(error => console.log(error));
+  }
+
+  
+  getIssueAPI() {
+    axios
+      .get(this.issue_api_url + this.iid, {
+        headers: this.$store.getters.authHeader
+      })
+      .then(response => (this.Issues = response.data))
+      .catch(error => console.log(error));
+      
+  }
+
+
+  mounted() {
+    this.getIssueAPI();
+    this.getWorkerAPI();
+  }
+
+  async SendWorker(worker, issue) {
+    worker.isRenting = true;
+    issue.wemail = worker.email;
+
+    let request1 = await axios.put(this.api_url + this.iid, worker, {
+      headers: this.$store.getters.authHeader
+    });
+    if (request1.status < 200 && request1.status >= 300)
+      throw new Error(
+        `Can not add order! state: ${request1.status},id: ${worker.id}`
+      );
+      
+    let request2 = await axios.put(this.issue_api_url + this.iid, issue, {
+      headers: this.$store.getters.authHeader
+    });
+    if (request2.status < 200 && request2.status >= 300)
+      throw new Error(
+        `Can not add order! state: ${request2.status},id: ${issue.id}`
+      );
+  }
 
   GetQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
