@@ -26,11 +26,11 @@
         <login :show.sync="showLogin" />
         <!-- <router-link to="/register" key="register">
           <div class="nav-el">Sign up</div>
-        </router-link> -->
+        </router-link>-->
       </template>
       <template v-else>
         <div class="nav-el" @click.prevent="logout" key="logout">Logout</div>
-        <router-link to="" key="me">
+        <router-link to key="me">
           <div class="nav-el">Hi, {{$store.state.userStore.profile.userName}}</div>
         </router-link>
       </template>
@@ -93,7 +93,8 @@ export default class Navbar extends Vue {
 
   async logout() {
     this.$store.commit("logout");
-    // setTimeout(() => this.$router.push("/"), 1000);
+
+    setTimeout(() => this.$router.push("/"), 500);
   }
 }
 </script>

@@ -22,6 +22,7 @@
           :issue="issue"
           @finish="removeIssue"
         />
+        <div v-show="!issues">No pending works. Great!</div>
         <!-- <div class="issue-line" v-for="issue in issues" :key="issue.id">
           <div class="issue-id">{{issue.id}}</div>
         </div>-->
@@ -57,8 +58,8 @@ export default class WorkerHomepage extends Vue {
     this.issues = issues.data;
   }
 
-  removeIssue(event: string) {
-    this.issues = this.issues.filter(issue => issue.id == event);
+  removeIssue(event: any) {
+    this.issues = this.issues.filter(issue => issue.id == event[0]);
   }
   logout() {
     this.$store.commit("logout");

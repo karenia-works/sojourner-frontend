@@ -11,7 +11,7 @@ import { workerRoutes } from '@/views/worker/worker-router'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -72,13 +72,13 @@ export default new Router({
           path: '/u/issue',
           name: 'my_issue',
           component: () =>
-            import(/* webpackChunkName: "userland" */ './views/user/Issue.vue')
+            import(/* webpackChunkName: "userland" */ './views/user/Issue.vue'),
         },
         {
           path: '/u/reply',
           name: 'my_reply',
           component: () =>
-            import(/* webpackChunkName: "userland" */ './views/user/Reply.vue')
+            import(/* webpackChunkName: "userland" */ './views/user/Reply.vue'),
         },
         {
           path: '/r/:id',
@@ -126,3 +126,10 @@ export default new Router({
     }
   },
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = 'Sojourner'
+  next()
+})
+
+export default router

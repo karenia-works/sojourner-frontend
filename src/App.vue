@@ -22,8 +22,9 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class App extends Vue {
-  mounted(){
-    this.$store.commit("tryRestoreData")
+  mounted() {
+    document.title = "Sojourner";
+    this.$store.commit("tryRestoreData");
   }
 }
 </script>

@@ -16,11 +16,9 @@ export default class AdminWorld extends Vue {}
 </script>
 
 <style lang="stylus">
-#userland {
+.admin-world {
   color: colors-admin.text-dark
-}
-
-body {
   background: colors-admin.bg-light
+  height: 100%
 }
 </style>
