@@ -425,11 +425,13 @@ export default class HouseDetail extends Vue {
   }
 
   set rentSelection(value: Set<number>) {
-    if (value.has(1) || !this.room.shortAvailable) {
-      this.rentByDay = false;
-    } else {
-      this.rentByDay = true;
-    }
+   if(this.room.shortAvailable&&this.room.longAvailable){
+     this.rentByDay=
+value.has(0)
+
+   }else{
+     this.rentByDay=this.room.shortAvailable
+   }
   }
 
   get totalPrice() {

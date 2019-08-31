@@ -86,8 +86,8 @@ export default class Search extends Vue {
     } else {
       this.shouldSearch = false;
     }
-      this.searchStatus = SearchStatus.fromDictionary(this.$route
-        .query as Dictionary<string>);
+    this.searchStatus = SearchStatus.fromDictionary(this.$route
+      .query as Dictionary<string>);
   }
 
   async searchAccordingToCriteria() {
