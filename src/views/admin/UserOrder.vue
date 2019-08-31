@@ -16,7 +16,7 @@
       <tr class="head">
         <td>OID</td>
         <td>Room Name</td>
-        <td>Preview</td>
+        <!-- <td>Preview</td> -->
         <td>Lessee</td>
         <td>Duration</td>
         <td>Rent Type</td>
@@ -26,10 +26,9 @@
       <tr class="layer" v-for="order in orders" :key="order.id">
         <td>{{ order.id.substr(order.id.length-4) }}</td>
         <td>{{ order.houseId}}</td>
-        <td>
-          <!-- <img :src="order.house.img[0]" class="ava_img" /> -->
-          2121
-        </td>
+        <!-- <td>
+          <img :src="order.house.img[0]" class="ava_img" />
+        </td> -->
         <td>{{ order.userEmail }}</td>
         <td>{{ getDuration(order.startDate, order.endDate) }}</td>
         <td>

@@ -160,7 +160,7 @@ export default class ManageRoom extends Vue {
   keyword = "";
 
   getRoomUrl(url: string) {
-    return "/r/" + url;
+    return "/r/" + url+ "/detail";
   }
 
   getAPI() {

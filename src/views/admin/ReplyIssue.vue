@@ -5,6 +5,7 @@
         <label>IID:</label>
         <label>Type:</label>
         <label>Content:</label>
+        <label>Reply:</label>
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
@@ -17,7 +18,6 @@
       <img v-for="(img, index) in imgs" :src="img" :key="index" />
     </div>
 
-    <div class="title1">Reply:</div>
     <div class="input_reply">
       <textarea class="input_character" v-model="Issues.reply" />
     </div>
@@ -31,6 +31,8 @@
 
 <style lang="stylus" scoped>
 .container {
+  display flex
+  flex-direction column
   .issue_info {
     text-align: left;
     font-size: font-sizes.body-larger;
