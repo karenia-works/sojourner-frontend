@@ -138,7 +138,7 @@ export var actions: ActionTree<UserState, RootState> = {
       {
         username: payload.username,
         password: payload.password,
-        role: 'IdentityServerAccessToken',
+        role: 'IdentityServerApi',
         id: null,
         key: null
       }
