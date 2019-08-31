@@ -33,15 +33,15 @@
           <label>${{ room.shortPrice }}/day</label>
         </td>
         <td>
-          <label v-show="room.shortAvailable  " class="yes_judge">Yes</label>
-          <label v-show="!room.shortAvailable" class="no_judge">No</label>
+          <label v-show="room.shortAvailable" class="yes_judge" @click="room.shortAvailable=!room.shortAvailable">Yes</label>
+          <label v-show="!room.shortAvailable" class="no_judge" @click="room.shortAvailable=!room.shortAvailable">No</label>
         </td>
         <td>
           <label>${{ room.longPrice }}/month</label>
         </td>
         <td>
-          <label v-show="room.longAvailable" class="yes_judge">Yes</label>
-          <label v-show="!room.longAvailable" class="no_judge">No</label>
+          <label v-show="room.longAvailable" class="yes_judge" @click="room.longAvailable=!room.longAvailable">Yes</label>
+          <label v-show="!room.longAvailable" class="no_judge" @click="room.longAvailable=!room.longAvailable">No</label>
         </td>
         <td>
           <div class="dropdown">
