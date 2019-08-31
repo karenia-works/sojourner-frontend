@@ -24,13 +24,13 @@
       <template v-if="!$store.state.userStore.hasProfile">
         <div class="nav-el" id="sign_up" @click="switchLogin" key="sign_in">Log in</div>
         <login :show.sync="showLogin" />
-        <router-link to="/register" key="register">
+        <!-- <router-link to="/register" key="register">
           <div class="nav-el">Sign up</div>
-        </router-link>
+        </router-link> -->
       </template>
       <template v-else>
         <div class="nav-el" @click.prevent="logout" key="logout">Logout</div>
-        <router-link to="/u/me" key="me">
+        <router-link to="" key="me">
           <div class="nav-el">Hi, {{$store.state.userStore.profile.userName}}</div>
         </router-link>
       </template>

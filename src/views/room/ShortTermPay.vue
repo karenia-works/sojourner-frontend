@@ -1,50 +1,23 @@
 <template>
   <div>
     <div class="container">
-      <div class="LeftSide">
-        <h1>Enjoy Your Journey!</h1>
-        <div class="pay_button">
-          <div class="wechatpay">
-            <button id="search-btn" class="btn search-btn" v-on:click="WechatPay">WechatPay</button>
-          </div>
-          <div class="alipay">
-            <button id="search-btn" class="btn search-btn" v-on:click="AliPay">AliPay</button>
-          </div>
+      <h1>Enjoy Your Journey!</h1>
+      <div class="pay-button">
+        <div class="wechatpay">
+          <button id="search-btn" class="btn search-btn" v-on:click="WechatPay">WechatPay</button>
         </div>
-        <div class="img_pay">
-          <img class="img" v-show="this.wechatPay" src="../../assets/wechatpay.jpg" />
-          <img class="img" v-show="!this.wechatPay" src="../../assets/alipay.jpg" />
-        </div>
-        <div class="confirm_btn">
-          <router-link to="/ord">
-          <button id="search-btn" class="btn search-btn" >I have completed the payment</button>
-          </router-link>
+        <div class="alipay">
+          <button id="search-btn" class="btn search-btn" v-on:click="AliPay">AliPay</button>
         </div>
       </div>
-      <div class="RightSide">
-        <div class="overview">
-          <img class="pic" alt="housePic" :src="imgUrl" />
-        </div>
-        <div class="title">
-          <label class="pic_title">{{ houseName }}</label>
-        </div>
-        <hr align="center" width="100%" size="1" />
-        <div class="book_info">
-          <div class="iconAndWords">
-            <guest-icon class="guest_info" />
-            <label class="guest_info">{{ guestNum }} guests</label>
-          </div>
-          <div class="iconAndWords">
-            <date-icon class="guest_info" />
-            <label
-              class="date_info"
-            >{{ startMonth }} {{ startDay }} &rarr; {{ endMonth}} {{ endDay }}</label>
-          </div>
-        </div>
-        <hr align="center" width="100%" size="1" />
-        <div class="total">
-          <label class="total_cost">Total: ${{ totalCost }}</label>
-        </div>
+      <div class="img_pay">
+        <img class="img" v-show="this.wechatPay" src="../../assets/wechatpay.jpg" />
+        <img class="img" v-show="!this.wechatPay" src="../../assets/alipay.jpg" />
+      </div>
+      <div class="confirm-btn">
+        <h2>
+          <router-link to="/u/me" class="btn-span">I have completed the payment</router-link>
+        </h2>
       </div>
     </div>
   </div>
@@ -52,107 +25,45 @@
 
 <style lang="stylus" scoped>
 .container {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: flex-start;
+  display: flex
+  display: flex
+  flex-direction: column
 
-  .LeftSide {
-    display: flex;
-    flex-direction: column;
-    width: 67vw;
+  .pay-button {
+    height: 150px
+    display: flex
+    flex-direction: row
+    justify-content: center
 
-    .pay_button {
-      height: 150px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
-
-    #search-btn {
-      margin: 50px;
-      font-size: font-sizes.medium-title;
-    }
-
-    .img_pay {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .img_pay img {
-      max-width: 30vw;
-      max-height: 30vw;
-      width: auto;
-      height: auto;
+    &>* {
+      margin-h: spaces._5
     }
   }
 
-  .RightSide {
-    padding: 36px;
-    display: flex;
-    position: sticky;
-    top: 10px;
-    align-items: stretch;
-    flex-direction: column;
-    width: 33vw;
-    border-style: solid;
-    border-width: 1px;
+  #search-btn {
+    font-size: font-sizes.medium-title
+  }
 
-    .overview {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
+  .img_pay {
+    display: flex
+    justify-content: center
+    align-items: center
+  }
 
-      .pic {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        width: 20vw;
-        height: 100%;
-      }
-    }
+  .img_pay img {
+    max-width: 30vw
+    max-height: 30vw
+    width: auto
+    height: auto
+  }
 
-    .title {
-      display: flex;
-      flex-direction: column;
-      align-self: flex-start;
-      padding: 30px 5px 20px 5px;
-      font-size: font-sizes.body-larger;
-      font-weight: bolder;
-    }
+  .confirm-btn {
+    display: flex
+    flex-direction: column
+    align-items: center
 
-    .book_info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: stretch;
-      align-self: flex-start;
-
-      .iconAndWords {
-        padding: 5px;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-
-        .guest_info {
-          margin-right: 10px;
-        }
-      }
-    }
-
-    .total {
-      display: flex;
-      align-self: flex-end;
-      justify-content: flex-end;
-
-      .total_cost {
-        font-size: font-sizes.small-title;
-        font-weight: bolder;
-        text-align: left;
-      }
+    h2 {
+      text-align: center
     }
   }
 }

@@ -2,7 +2,8 @@
   <div class="roominfo" @click="toDetail">
     <img :src="room.img[0]" class="room_img" />
     <p class="room_title">{{room.name}}</p>
-    <p class="room_price">${{room.price}} per night</p>
+    <p class="room_price" v-if="room.longAvailable">${{room.longPrice}} per month</p>
+    <p class="room_price" v-if="room.shortAvailable">${{room.shortPrice}} per day</p>
     <p class="room_type">{{room_type}}</p>
   </div>
 </template>

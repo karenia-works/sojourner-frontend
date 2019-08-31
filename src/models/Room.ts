@@ -25,7 +25,7 @@ var exampleRoom: Room = {
   address: {
     country: 'US',
     city: 'Florida',
-    street: 'Kennedy Space Center, Merritt Island',
+    street: 'Kennedy Space Center, Merritt Island'
   },
   description: `
 The Astronaut Beach House is a two-story house built in 1962 as a part of the then Neptune Beach subdivision at Cape Canaveral, Florida.
@@ -42,8 +42,8 @@ It stands 50 metres back from the shoreline directly in between Pads 40 and 41 I
   noticeJudge: [true, true, true, true, true],
   img: [
     'https://www.nasa.gov/sites/default/files/thumbnails/image/3-2014-1588a.jpg',
-    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg',
-  ],
+    'https://www.nasa.gov/sites/default/files/thumbnails/image/5-beach_house_1974a.jpg'
+  ]
 }
 
 export interface Order {
@@ -83,7 +83,7 @@ export class PendingOrder {
       totalPrice: this.totalPrice,
       isFinished: false,
       id: '',
-      isPaid: false,
+      isPaid: false
     }
   }
 }
@@ -96,6 +96,8 @@ export interface Profile {
   sex: 'M' | 'F' | 'U'
   avatar: string
   signupDate: Date
+  role: string
+  isRenting: boolean
 }
 
 var exampleProfile: Profile = {
@@ -104,9 +106,11 @@ var exampleProfile: Profile = {
   email: 'ying@126.com',
   phoneNumber: '13636036036',
   sex: 'M',
+  role: 'admin',
+  isRenting: false,
   avatar:
     'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
-  signupDate: new Date(),
+  signupDate: new Date()
 }
 
 export interface Issue {
@@ -123,4 +127,29 @@ export interface Issue {
   createTime: Date
 }
 
-export { exampleRoom }
+const exampleIssue: Issue = {
+  id: '5d69eea236b9fd0001352c90',
+  uemail: 'ying@ying.com',
+  wemail: '',
+  hid: '5d690b880b3026000197f26b',
+  img: [
+    'https://sojourner.rynco.me/api/v1/image/5d69eea236b9fd0001352c8e',
+    'https://sojourner.rynco.me/api/v1/image/5d69eea236b9fd0001352c8c'
+  ],
+  complaint: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci dapibus ultrices in iaculis nunc sed augue lacus. Magna ac placerat vestibulum lectus mauris ultrices eros. Ultricies mi eget mauris pharetra et. Adipiscing enim eu turpis egestas pretium aenean pharetra magna. Pulvinar etiam non quam lacus suspendisse faucibus. Elementum tempus egestas sed sed risus pretium. Nulla at volutpat diam ut venenatis tellus in. Pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Massa massa ultricies mi quis hendrerit dolor magna eget est. Diam maecenas sed enim ut sem viverra aliquet. Sit amet mauris commodo quis imperdiet massa. Massa massa ultricies mi quis hendrerit dolor magna. Proin nibh nisl condimentum id venenatis a condimentum. Ipsum consequat nisl vel pretium lectus quam id leo. Ultrices eros in cursus turpis massa tincidunt dui ut ornare. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio. Eu augue ut lectus arcu bibendum.
+
+Morbi tristique senectus et netus et malesuada fames. Nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Quisque non tellus orci ac. Pretium lectus quam id leo in vitae turpis. Magna fermentum iaculis eu non diam phasellus. Nunc sed blandit libero volutpat sed. Cursus risus at ultrices mi tempus imperdiet. In hac habitasse platea dictumst. In hac habitasse platea dictumst. Hac habitasse platea dictumst quisque sagittis. Elementum sagittis vitae et leo duis ut diam quam nulla. Massa tincidunt nunc pulvinar sapien et ligula. Amet est placerat in egestas erat imperdiet sed. Habitasse platea dictumst quisque sagittis purus. Duis at tellus at urna condimentum mattis pellentesque id nibh.
+
+Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. At auctor urna nunc id cursus metus aliquam eleifend mi. Consectetur adipiscing elit ut aliquam purus. Tristique senectus et netus et. Ut sem viverra aliquet eget sit amet tellus cras. Maecenas ultricies mi eget mauris. Congue quisque egestas diam in arcu cursus. Integer vitae justo eget magna. Turpis in eu mi bibendum. Nibh sit amet commodo nulla facilisi. Pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor. Urna porttitor rhoncus dolor purus non enim. Suspendisse sed nisi lacus sed viverra. Facilisis gravida neque convallis a cras semper auctor neque vitae. Tellus elementum sagittis vitae et leo duis ut diam quam.
+
+Lacinia at quis risus sed. Ipsum dolor sit amet consectetur adipiscing elit duis. Blandit turpis cursus in hac. Sagittis orci a scelerisque purus semper eget duis. Ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet. Auctor eu augue ut lectus arcu bibendum at. Nisi lacus sed viverra tellus in. Commodo nulla facilisi nullam vehicula ipsum a arcu. Sed id semper risus in hendrerit. Morbi tincidunt augue interdum velit euismod in pellentesque massa. Commodo elit at imperdiet dui accumsan sit. Lorem ipsum dolor sit amet. Feugiat in ante metus dictum at tempor commodo ullamcorper. Id volutpat lacus laoreet non curabitur. Nisi porta lorem mollis aliquam ut porttitor leo a diam. Sit amet nulla facilisi morbi tempus iaculis. Augue lacus viverra vitae congue eu consequat.
+
+Turpis massa tincidunt dui ut ornare lectus. Nulla facilisi nullam vehicula ipsum. Enim diam vulputate ut pharetra sit. Vitae et leo duis ut diam quam nulla porttitor. Aliquam sem et tortor consequat id porta nibh. Venenatis cras sed felis eget. Metus vulputate eu scelerisque felis. Ut sem viverra aliquet eget. Ut porttitor leo a diam sollicitudin tempor id eu nisl. Elementum nibh tellus molestie nunc non. Feugiat in fermentum posuere urna. Pellentesque elit eget gravida cum. Tincidunt vitae semper quis lectus. Feugiat vivamus at augue eget. Nulla facilisi cras fermentum odio eu feugiat. Malesuada fames ac turpis egestas maecenas pharetra. Magna fringilla urna porttitor rhoncus dolor. Eu turpis egestas pretium aenean pharetra magna ac.`,
+  needRepair: true,
+  reply: '',
+  isReplied: false,
+  isFinished: false,
+  createTime: new Date('2019-08-31T03:50:40.816Z')
+}
+
+export { exampleRoom, exampleProfile, exampleIssue }

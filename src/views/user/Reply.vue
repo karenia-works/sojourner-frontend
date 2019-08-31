@@ -5,28 +5,25 @@
         <label>IID:</label>
         <label>Type:</label>
         <label>Content:</label>
-        <label>Picture:</label>
+        <label>picture:</label>
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
         <label v-show="Issues.needRepair">Repair Issue</label>
         <label v-show="!Issues.needRepair">compliant</label>
         <div class="compliant">{{Issues.complaint}}</div>
-    <div class="put_img">
-      <img v-for="(img_, index) in Issues.img" :src="img_" :key="index" />
-    </div>
+        <div class="put_img">
+          <img v-for="(img_single, index) in Issues.img" :src="img_single" :key="index" />
+        </div>
       </div>
     </div>
-      <div class="title1">
-        <label>Reply:</label>
-      </div>
-
-    <div class="input_reply">
-      <textarea class="input_character" v-model="Issues.reply" />
+    <div class="reply title1">
+      <label>Reply:</label>
     </div>
+    <div class="title2">{{Issues.reply}}</div>
     <div class="reply_button">
-      <router-link to="ManageIssue">
-        <button class="reply btn" @click="ReplyIssue(Issues)">Reply</button>
+      <router-link to="issue">
+        <button class="reply btn">back</button>
       </router-link>
     </div>
   </div>
@@ -34,8 +31,9 @@
 
 <style lang="stylus" scoped>
 .container {
-  display flex
-  flex-direction column
+  display: flex;
+  flex-direction: column;
+
   .issue_info {
     text-align: left;
     font-size: font-sizes.body-larger;
@@ -70,20 +68,19 @@
     line-height: 50px;
   }
 
+  .title2 {
+    display: flex;
+    flex-direction: column;
+  }
+
   .put_img img {
     lost-column: 1 / 3;
   }
 
-  .input_reply {
-    .input_character {
-      width: 100%;
-      height: 10vw;
-      font-size: font-sizes.body-larger;
-      font-family: Barlow, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: var(--color-bg-medium);
-      border: none;
-      resize: none;
-    }
+  .replyment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .reply_button {
@@ -108,20 +105,9 @@ import axios from "axios";
 })
 export default class ReplyIssue extends Vue {
   iid: string = this.GetQueryString("iid") as string;
-  api_url = "https://sojourner.rynco.me/api/v1/issue/";
+  api_url = "https://sojourner.rynco.me/api/v1/issue/me/";
 
   Issues = [];
-
-  async ReplyIssue(issue) {
-    issue.isReplied=true;
-    let request = await axios.put(this.api_url + this.iid, issue, {
-      headers: this.$store.getters.authHeader
-    });
-    if (request.status < 200 && request.status >= 300)
-      throw new Error(
-        `Can not add order! state: ${request.status},id: ${issue.id}`
-      );
-  }
 
   getAPI() {
     axios
