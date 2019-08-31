@@ -71,6 +71,8 @@ export var actions: ActionTree<UserState, RootState> = {
       dontUpdateProfile: boolean
     }
   ) {
+    ctx.commit('logout')
+
     let { username, password } = payload
     let tokenCtx: TokenContext = {
       client_id: config.auth.client_id,
