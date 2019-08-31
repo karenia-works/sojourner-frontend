@@ -113,7 +113,7 @@ export default class Signup extends Vue {
         profile: this.u
       });
       this.loading = false;
-      // this.$router.push({ name: "home" });
+      this.$router.push({ name: "WorkerList" });
     } catch (e) {
       this.loading = false;
       this.error = `${e.response.status}: ${e.response.data.error}`;

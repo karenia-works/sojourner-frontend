@@ -60,6 +60,7 @@ export const adminRoutes: RouteConfig[] = [
     component: ManageWorker,
   },
   {
+    name: 'WorkerList',
     path: 'WorkerList',
     component: WorkerList,
   },

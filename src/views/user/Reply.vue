@@ -5,19 +5,22 @@
         <label>IID:</label>
         <label>Type:</label>
         <label>Content:</label>
-        <label>Reply:</label>
+        <label>picture:</label>
       </div>
       <div class="title2">
         <label>{{ iid }}</label>
         <label v-show="Issues.needRepair">Repair Issue</label>
         <label v-show="!Issues.needRepair">compliant</label>
         <div class="compliant">{{Issues.complaint}}</div>
-        <div class="title2">{{Issues.reply}}</div>
+        <div class="put_img">
+          <img v-for="(img_single, index) in Issues.img" :src="img_single" :key="index" />
+        </div>
       </div>
     </div>
-    <div class="put_img">
-      <img v-for="img in imgs" :src="img" />
+    <div class="reply title1">
+      <label>Reply:</label>
     </div>
+    <div class="title2">{{Issues.reply}}</div>
     <div class="reply_button">
       <router-link to="issue">
         <button class="reply btn">back</button>

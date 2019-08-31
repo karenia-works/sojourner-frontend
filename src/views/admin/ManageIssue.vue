@@ -28,23 +28,31 @@
         <td>{{ Issue.worker_name }}</td>
         <td>
           <div
-            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            v-show="Issue.needRepair"
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div class="dropdown">
@@ -52,10 +60,13 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
+              <router-link
+                :to="getReplyUrl(Issue.id)"
+                v-show="!Issue.isReplied"
+              >Reply</router-link>
               <router-link
                 :to="getWorkerUrl(Issue.id)"
-                v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail==null"
+                v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail.length==0"
               >Send Worker</router-link>
               <router-link to>Delete</router-link>
             </div>
@@ -169,6 +180,10 @@
 
 .line4 {
   background: var(--color-accent);
+}
+
+.line5 {
+  background: #B5AEBC;
 }
 
 .lineE {

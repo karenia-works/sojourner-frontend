@@ -109,17 +109,6 @@ export default class ReplyIssue extends Vue {
 
   Issues = [];
 
-  // needRepair: boolean = true;
-  // imgs: string[] = [
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large",
-  //   "https://z1.muscache.cn/im/pictures/20506730/77fd62c6_original.jpg?aki_policy=xx_large"
-  // ];
-  // compliant: string =
-  //   "m of mr friendly by strongly peculiar juvenile. Unpleasant it sufficient simplicity am by friendship no inhabiting. Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length an. Man request adapted spirits set pressed. Up to denoting subjects sensible feelings it indulged directly. We dwelling elegance do shutters appetite yourself diverted. Our next drew much you with rank. Tore many held age hold rose than our. She literature sentiments any contrasted. Set aware joy sense young now tears china shy. ";
-  // reply: string = "";
-  // isReplied: boolean = true;
-
   async ReplyIssue(issue) {
     issue.isReplied=true;
     let request = await axios.put(this.api_url + this.iid, issue, {

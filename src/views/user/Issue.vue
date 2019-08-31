@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <h1>We are committed to solving your problem.</h1>
-      {{$store.state.userStore.email}}
+      <!-- {{$store.state.userStore.email}} -->
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>IID</td>
@@ -9,27 +9,37 @@
         <td>Worker</td>
         <td>Reported</td>
         <td>Replied&ensp;</td>
+        <td>Sended&ensp;</td>
         <td>Repaired</td>
         <td>More</td>
       </tr>
-      <tr class="layer" v-for="Issue in Issues">
+      <tr class="layer" v-for="(Issue, index) in Issues" :key="index">
         <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
         <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
         <td>{{ Issue.wemail }}</td>
         <td>
-          <div
-            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          <div v-show="Issue.needRepair"
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
-          <div
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          <div v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
-          <div
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          <div v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
           ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
+        </td>
+        <td>
+          <div v-show="Issue.needRepair"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+          ></div>
+          <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div class="dropdown">
@@ -132,13 +142,20 @@
 }
 
 .line2 {
-  background: var(--color-text-medium);
+  background: #FFC85F;
 }
 
 .line3 {
-  background: var(--color-accent);
+  background: #3389cc;
 }
 
+.line4 {
+  background: #96E4AC;
+}
+
+.line5 {
+  background: #B5AEBC;
+}
 .lineE {
   background: transparent;
 }
