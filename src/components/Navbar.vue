@@ -12,7 +12,7 @@
       </router-link>-->
     </div>
     <div class="nav-right">
-      <template v-if="!$store.state.userStore.loggedIn || !$store.state.userStore.profile">
+      <template v-if="!$store.state.userStore.hasProfile">
         <div class="nav-el" id="sign_up" @click="switchLogin" key="sign_in">Log in</div>
         <login :show.sync="showLogin" />
         <router-link to="/register" key="register">

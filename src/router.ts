@@ -19,13 +19,13 @@ export default new Router({
       path: '/admin',
       // name: 'adminWorld',
       component: () => import('./views/admin/App.vue'),
-      children: adminRoutes
+      children: adminRoutes,
     },
     {
       path: '/worker',
       // name: 'adminWorld',
       component: () => import('./views/worker/App.vue'),
-      children: workerRoutes
+      children: workerRoutes,
     },
     {
       path: '/',
@@ -34,13 +34,13 @@ export default new Router({
         {
           path: '',
           name: 'home',
-          component: Home
+          component: Home,
         },
         {
           path: '/s',
           name: 'search',
           component: () =>
-            import(/* webpackChunkName: "userland" */ './views/Search.vue')
+            import(/* webpackChunkName: "userland" */ './views/Search.vue'),
         },
         {
           path: '/login',
@@ -49,8 +49,8 @@ export default new Router({
           props: {
             isSinglePage: true,
             show: true,
-            isSignUp: false
-          }
+            isSignUp: false,
+          },
         },
         {
           path: '/register',
@@ -59,22 +59,14 @@ export default new Router({
           props: {
             isSinglePage: true,
             show: true,
-            isSignUp: true
-          }
+            isSignUp: true,
+          },
         },
         {
           path: '/u/me',
           name: 'user_me',
           component: () =>
-            import(/* webpackChunkName: "userland" */ './views/user/Me.vue')
-        },
-        {
-          path: '/detail',
-          name: 'detail',
-          component: () =>
-            import(
-              /* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'
-            )
+            import(/* webpackChunkName: "userland" */ './views/user/Me.vue'),
         },
         {
           path: '/r/:id',
@@ -84,42 +76,34 @@ export default new Router({
               path: 'detail',
               name: 'room_detail',
               component: () =>
-                import(
-                  /* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'
-                )
+                import(/* webpackChunkName: "userland" */ './views/room/HouseDetail.vue'),
             },
             {
               path: 'submit',
               name: 'room_submit',
               component: () =>
-                import(
-                  /* webpackChunkName: "userland" */ './views/room/PayCheck.vue'
-                )
+                import(/* webpackChunkName: "userland" */ './views/room/PayCheck.vue'),
             },
             {
               path: 'shortpay',
               name: 'short_term_pay',
               component: () =>
-                import(
-                  /* webpackChunkName: "userland" */ './views/room/ShortTermPay.vue'
-                )
+                import(/* webpackChunkName: "userland" */ './views/room/ShortTermPay.vue'),
             },
             {
               path: 'longpay',
               name: 'long_term_pay',
               component: () =>
-                import(
-                  /* webpackChunkName: "userland" */ './views/room/LongTermPay.vue'
-                )
-            }
-          ]
+                import(/* webpackChunkName: "userland" */ './views/room/LongTermPay.vue'),
+            },
+          ],
         },
         {
           path: '/**',
-          component: NotFoundView
-        }
-      ]
-    }
+          component: NotFoundView,
+        },
+      ],
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -128,5 +112,5 @@ export default new Router({
       if (to.hash) return { selector: to.hash }
       else return { x: 0, y: 0 }
     }
-  }
+  },
 })

@@ -4,6 +4,7 @@
       <div class="footer-column">
         <router-link to="/" class="root-link">Sojourner</router-link>
       </div>
+      <div class="footer-column">2019 Karenia Works</div>
     </div>
   </footer>
 </template>
@@ -25,7 +26,7 @@ footer {
   }
 
   +break-screen(breakpoints.medium, 0) {
-    lost-column: 1 / 4
+    lost-column: 1 / 2
   }
 }
 
