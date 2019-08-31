@@ -183,29 +183,33 @@ export default class UpdateRoom extends Vue {
   }
 
   async uploadImg(files: File[]) {
-    let fileNames = await uploadImages(files);
-    let fileLinks = fileNames.map(
-      name => `https://sojourner.rynco.me/api/v1/image/${name}`
-    );
-    this.r.img = fileLinks;
+    if (typeof(this.r)=="object") {
+      let fileNames = await uploadImages(files);
+      let fileLinks = fileNames.map(
+        name => `https://sojourner.rynco.me/api/v1/image/${name}`
+      );
+      this.r.img = fileLinks;
+    }
   }
 
   commitError: string | null = null;
 
   async commit() {
-    await this.uploadImg(this.files);
-    try {
-      let result = await axios.put(
-        config.backend.address + 'room/' + this.r.id,
-        this.r,
-        { headers: this.$store.getters.authHeader }
-      );
+    if (typeof(this.r)=="object") {
+      await this.uploadImg(this.files);
+      try {
+        let result = await axios.put(
+          config.backend.address + 'room/' + this.r.id,
+          this.r,
+          { headers: this.$store.getters.authHeader }
+        );
 
-      let success = result.status == 201;
-      alert('update successfully');
-      this.$router.push({ name: "adminRoom" });
-    } catch (e) {
-      this.commitError = e;
+        let success = result.status == 201;
+        alert('update successfully');
+        this.$router.push({ name: "adminRoom" });
+      } catch (e) {
+        this.commitError = e;
+      }
     }
   }
 
