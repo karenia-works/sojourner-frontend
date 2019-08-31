@@ -1,5 +1,7 @@
 <template>
-  <div class="newIssue">
+<div class="newIssue" v-if="showWindow">
+  <div class="cover" @click="closeWindow"></div>
+  <div class="issueWindow">
     <h2>new issue</h2>
     <div class="form">
       <div class="item">
@@ -23,6 +25,7 @@
     </div>
     <button class="btn" @click="commit">submit</button>
   </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -42,13 +45,9 @@ import { uploadImages } from "@/helpers/uploadHelper";
   }
 })
 export default class NewIssue extends Vue{
+  @PropSync("show", { default: false, type: Boolean })
+  showWindow!: boolean;
   @Prop() order!: Order;
-
-  uid: string = "";
-  get repairText(): string {
-    return this.issue.needRepair ?
-      "need repair" : "not need repair";
-  }
 
   issue: Issue = { 
     id: "",
@@ -63,8 +62,17 @@ export default class NewIssue extends Vue{
     isFinished: false,
     createTime: new Date()
   }
-
   files: Array<File> = [];
+
+  get repairText(): string {
+    return this.issue.needRepair ?
+      "need repair" : "not need repair";
+  }
+
+  closeWindow(): void {
+    this.showWindow = false;
+  }
+
   async uploadImg(files: File[]) {
     let fileNames = await uploadImages(files);
     let fileLinks = fileNames.map(
@@ -85,7 +93,10 @@ export default class NewIssue extends Vue{
       );
 
       let success = result.status == 201;
-      // this.$router.push({ name: "home" });
+      // if (success) {
+        alert("issue committed")
+        this.closeWindow();
+      // }
     } catch (e) {
       this.commitError = e;
     }
@@ -94,6 +105,31 @@ export default class NewIssue extends Vue{
 </script>
 
 <style lang="stylus" scoped>
+.cover {
+  height: 100%
+  width: 100%
+  position: fixed
+  top: 0
+  left: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  z-index: 8
+}
+
+.issueWindow {
+  width: 400px
+  background-color: var(--color-bg-light)
+  border-radius: 5px
+  position: fixed
+  left: 50%
+  top: 20%
+  margin-left: -200px
+  z-index: 9
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: spaces._6
+}
+
 .item {
   margin-v spaces._6
 }

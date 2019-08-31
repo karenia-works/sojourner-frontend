@@ -21,12 +21,8 @@
           </p>
         </div>
         <div class="buttons">
-          <button class="btn" @click="toggleIssueWindow">file an issue</button>
+          <button class="btn" @click="openIssue">file an issue</button>
           <button class="btn" @click="openRenew">renew the lease</button>
-          <!-- <div class="renew" v-if="showRenew"> -->
-            <!-- <div class="cover" @click="toggleRenew"></div> -->
-            <Renew :room="room" :order="order" :show.sync="showRenew" v-if="showRenew"></Renew>
-          <!-- </div> -->
         </div>
         <!-- longRent order ends -->
       </template>
@@ -43,14 +39,10 @@
           </p>
         </div>
         <div class="buttons">
-          <button class="btn"  @click="toggleIssueWindow">file an issue</button>
+          <button class="btn"  @click="openIssue">file an issue</button>
         </div>
         <!-- shortRent order ends -->
       </template>
-      <div class="issue" v-if="showIssue">
-        <div class="cover" @click="toggleIssueWindow"></div>
-        <NewIssue class="issueWindow" :order="order"></NewIssue>
-      </div>
     </template>
     <template v-else>
       <!-- future Order -->
@@ -64,6 +56,8 @@
       <!-- future Order ends -->
     </template>
   </div>
+  <NewIssue :order="order" :show.sync="showIssue"></NewIssue>
+  <Renew :order="order" :show.sync="showRenew"></Renew>
 </div>
 </template>
 
@@ -99,34 +93,14 @@ export default class OrderInfoA extends Vue {
   room?: Room = this.order.house;
 
   showIssue: boolean = false;  
-  toggleIssueWindow(): void {
-    this.showIssue = !this.showIssue;
-  }
-  
   showRenew: boolean = false;  
+  
+  openIssue(): void {
+    this.showIssue = true;
+  }
   openRenew(): void {
     this.showRenew = true;
   }
-
-  // room: Room = {
-  //   id: "789123789123789123789321",
-  //   name: "Amazing view - Moderne apartment",
-  //   description: "",
-  //   type: "quad",
-  //   longAvailable: true,
-  //   shortAvailable: true,
-  //   longPrice: 3000,
-  //   shortPrice: 156,
-  //   img:
-  //     ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
-  //   address: {
-  //     country: "Iceland",
-  //     city: "Akureyri",
-  //     street: "Villa Lola"
-  //   },
-  //   equipJudge: [],
-  //   noticeJudge: []
-  // };
 
   rentType: String = this.order.isLongRent ? "long" : "short";
 
