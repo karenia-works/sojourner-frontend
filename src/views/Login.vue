@@ -161,8 +161,6 @@ export default class Login extends Vue {
 
   email = "";
   password = "";
-  name = "";
-  phone = "";
 
   async submitLogin() {
     var check = this.inputCheck;
@@ -176,7 +174,7 @@ export default class Login extends Vue {
 
       this.showLogin=false;
 
-      if(this.$store.state.role == "admin"){
+      if(this.$store.state.userStore.role == "admin"){
         this.$router.push("/admin")
       }
     }
