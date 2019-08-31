@@ -96,7 +96,8 @@ export default class Signup extends Vue {
     sex: "U",
     avatar: "",
     signupDate: new Date(),
-    role: "worker"
+    role: "worker",
+    isRenting: false
   };
 
   error: string | null = null;

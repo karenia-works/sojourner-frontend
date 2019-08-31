@@ -97,7 +97,7 @@ export interface Profile {
   avatar: string
   signupDate: Date
   role: string
-  isRenting:boolean
+  isRenting: boolean
 }
 
 var exampleProfile: Profile = {
@@ -106,6 +106,8 @@ var exampleProfile: Profile = {
   email: 'ying@126.com',
   phoneNumber: '13636036036',
   sex: 'M',
+  role: 'admin',
+  isRenting: false,
   avatar:
     'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
   signupDate: new Date()

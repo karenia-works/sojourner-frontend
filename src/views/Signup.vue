@@ -93,6 +93,8 @@ export default class Signup extends Vue {
     userName: "",
     email: "",
     phoneNumber: "",
+    role: "IdentityServerApiScope",
+isRenting: false,
     sex: "U",
     avatar: "",
     signupDate: new Date()
