@@ -1,5 +1,14 @@
 <template>
   <div class="me">
+    <div
+      class="title-pic"
+      v-if="$store.state.userStore.profile && $store.state.userStore.profile.avatar"
+    >
+      <div class="background"></div>
+      <div class="container">
+        <img :src="$store.state.userStore.profile.avatar" alt="avatar" class="pic" />
+      </div>
+    </div>
     <div class="container">
       <template v-if="$store.state.userStore.loggedIn">
         <userInfo
@@ -8,7 +17,7 @@
           v-if="$store.state.userStore.profile && profile"
         ></userInfo>
         <div class="issueBtn">
-          <router-link to="">
+          <router-link to="/u/issue">
             <button class="btn">my issues</button>
           </router-link>
         </div>
@@ -23,16 +32,32 @@
 
 <style lang="stylus" scoped>
 .container {
-  display: flex;
-  flex-direction: column;
+  display: flex
+  flex-direction: column
 }
 
 .issueBtn {
-  height 40px
-  }
+  height: 40px
+}
+
 .btn {
-  float right
+  float: right
   // display inline
+}
+
+.title-pic {
+  .background {
+    background: var(--color-bg-medium)
+    height: 22vh
+    min-height: 256px
+  }
+
+  .pic {
+    margin-top: -18vh
+    height: 256px
+    width: 256px
+    box-shadow: 0px 16px 24px var(--color-bg-medium)
+  }
 }
 </style>
 

@@ -60,7 +60,7 @@
     padding-bottom: 60px;
 
     .input {
-      lost-column: 9 / 12;
+      lost-column: 10 / 12;
     }
   }
 

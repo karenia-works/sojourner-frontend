@@ -20,7 +20,7 @@
       </tr>
       <tr class="layer" v-for="(user,index) in users" :key="index">
         <td>
-          <img :src="user.ava_url" class="ava_img" />
+          <img :src="user.avatar" class="ava_img" />
         </td>
         <td>{{ user.email }}</td>
         <td>{{ user.userName }}</td>
@@ -56,7 +56,7 @@
     padding-bottom: 60px;
 
     .input {
-      lost-column: 9 / 12;
+      lost-column: 10 / 12;
     }
   }
 

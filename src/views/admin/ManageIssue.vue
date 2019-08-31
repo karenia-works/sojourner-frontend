@@ -7,7 +7,9 @@
         placeholder="Type in the issue you would like to find"
         v-model.trim="keyword"
       />
-      <button class="btn" @click="reRoute">Search</button>
+      <button class="btn srch_btn" @click="reRoute">Search</button>
+      <button class="btn" v-show="!show_all" @click="reShow">Show Done</button>
+      <button class="btn" v-show="show_all" @click="reShow">Hide Done</button>
     </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
@@ -60,10 +62,7 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link
-                :to="getReplyUrl(Issue.id)"
-                v-show="!Issue.isReplied"
-              >Reply</router-link>
+              <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
               <router-link
                 :to="getWorkerUrl(Issue.id)"
                 v-show="Issue.isReplied&&!Issue.isFinished&&Issue.wemail.length==0"
@@ -87,6 +86,10 @@
 
     .input {
       lost-column: 9 / 12;
+    }
+
+    .srch_btn {
+      margin-right: 10px;
     }
   }
 
@@ -203,8 +206,10 @@ import moment from "moment";
 })
 export default class ManageIssue extends Vue {
   Issues = [];
+  show_all = true;
 
   origin_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
+  filter_url = "https://sojourner.rynco.me/api/v1/issue/unfinishedissue";
   api_url = "https://sojourner.rynco.me/api/v1/issue/issuelist";
   keyword = "";
 
@@ -233,6 +238,17 @@ export default class ManageIssue extends Vue {
     if (this.keyword == "") this.api_url = this.origin_url;
     else this.api_url = this.origin_url + "?kw=" + this.keyword;
     this.getAPI();
+  }
+
+  reShow() {
+    this.show_all = !this.show_all;
+    if (this.show_all) {
+      this.api_url = this.origin_url;
+      this.getAPI();
+    } else {
+      this.api_url = this.filter_url;
+      this.getAPI();
+    }
   }
 }
 </script>

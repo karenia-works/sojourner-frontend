@@ -114,6 +114,7 @@ export default class ReplyIssue extends Vue {
 
   async ReplyIssue(issue) {
     issue.isReplied=true;
+    issue.isFinished=true;
     let request = await axios.put(this.api_url + this.iid, issue, {
       headers: this.$store.getters.authHeader
     });

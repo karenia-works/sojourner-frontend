@@ -19,25 +19,25 @@
         <td>{{ Issue.wemail }}</td>
         <td>
           <div v-show="Issue.needRepair"
-            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
           <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div v-show="Issue.needRepair"
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
           <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div v-show="Issue.needRepair"
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail==null), 'line3': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&(Issue.wemail.length==0), 'line3': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
           <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
         <td>
           <div v-show="Issue.needRepair"
-            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail!=null)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail!=null)&&Issue.isFinished}"
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'lineE': Issue.isReplied&&(Issue.wemail.length!=0)&&!Issue.isFinished, 'line4': Issue.isReplied&&(Issue.wemail.length!=0)&&Issue.isFinished}"
           ></div>
           <div v-show="!Issue.needRepair" :class="{'line':true, 'line5':true}"></div>
         </td>
