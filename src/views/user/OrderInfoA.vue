@@ -49,7 +49,7 @@
       </template>
       <div class="issue" v-if="showIssue">
         <div class="cover" @click="toggleIssueWindow"></div>
-        <NewIssue class="issueWindow"></NewIssue>
+        <NewIssue class="issueWindow" :order="order"></NewIssue>
       </div>
     </template>
     <template v-else>
@@ -95,6 +95,9 @@ import {Room} from '@/models/Room.ts'
   }
 })
 export default class OrderInfoA extends Vue {
+  @Prop() order!: Order;
+  room?: Room = this.order.house;
+
   showIssue: boolean = false;  
   toggleIssueWindow(): void {
     this.showIssue = !this.showIssue;
@@ -105,27 +108,25 @@ export default class OrderInfoA extends Vue {
     this.showRenew = true;
   }
 
-  @Prop() item!: Order;
-  order: Order = this.item;
-  room: Room = {
-    id: "789123789123789123789321",
-    name: "Amazing view - Moderne apartment",
-    description: "",
-    type: "quad",
-    longAvailable: true,
-    shortAvailable: true,
-    longPrice: 3000,
-    shortPrice: 156,
-    img:
-      ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
-    address: {
-      country: "Iceland",
-      city: "Akureyri",
-      street: "Villa Lola"
-    },
-    equipJudge: [],
-    noticeJudge: []
-  };
+  // room: Room = {
+  //   id: "789123789123789123789321",
+  //   name: "Amazing view - Moderne apartment",
+  //   description: "",
+  //   type: "quad",
+  //   longAvailable: true,
+  //   shortAvailable: true,
+  //   longPrice: 3000,
+  //   shortPrice: 156,
+  //   img:
+  //     ["https://z1.muscache.cn/im/pictures/25625163/d4833a1c_original.jpg?aki_policy=xx_large"],
+  //   address: {
+  //     country: "Iceland",
+  //     city: "Akureyri",
+  //     street: "Villa Lola"
+  //   },
+  //   equipJudge: [],
+  //   noticeJudge: []
+  // };
 
   rentType: String = this.order.isLongRent ? "long" : "short";
 

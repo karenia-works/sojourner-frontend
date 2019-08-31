@@ -57,6 +57,7 @@ export interface Order {
   createDate: Date
   cancelDate?: Date
   isPaid: boolean
+  house?: Room
 }
 
 export interface Profile {

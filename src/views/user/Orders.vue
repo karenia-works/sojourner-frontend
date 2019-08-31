@@ -1,13 +1,13 @@
 <template>
   <div class="orders">
     <template class="activeOrders">
-      <OrderInfoA v-for="item in activeOrders" :item="item" :key="item.id"></OrderInfoA>
+      <OrderInfoA v-for="item in activeOrders" :order="item" :key="item.id"></OrderInfoA>
     </template>
     <div class="showBtn">
       <button class="btn" @click="toggleFinished">{{btnValue}} rent history</button>
     </div>
     <template  v-if="showFinished">
-      <OrderInfoF v-for="item in finishedOrders" :item="item" :key="item.id"></OrderInfoF>
+      <OrderInfoF v-for="item in finishedOrders" :order="item" :key="item.id"></OrderInfoF>
     </template>
   </div>
 </template>
@@ -39,7 +39,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import OrderInfoA from "@/views/user/OrderInfoA.vue"; // @ is an alias to /src
 import OrderInfoF from "@/views/user/OrderInfoF.vue";
 import {Order} from '@/models/Room.ts'
-
+import axios from "axios";
+import config from "@/config.ts";
 
 @Component({
   components: {
@@ -48,9 +49,11 @@ import {Order} from '@/models/Room.ts'
     }
 })
 export default class Orders extends Vue {
-  @Prop() orderlist!: Order[];
-  orders = this.orderlist;
-  
+  // @Prop() orders!: Order[];
+  // @Prop() orderlist!: Order[];
+  // get orders(){return this.orderlist};
+
+  orders: Order[] = [];
   activeOrders: Order[] = [];
   finishedOrders: Order[] = [];
 
@@ -61,11 +64,17 @@ export default class Orders extends Vue {
       "Hide" : "Show";
   }
 
+  // get finishedOrders(){
+
+  // }
+
   toggleFinished() {
     this.showFinished = !this.showFinished;
   }
 
-  mounted() {
+  async mounted() {
+    await this.getOrders();
+    // this.orders = this.orderlist;
     for (let i=0; i<this.orders.length; i++) {
       var order = this.orders[i];
       if (order.isFinished) {
@@ -74,6 +83,15 @@ export default class Orders extends Vue {
         this.activeOrders.push(order);
       }
     }
+  }
+  
+  async getOrders() {
+    let response = await axios
+      .get(config.backend.address + `order/me`, {
+        headers: this.$store.getters.authHeader
+      })
+      // console.log(response)
+      this.orders = response.data;
   }
 }
 </script>

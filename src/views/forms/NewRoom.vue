@@ -54,6 +54,13 @@
           />
         </div>
 
+        <div class="file-selection">
+          <label for="description">Some 
+            <span>photos</span> can make it more attractive.
+          </label>
+          <file-selection @upload="uploadImg" :selectedFiles.sync="files" :showUpload="false"></file-selection>
+        </div>
+
         <div class="item type">
           <label>
             How many
@@ -106,10 +113,6 @@
               v-model.number="r.shortPrice"
             />
           </div>
-        </div>
-
-        <div class="file-selection">
-          <file-selection @upload="uploadImg" :selectedFiles.sync="files" :showUpload="false"></file-selection>
         </div>
 
         <div class="item equip">
@@ -233,6 +236,24 @@ export default class NewRoom extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+.item {
+  margin-v spaces._6
+}
+
+label:first-child {
+  display block
+  font-size font-sizes.small-title
+  font-family fonts-title
+}
+
+label:first-child span {
+  // color colors-admin.accent
+  font-weight 500
+}
+
+textarea {
+  width 400px
+}
 
 .input {
   margin-left: 0
