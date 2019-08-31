@@ -27,7 +27,7 @@
         <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
         <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
         <td>{{ Issue.uemail }}</td>
-        <td>{{ Issue.worker_name }}</td>
+        <td>{{ Issue.wemail }}</td>
         <td>
           <div
             v-show="Issue.needRepair"
