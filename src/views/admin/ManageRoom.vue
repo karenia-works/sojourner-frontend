@@ -7,7 +7,10 @@
         placeholder="Type in the room name you would like to find"
         v-model.trim="keyword"
       />
-      <button class="btn" @click="reRoute">Search</button>
+      <button class="btn srch_btn" @click="reRoute">Search</button>
+      <router-link to="ManageRoom/NewRoom">
+        <button class="btn">New Room</button>
+      </router-link>
     </div>
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
@@ -47,7 +50,7 @@
             </button>
             <div class="dropdown-content">
               <router-link :to="getRoomUrl(room.id)">Detail</router-link>
-              <router-link v-show="room.is_renting">Stop Renting</router-link>
+              <router-link :to="getChangeInfoUrl(room.id)">Change Info</router-link>
               <router-link to>Rent</router-link>
               <router-link v-on:click.native="deleteAPI(room.id)" to>Delete</router-link>
             </div>
@@ -68,6 +71,10 @@
 
     .input {
       lost-column: 9 / 12;
+    }
+
+    .srch_btn{
+      margin-right : 10px;
     }
   }
 
@@ -161,6 +168,9 @@ export default class ManageRoom extends Vue {
 
   getRoomUrl(url: string) {
     return "/r/" + url+ "/detail";
+  }
+  getChangeInfoUrl(url: string) {
+    return "ManageRoom/UpdateRoom?id=" + url;
   }
 
   getAPI() {

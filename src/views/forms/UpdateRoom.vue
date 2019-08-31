@@ -143,8 +143,8 @@ import { uploadImages } from "@/helpers/uploadHelper";
   }
 })
 export default class UpdateRoom extends Vue {
-  @Prop() room!: Room;
-  r: Room = this.room;
+  r: Room | boolean= false;
+  rid:string=this.GetQueryString("id") as string;
   
   types: Array<string> = ["single", "double", "quad"];
   equips: Array<string> = [
@@ -166,6 +166,21 @@ export default class UpdateRoom extends Vue {
   ];
 
   files: Array<File> = [];
+
+
+  mounted(){
+    this.getAPI();
+  }
+
+  api_url = "https://sojourner.rynco.me/api/v1/room/";
+  
+  getAPI() {
+    axios
+      .get(this.api_url + this.rid)
+      .then(response => (this.r = response.data))
+      .catch(error => console.log(error));
+      
+  }
 
   async uploadImg(files: File[]) {
     let fileNames = await uploadImages(files);
@@ -192,6 +207,13 @@ export default class UpdateRoom extends Vue {
     } catch (e) {
       this.commitError = e;
     }
+  }
+
+  GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
   }
 }
 </script>

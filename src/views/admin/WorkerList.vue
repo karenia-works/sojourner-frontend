@@ -20,8 +20,8 @@
         <td>{{ worker.phoneNumber }}</td>
         <td>{{ worker.email }}</td>
         <td>
-          <label v-show="!worker.is_busy" class="yes_judge">Free</label>
-          <label v-show="worker.is_busy" class="no_judge">Busy</label>
+          <label v-show="!worker.isRenting" class="yes_judge">Free</label>
+          <label v-show="worker.isRenting" class="no_judge">Busy</label>
         </td>
         <td>
           <div class="dropdown">
