@@ -21,8 +21,19 @@
       </router-link>
     </div>
     <div class="nav-right">
-      <div class="nav-el" id="sign_up" @click="switchLogin()">Sign up</div>
-      <login :show.sync="showLogin" />
+      <template v-if="!$store.state.userStore.hasProfile">
+        <div class="nav-el" id="sign_up" @click="switchLogin" key="sign_in">Log in</div>
+        <login :show.sync="showLogin" />
+        <router-link to="/register" key="register">
+          <div class="nav-el">Sign up</div>
+        </router-link>
+      </template>
+      <template v-else>
+        <div class="nav-el" @click.prevent="logout" key="logout">Logout</div>
+        <router-link to="/u/me" key="me">
+          <div class="nav-el">Hi, {{$store.state.userStore.profile.userName}}</div>
+        </router-link>
+      </template>
     </div>
   </div>
 </template>
@@ -74,6 +85,15 @@ export default class Navbar extends Vue {
 
   switchLogin() {
     this.showLogin = !this.showLogin;
+  }
+
+  get loggedIn(): boolean {
+    return this.$store.state.userStore.loggedIn;
+  }
+
+  async logout() {
+    this.$store.commit("logout");
+    // setTimeout(() => this.$router.push("/"), 1000);
   }
 }
 </script>

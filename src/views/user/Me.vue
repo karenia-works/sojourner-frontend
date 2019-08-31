@@ -7,7 +7,7 @@
           :item="$store.state.userStore.profile"
           v-if="$store.state.userStore.profile && profile"
         ></userInfo>
-        <Orders :orderlist="orders"></Orders>
+        <Orders></Orders>
       </template>
       <template v-else>
         <h1>You are not logged in!</h1>
@@ -18,8 +18,8 @@
 
 <style lang="stylus" scoped>
 .container {
-  display: flex
-  flex-direction: column
+  display: flex;
+  flex-direction: column;
 }
 </style>
 
@@ -30,7 +30,6 @@ import UserInfo from "@/views/user/UserInfo.vue";
 import { Order } from "@/models/Room.ts";
 import { Profile } from "@/models/Room.ts";
 import { findOrderByUser } from "@/helpers/orderHelper.ts";
-import axios from 'axios';
 import config from "@/config.ts";
 
 @Component({
@@ -41,20 +40,11 @@ import config from "@/config.ts";
 })
 export default class Me extends Vue {
   profile: Profile | boolean = false;
-  orders: Array<Order> = [];
+  // orders: Array<Order> | false = false;
 
   async mounted() {
     await this.$store.dispatch("updateProfile");
     this.profile = this.$store.state.userStore.profile;
-  }
-
-  getOrder() {
-    axios
-      .get(config.backend.address, {
-        headers: this.$store.getters.authHeader
-      })
-      // .then(response => (this.users = response.data))
-      .catch(error => console.log(error));
   }
 
   // profile: Profile = {
@@ -81,7 +71,7 @@ export default class Me extends Vue {
   //     createDate: new Date("2019-8-18"),
   //     cancelDate: undefined,
   //     isPaid: false
-  //   },
+  //   },];
   //   {
   //     id: "788",
   //     houseId: "122",
