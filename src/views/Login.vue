@@ -182,6 +182,9 @@ export default class Login extends Vue {
       if(this.$store.state.userStore.role == "admin"){
         this.$router.push("/admin")
       }
+      if(this.$store.state.userStore.role == "worker"){
+        this.$router.push("/worker")
+      }
     }
   }
 }
