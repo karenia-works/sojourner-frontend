@@ -73,14 +73,23 @@ export default class updateUser extends Vue{
 
   }
 
-  async commit(){    
-    await this.getUid();
-    let result = await axios.post(
-      config.backend.address+`user/`+this.uid,
-      this.user,
-      {headers: this.$store.getters.authHeader}
-    )
-
+  async commit(){
+    let role: string = this.$store.state.userStore.role;
+    let result;
+    if (role == "admin") {
+      await this.getUid();
+      result = await axios.put(
+        config.backend.address+`profile/`+this.uid,
+        this.user,
+        {headers: this.$store.getters.authHeader}
+      )
+    } else {
+      result = await axios.put(
+        config.backend.address+`profile/`,
+        this.user,
+        {headers: this.$store.getters.authHeader}
+      )
+    }
     let success = result.status == 201
     alert("changes committed")
     this.closeWindow();

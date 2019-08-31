@@ -3,9 +3,10 @@
     <template class="activeOrders">
       <OrderInfoA v-for="item in activeOrders" :order="item" :key="item.id"></OrderInfoA>
     </template>
-    <div class="showBtn">
+    <div class="showBtn" v-if="haveFinished">
       <button class="btn" @click="toggleFinished">{{btnValue}} rent history</button>
     </div>
+    <h3 class="line" v-else>no history orders</h3>
     <template  v-if="showFinished">
       <OrderInfoF v-for="item in finishedOrders" :order="item" :key="item.id"></OrderInfoF>
     </template>
@@ -64,9 +65,9 @@ export default class Orders extends Vue {
       "Hide" : "Show";
   }
 
-  // get finishedOrders(){
-
-  // }
+  get haveFinished(): boolean{
+    return this.finishedOrders.length > 0;
+  }
 
   toggleFinished() {
     this.showFinished = !this.showFinished;

@@ -1,7 +1,7 @@
 <template>
 <div class="userInfo">
   <h1>Hello, {{profile.userName}}</h1>
-  <button @click="openUpdate" class="btn">change profile</button>
+  <button @click="openUpdate" class="btn">update profile</button>
   <UpdateUser :user="profile" :show.sync="showUpdate"></UpdateUser>
   <div class="details">
     <p>{{profile.email}}</p>
