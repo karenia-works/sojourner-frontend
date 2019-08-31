@@ -7,6 +7,11 @@
           :profile="$store.state.userStore.profile"
           v-if="$store.state.userStore.profile && profile"
         ></userInfo>
+        <div class="issueBtn">
+          <router-link to="">
+            <button class="btn">my issues</button>
+          </router-link>
+        </div>
         <Orders></Orders>
       </template>
       <template v-else>
@@ -20,6 +25,14 @@
 .container {
   display: flex;
   flex-direction: column;
+}
+
+.issueBtn {
+  height 40px
+  }
+.btn {
+  float right
+  // display inline
 }
 </style>
 
@@ -46,16 +59,6 @@ export default class Me extends Vue {
     await this.$store.dispatch("updateProfile");
     this.profile = this.$store.state.userStore.profile;
   }
-
-  // profile: Profile = {
-  //   id: '456',
-  //   userName: 'Skuld',
-  //   email: 'sywang1207@gmail.com',
-  //   phoneNumber: '13693680360',
-  //   sex: 'F',
-  //   avatar: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1440019312,3309809430&fm=26&gp=0.jpg',
-  //   signupDate: new Date("2019-8-25")
-  // };
 
   beforeEnter(from, to, next) {
     next((vm: Vue) => {
