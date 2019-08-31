@@ -1,18 +1,34 @@
 <template>
   <div>
     <div class="container">
-      <div class="LeftSide">
-        <h1>Review Home Rules</h1>
-        <div class="staytime">
-          <h2>{{ "__Days" }} Night At {{ room.address.city }}</h2>
-          <div class="startAndEnd">
-            <div class="time_container">{{ searchStatus.startTime.format("YYYY-MM-DD") }}</div>
-            <div class="time_container">{{ searchStatus.endTime.format("YYYY-MM-DD") }}</div>
-          </div>
+      <h1>Review Your Order</h1>
+      <div class="house-info">
+        <h2>
+          <span class="dull-text">Name:</span>
+          {{ room.name }}
+        </h2>
+        <h3>
+          <span class="dull-text">Address:</span>
+          {{ room.address.street }}, {{ room.address.city }}
+        </h3>
+        <!-- <div class="left">
+        </div>-->
+        <!-- <img class="pic right" alt="housePic" :src="room.img[0]||''" /> -->
+      </div>
+      <div class="startAndEnd">
+        <div class="time-container">
+          <div class="label">Check in</div>
+          <div class="time">{{ pendingOrder.startDate.format("YYYY-MM-DD") }}</div>
         </div>
-        <hr align="left" width="90%" size="1" />
-        <div class="keep_in_mind">
-          <h2>Things To Keep In Mind</h2>
+        <mdi-right-arrow />
+        <div class="time-container">
+          <div class="label">Check out</div>
+          <div class="time">{{ pendingOrder.startDate.format("YYYY-MM-DD") }}</div>
+        </div>
+      </div>
+      <div class="keep_in_mind">
+        <h2>Things To Keep In Mind</h2>
+        <template v-if="hasNotice">
           <div class="rules">
             <div class="rule" v-show="room.noticeJudge[0]">
               <div class="rule_icon">
@@ -55,37 +71,20 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="agree_button">
-          <router-link to="shortpay">
-            <button id="search-btn" class="btn search-btn">AGREE</button>
-          </router-link>
-        </div>
+        </template>
+        <template v-else>The house owner did not specify anything special to notice.</template>
       </div>
-      <div class="RightSide">
-        <div class="overview">
-          <img class="pic" alt="housePic" :src="room.img[0]||''" />
-        </div>
-        <div class="title">
-          <label class="pic_title">{{ room.name }}</label>
-        </div>
-        <hr align="center" width="100%" size="1" />
-        <div class="book_info">
-          <div class="iconAndWords">
-            <guest-icon class="guest_info" />
-            <label class="guest_info">{{ searchStatus.roomType }} guests</label>
-          </div>
-          <div class="iconAndWords">
-            <date-icon class="guest_info" />
-            <label
-              class="date_info"
-            >{{ searchStatus.startTime.format("YYYY-MM-DD") }} &rarr; {{searchStatus.endTime.format("YYYY-MM-DD")}}</label>
-          </div>
-        </div>
-        <hr align="center" width="100%" size="1" />
-        <div class="total">
-          <label class="total_cost">Total: ${{ totalCost }}</label>
-        </div>
+
+      <div class="total">
+        <label class="total_cost">Total: ${{ pendingOrder.totalPrice }}</label>
+      </div>
+      <div class="agree-button">
+        <a @click="lastPage">
+          <button id="search-btn" class="btn search-btn dull">Cancel</button>
+        </a>
+        <router-link to="shortpay">
+          <button id="search-btn" class="btn search-btn">AGREE</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -95,157 +94,133 @@
 .container {
   display: flex
   justify-content: center
-  flex-direction: row
-  align-items: flex-start
+  flex-direction: column
+  align-items: stretch
 
-  .LeftSide {
-    display: flex
-    flex-direction: column
-    lost-column: 2 / 3 0 spaces._7
-
-    h1 {
-      font-size: font-sizes.large-title
-      font-weight: normal
-      text-transform: uppercase
-      text-align: left
-    }
-
-    .staytime {
-      h2 {
-        font-size: font-sizes.small-title
-        font-weight: normal
-        text-transform: uppercase
-        text-align: left
-      }
-    }
-
-    .startAndEnd {
-      padding: 10px
-      display: flex
-      flex-direction: row
-      justify-content: space-between
-
-      .time_container {
-        display: flex
-        flex-direction: row
-        width: 50%
-
-        .date_container {
-          display: flex
-          flex-direction: column
-          border-style: solid
-          border-width: 1px
-          padding: 10px
-          margin-right: 20px
-        }
-
-        .checkinout_container {
-          display: flex
-          flex-direction: column
-          margin: 10px
-          align-items: flex-start
-        }
-      }
-    }
-
-    .keep_in_mind {
-      .rules {
-        display: flex
-        flex-direction: column
-
-        .rule {
-          display: flex
-          flex-direction: row
-          align-items: center
-
-          .rule_icon {
-            border-style: solid
-            border-width: 1px
-            padding: 10px
-            margin: 10px
-            margin-right: 20px
-          }
-
-          .rule_description {
-            font-size: font-sizes.body-larger
-            font-weight: normal
-            text-align: left
-          }
-        }
-      }
-    }
-
-    #search-btn {
-      margin: 50px
-      font-size: font-sizes.medium-title
-    }
+  h1 {
+    font-size: font-sizes.large-title
+    font-weight: normal
+    text-align: left
+    margin-bottom: spaces._6
   }
 
-  .RightSide {
-    display: flex
-    position: sticky
+  h2 {
     margin-top: spaces._7
-    top: 30px
-    align-items: stretch
-    flex-direction: column
-    lost-column: 1 / 3 0 spaces._7
+    text-transform: none
+  }
+}
 
-    .overview {
+.house-info {
+  // lost-flex-container: row
+}
+
+.startAndEnd {
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+  margin-h: -(spaces._4)
+
+  .time-container {
+    margin-h: spaces._4
+
+    .label {
+      font-size: font-sizes.body-larger
+      color: var(--color-text-medium)
+      font-weight: bold
+    }
+
+    .time {
+      font-family: fonts-title
+      font-size: font-sizes.medium-title
+      font-weight: bold
+    }
+  }
+}
+
+.keep_in_mind {
+  font-size: font-sizes.body-larger
+
+  .rules {
+    display: flex
+    flex-direction: column
+
+    .rule {
       display: flex
       flex-direction: row
-      justify-content: center
       align-items: center
+      margin-v: spaces._3
 
-      .pic {
-        display: flex
-        flex-direction: row
-        justify-content: center
-        align-items: center
-        width: 20vw
-        height: 100%
+      .rule_icon {
+        margin-right: spaces._3
       }
-    }
 
-    .title {
-      display: flex
-      flex-direction: column
-      align-self: flex-start
-      padding: 30px 5px 20px 5px
-      font-size: font-sizes.body-larger
-      font-weight: bolder
-    }
-
-    .book_info {
-      display: flex
-      flex-direction: column
-      justify-content: center
-      align-items: stretch
-      align-self: flex-start
-
-      .iconAndWords {
-        padding: 5px
-        display: flex
-        flex-direction: row
-        align-items: flex-start
-
-        .guest_info {
-          margin-right: 10px
-        }
-      }
-    }
-
-    .total {
-      display: flex
-      align-self: flex-end
-      justify-content: flex-end
-
-      .total_cost {
-        padding-top: 30px
-        font-size: font-sizes.small-title
-        font-weight: bolder
+      .rule_description {
+        font-weight: normal
         text-align: left
       }
     }
+  }
+}
+
+.agree-button {
+  margin-v: spaces._6
+  margin-h: -(spaces._3)
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+
+  .btn {
+    margin-h: spaces._3
+    font-size: font-sizes.large-title
+  }
+}
+
+.overview {
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+}
+
+.title {
+  display: flex
+  flex-direction: column
+  align-self: flex-start
+  padding: 30px 5px 20px 5px
+  font-size: font-sizes.body-larger
+  font-weight: bolder
+}
+
+.book_info {
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: stretch
+  align-self: flex-start
+
+  .iconAndWords {
+    padding: 5px
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+
+    .guest_info {
+      margin-right: 10px
+    }
+  }
+}
+
+.total {
+  display: flex
+  justify-content: flex-start
+  margin-top: spaces._8
+
+  .total_cost {
+    font-family: fonts-title
+    font-size: font-sizes.large-title
+    font-weight: 500
+    text-align: left
   }
 }
 </style>
@@ -260,9 +235,11 @@ import noPetsIcon from "mdi-vue/PawOff";
 import noNoiseIcon from "mdi-vue/VolumeOff";
 import noShotIcon from "mdi-vue/CameraOff";
 import noPlayIcon from "mdi-vue/XboxControllerOff";
-import { exampleRoom, Room } from "@/models/Room";
+import { exampleRoom, Room, Order, PendingOrder } from "@/models/Room";
 import { SearchStatus } from "@/store/search";
 import moment from "moment";
+
+import MdiRightArrow from "mdi-vue/ArrowRightThick";
 
 @Component({
   components: {
@@ -272,7 +249,8 @@ import moment from "moment";
     noPetsIcon,
     noNoiseIcon,
     noShotIcon,
-    noPlayIcon
+    noPlayIcon,
+    MdiRightArrow
   }
 })
 export default class PayCheck extends Vue {
@@ -281,7 +259,8 @@ export default class PayCheck extends Vue {
   room: Room = exampleRoom;
   isLoading: boolean = true;
 
-  searchStatus: SearchStatus = this.$store.state.searchStore.status;
+  // searchStatus: SearchStatus = this.$store.state.searchStore.status;
+  pendingOrder: PendingOrder = this.$store.state.orderStore.pending;
 
   async mounted() {
     await this.updateRoom();
@@ -289,10 +268,24 @@ export default class PayCheck extends Vue {
 
   get totalCost() {
     let duration = moment.duration(
-      this.searchStatus.endTime.diff(this.searchStatus.startTime)
+      this.pendingOrder.endDate.diff(this.pendingOrder.endDate)
     );
 
     return (duration.days() + 1) * (this.room.shortPrice as number);
+  }
+
+  get rentDays() {
+    return (
+      moment
+        .duration(
+          moment(this.pendingOrder.endDate).diff(this.pendingOrder.endDate)
+        )
+        .asDays() + 1
+    );
+  }
+
+  get hasNotice() {
+    return this.room.noticeJudge.some(value => value);
   }
 
   async updateRoom() {
@@ -304,6 +297,10 @@ export default class PayCheck extends Vue {
     }
     this.room = this.$store.getters.getRoomById(this.id);
     this.isLoading = false;
+  }
+
+  lastPage() {
+    this.$router.back();
   }
 }
 </script>
