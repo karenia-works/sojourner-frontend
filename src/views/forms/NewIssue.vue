@@ -52,9 +52,9 @@ export default class NewIssue extends Vue{
 
   issue: Issue = { 
     id: "",
-    uid: this.order.userEmail,
+    uemail: this.order.userEmail,
     hid: this.order.houseId,
-    wid: "",
+    wemail: "",
     img: [],
     complaint: "",
     reply: "",
@@ -74,26 +74,6 @@ export default class NewIssue extends Vue{
   }
 
   commitError: string | null = null;
-  // data;
-
-  // async mounted() {
-  //   // await this.getUid();
-  //   console.log("hi");
-  //   console.log(this.data);
-  //   console.log("hiii");
-  // }
-
-  // getUid() {
-  // axios
-  //   .get(config.backend.address+`user/me`, {
-  //     headers: this.$store.getters.authHeader
-  //   })
-  //   // .then(response => (this.uid = response.data.userId))
-  //   .then(response => (this.data = response.data))
-  //   .catch(error => console.log(error));
-  //   console.log("getuid end");
-
-  // }
 
   async commit() {
     await this.uploadImg(this.files);
