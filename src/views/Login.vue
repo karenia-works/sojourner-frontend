@@ -170,7 +170,7 @@ export default class Login extends Vue {
       alert("Please check your email address");
     } else {
       await this.$store.dispatch("loginUser", {
-        email: this.email,
+        username: this.email,
         password: this.password
       });
 

@@ -1,5 +1,6 @@
 <template>
   <div class="search">
+    <loading-bar v-if="searching" />
     <div class="container">
       <SearchBar
         class="SearchBar"
@@ -17,7 +18,7 @@
       <div class="search-error" v-else-if="shouldSearch && searchError">
         <errors :error-code="searchErrorCode" />
       </div>
-      <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div>
+      <!-- <div class="search-indicator" v-else-if="shouldSearch && searching">Searching</div> -->
       <div class="search-indicator" v-else>
         <explore-section></explore-section>
       </div>
@@ -46,13 +47,15 @@ import axios from "axios";
 import config from "../config";
 import ExploreSection from "@/components/search/Explore.vue";
 import Errors from "@/components/art/Errors.vue";
+import LoadingBar from "@/components/LoadingBar.vue";
 
 @Component({
   components: {
     RoomsInGrid,
     SearchBar,
     ExploreSection,
-    Errors
+    Errors,
+    LoadingBar
   }
 })
 export default class Search extends Vue {
@@ -60,8 +63,9 @@ export default class Search extends Vue {
   searchStatus: SearchStatus = new SearchStatus();
 
   shouldSearch: boolean = false;
-  searching: boolean = true;
+  searching: boolean = false;
   searchErrorCode: number = 200;
+
   get searchError(): boolean {
     return this.searchErrorCode >= 300;
   }
@@ -78,12 +82,12 @@ export default class Search extends Vue {
   updateSearch() {
     if (this.$route.query["kw"]) {
       this.shouldSearch = true;
-      this.searchStatus = SearchStatus.fromDictionary(this.$route
-        .query as Dictionary<string>);
       this.searchAccordingToCriteria();
     } else {
       this.shouldSearch = false;
     }
+      this.searchStatus = SearchStatus.fromDictionary(this.$route
+        .query as Dictionary<string>);
   }
 
   async searchAccordingToCriteria() {
