@@ -1,38 +1,35 @@
 <template>
   <div class="container">
-    <div class="search-line">
-      <input
-        type="text"
-        class="input"
-        placeholder="Type in the issue you would like to find"
-        v-model.trim="keyword"
-      />
-      <button class="btn" @click="reRoute">Search</button>
-    </div>
+      <h1>We are committed to solving your problem.</h1>
+      {{$store.state.userStore.email}}
     <table class="table" style="border-collapse: collapse;">
       <tr class="head">
         <td>IID</td>
         <td>Room Name</td>
-        <td>Lessee</td>
         <td>Worker</td>
         <td>Reported</td>
-        <td>Replied&ensp;</td>    <!--half space-->
+        <td>Replied&ensp;</td>
         <td>Repaired</td>
         <td>More</td>
       </tr>
       <tr class="layer" v-for="Issue in Issues">
-        <td>{{ Issue.iid }}</td>
-        <td>{{ Issue.room_name }}</td>
-        <td>{{ Issue.user_name }}</td>
-        <td>{{ Issue.worker_name }}</td>
+        <td>{{ Issue.id.substr(Issue.id.length-4) }}</td>
+        <td>{{ Issue.hid.substr(Issue.hid.length-4) }}</td>
+        <td>{{ Issue.wemail }}</td>
         <td>
-          <div :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'line1':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'line2':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
-          <div :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"></div>
+          <div
+            :class="{'line':true , 'lineE':!Issue.isReplied, 'lineE':Issue.isReplied&&!Issue.isFinished, 'line3': Issue.isReplied&&Issue.isFinished}"
+          ></div>
         </td>
         <td>
           <div class="dropdown">
@@ -40,9 +37,8 @@
               <dotsIcon />
             </button>
             <div class="dropdown-content">
-              <router-link :to="getReplyUrl(Issue.id)" v-show="!Issue.isReplied">Reply</router-link>
-              <router-link :to="getWorkerUrl(Issue.id)" v-show="!Issue.isFinished">Send Worker</router-link>
-              <router-link to="">Delete</router-link>
+              <router-link :to="seeReplyUrl(Issue.id)">Detail</router-link>
+              <router-link to>Delete</router-link>
             </div>
           </div>
         </td>
@@ -53,16 +49,7 @@
 
 <style lang="stylus" scoped>
 .container {
-  .search-line {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding-bottom: 60px;
-
-    .input {
-      lost-column: 9 / 12;
-    }
-  }
+  width: 100%;
 
   .table {
     cellspacing = '0';
@@ -135,10 +122,10 @@
   background-color: var(--color-bg-medium);
 }
 
-.line{
+.line {
   width: 100%;
   height: 20%;
-    }
+}
 
 .line1 {
   background: var(--color-error);
@@ -152,9 +139,9 @@
   background: var(--color-accent);
 }
 
-.lineE{
+.lineE {
   background: transparent;
-    }
+}
 </style>
 
 <script lang="ts">
@@ -168,17 +155,13 @@ import axios from "axios";
 })
 export default class ManageIssue extends Vue {
   Issues = [];
-  
+
   origin_url = "https://sojourner.rynco.me/api/v1/issue/issuebyuid";
   api_url = "https://sojourner.rynco.me/api/v1/issue/issuebyuid";
   keyword = "";
 
-  getWorkerUrl(iid: number) {
-    return ("ManageWorker?iid=" + iid);
-  }
-
-  getReplyUrl(iid: number) {
-    return ("reply?iid=" + iid);
+  seeReplyUrl(iid: number) {
+    return "reply?iid=" + iid;
   }
 
   getAPI() {
