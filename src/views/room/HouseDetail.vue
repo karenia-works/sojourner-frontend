@@ -87,16 +87,7 @@
               <list-selection :options="rentOptions" :selection.sync="rentSelection"></list-selection>
             </div>
             <div class="rent_button">
-              <div class="short_rent" v-if="rentByDay">
-                <router-link to="submit">
-                  <button id="rent-btn" class="btn rent-btn">Short Term Rent</button>
-                </router-link>
-              </div>
-              <div class="long_rent" v-else>
-                <router-link tag="a" target="_blank" to="longpay">
-                  <button id="rent-btn" class="btn rent-btn">Long Term Rent</button>
-                </router-link>
-              </div>
+              <button id="rent-btn" class="btn rent-btn" @click="rent">Rent</button>
             </div>
           </div>
         </div>
@@ -161,7 +152,7 @@
 }
 
 .about-room {
-  .container{
+  .container {
     align-items: flex-start
   }
 
@@ -217,7 +208,7 @@
         }
 
         +break-screen(breakpoints.medium, 0) {
-          lost-waffle: 1 / 4 0 0px
+          lost-waffle: 1 / 3 0 0px
         }
 
         .mdi {
@@ -340,9 +331,10 @@ import ArrowRightIcon from "mdi-vue/ArrowRight";
 import DatePicker from "@/components/DatePicker.vue";
 import ListSelection from "@/components/ListSelection.vue";
 import moment, { Moment } from "moment";
-import { Room, exampleRoom } from "@/models/Room.ts";
+import { Room, exampleRoom, Order, PendingOrder } from "@/models/Room.ts";
 import { SearchStatus } from "../../store/search";
 import VueMarkdown from "vue-markdown";
+import { isPrimitive } from "vue-class-component/lib/util";
 
 @Component({
   components: {
@@ -461,17 +453,30 @@ export default class HouseDetail extends Vue {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   }
 
-  @Emit("search")
-  emitSearch() {
-    console.log(
-      "",
-      this.startDate.toString(),
-      this.endDate.toString(),
-      this.searchStr
+  rent() {
+    let houseId = this.room.id;
+    let userEmail = this.$store.state.userStore.email;
+    let startDate = this.startDate;
+    let endDate = this.endDate;
+    let isLongRent = !this.rentByDay;
+    let createDate = new Date();
+    let totalPrice = this.totalPrice;
+    let order = new PendingOrder(
+      houseId,
+      userEmail,
+      startDate,
+      endDate,
+      isLongRent,
+      totalPrice,
+      createDate
     );
-    return new SearchEvent(this.searchStr, this.startDate, this.endDate);
+
+    this.$store.dispatch("setPendingOrder", order);
+
+    this.$router.push(`/r/${this.room.id}/submit`);
   }
 }
+
 export class SearchEvent {
   constructor(
     public searchStr: string,

@@ -117,6 +117,10 @@ p {
   }
 }
 
+.dull-text {
+  color: var(--color-text-medium)
+}
+
 .btn {
   font-family: fonts-title
   font-size: font-sizes.small-title
@@ -131,6 +135,12 @@ p {
   padding-h: spaces._2
 
   &.dull {
+    font-weight: 500
+
+    &:hover {
+      color: var(--color-text-dark)
+    }
+
     gradient-hover(var(--color-text-medium), var(--color-bg-medium), spaces._1)
   }
 }
